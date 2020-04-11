@@ -1,4 +1,4 @@
-import { WaterHardnessUnit, Value, IonUnit, Ion } from "./units";
+import { AlkalinityValue, ChlorideValue, SulfateValue, IonValue, WaterHardnessValue, MagnesiumValue, CalciumValue, SodiumValue } from "./units";
 import consts from "./consts"; 
 
 /**
@@ -7,21 +7,22 @@ import consts from "./consts";
 export default class WaterCalculator {
 
   private assumedMgContributionToTestedGh = consts.ASSUMED_MG_CONTRIBUTION_TO_TESTED_GH;
-  private gh: Value<WaterHardnessUnit> | null;
-  private kh: Value<WaterHardnessUnit> | null;
-  private calcium: Value<IonUnit> | null;
-  private magnesium: Value<IonUnit> | null;
-  private sodium: Value<IonUnit> | null;
-  private sulfate: Value<IonUnit> | null;
-  private chloride: Value<IonUnit> | null;
-  private bicarb: Value<IonUnit> | null;
+  private gh: WaterHardnessValue | null = null;
+  private kh: WaterHardnessValue | null = null;
+  private residualAlkalinity: AlkalinityValue | null = null;
+  private calcium: CalciumValue = null;
+  private magnesium: MagnesiumValue | null = null;
+  private sodium: SodiumValue | null = null;
+  private sulfate: SulfateValue | null = null;
+  private chloride: ChlorideValue | null = null;
+  private alkalinity: AlkalinityValue | null = null;
 
   /**
    * Returns GH
    * 
    * @returns GH or null if not set
    */
-  public getGH = (): Value<WaterHardnessUnit> | null => {
+  public getGH = (): WaterHardnessValue | null => {
     return this.gh;
   }
 
@@ -30,7 +31,7 @@ export default class WaterCalculator {
    * 
    * @param value GH value
    */
-  public setGH = (value: Value<WaterHardnessUnit> | null) => {
+  public setGH = (value: WaterHardnessValue | null) => {
     this.gh = value;
     this.estimateCalciumAndMagnesiumFromGh();
   } 
@@ -40,7 +41,7 @@ export default class WaterCalculator {
    * 
    * @returns KH or null if not set
    */
-  public getKH = (): Value<WaterHardnessUnit> => {
+  public getKH = (): WaterHardnessValue => {
     return this.kh;
   }
 
@@ -49,8 +50,28 @@ export default class WaterCalculator {
    * 
    * @param value KH value
    */
-  public setKH = (value: Value<WaterHardnessUnit> | null) => {
+  public setKH = (value: WaterHardnessValue | null) => {
     this.kh = value;
+    this.setAlkalinity(value);
+    this.calculateResidualAlkalinity();
+  } 
+
+  /**
+   * Returns residual alkalinity
+   * 
+   * @returns residual alkalinity or null if not set
+   */
+  public getResidualAlkalinity = (): WaterHardnessValue => {
+    return this.residualAlkalinity;
+  }
+
+  /**
+   * Sets residual alkalinity
+   * 
+   * @param value residual alkalinity value
+   */
+  public setResidualAlkalinity = (value: WaterHardnessValue | null) => {
+    this.residualAlkalinity = value;
   } 
 
   /**
@@ -79,7 +100,7 @@ export default class WaterCalculator {
    * 
    * @returns calcium or null if not set
    */
-  public getCalcium = (): Value<IonUnit> => {
+  public getCalcium = (): CalciumValue => {
     return this.calcium;
   }
 
@@ -88,8 +109,9 @@ export default class WaterCalculator {
    * 
    * @param value calcium value
    */
-  public setCalcium = (value: Value<IonUnit>) => {
+  public setCalcium = (value: CalciumValue) => {
     this.calcium = value;
+    this.calculateResidualAlkalinity();
   } 
 
   /**
@@ -97,7 +119,7 @@ export default class WaterCalculator {
    * 
    * @returns magnesium or null if not set
    */
-  public getMagnesium = (): Value<IonUnit> => {
+  public getMagnesium = (): MagnesiumValue => {
     return this.magnesium;
   }
 
@@ -106,8 +128,9 @@ export default class WaterCalculator {
    * 
    * @param value magnesium value
    */
-  public setMagnesium = (value: Value<IonUnit>) => {
+  public setMagnesium = (value: MagnesiumValue) => {
     this.magnesium = value;
+    this.calculateResidualAlkalinity();
   } 
     
   /**
@@ -115,7 +138,7 @@ export default class WaterCalculator {
    * 
    * @returns sodium or null if not set
    */
-  public getSodium = (): Value<IonUnit> => {
+  public getSodium = (): SodiumValue => {
     return this.sodium;
   }
 
@@ -124,7 +147,7 @@ export default class WaterCalculator {
    * 
    * @param value sodium value
    */
-  public setSodium = (value: Value<IonUnit>) => {
+  public setSodium = (value: SodiumValue) => {
     this.sodium = value;
   } 
 
@@ -133,7 +156,7 @@ export default class WaterCalculator {
    * 
    * @returns sulfate or null if not set
    */
-  public getSulfate = (): Value<IonUnit> => {
+  public getSulfate = (): SulfateValue => {
     return this.sulfate;
   }
 
@@ -142,7 +165,7 @@ export default class WaterCalculator {
    * 
    * @param value sulfate value
    */
-  public setSulfate = (value: Value<IonUnit>) => {
+  public setSulfate = (value: SulfateValue) => {
     this.sulfate = value;
   } 
 
@@ -151,7 +174,7 @@ export default class WaterCalculator {
    * 
    * @returns chloride or null if not set
    */
-  public getChloride = (): Value<IonUnit> => {
+  public getChloride = (): ChlorideValue => {
     return this.chloride;
   }
 
@@ -160,28 +183,29 @@ export default class WaterCalculator {
    * 
    * @param value chloride value
    */
-  public setChloride = (value: Value<IonUnit>) => {
+  public setChloride = (value: ChlorideValue) => {
     this.chloride = value;
   } 
 
   /**
-   * Returns bicarb
+   * Returns alkalinity
    * 
-   * @returns bicarb or null if not set
+   * @returns alkalinity or null if not set
    */
-  public getBicarb = (): Value<IonUnit> => {
-    return this.bicarb;
+  public getAlkalinity = (): AlkalinityValue => {
+    return this.alkalinity;
   }
 
   /**
-   * Sets bicarb
+   * Sets alkalinity
    * 
-   * @param value bicarb value
+   * @param value alkalinity value
    */
-  public setBicarb = (value: Value<IonUnit>) => {
-    this.bicarb = value;
+  public setAlkalinity = (value: AlkalinityValue) => {
+    this.alkalinity = value;
+    this.calculateResidualAlkalinity();
   } 
-  
+
   /**
    * Estimates amount of calcium and magnesium from GH
    */
@@ -190,8 +214,19 @@ export default class WaterCalculator {
       return;
     }
 
-    this.setCalcium(new Ion("mg/l", this.gh.getValue("ppmCaCO3") * (1 - this.assumedMgContributionToTestedGh / 100) / 17.8 * 7.14));
-    this.setMagnesium(new Ion("mg/l", this.gh.getValue("ppmCaCO3") * (this.assumedMgContributionToTestedGh / 100) / 17.8 * 4.33));
+    this.setCalcium(new CalciumValue("mg/l", this.gh.getValue("ppmCaCO3") * (1 - this.assumedMgContributionToTestedGh / 100) / 17.8 * 7.14));
+    this.setMagnesium(new MagnesiumValue("mg/l", this.gh.getValue("ppmCaCO3") * (this.assumedMgContributionToTestedGh / 100) / 17.8 * 4.33));
+  }
+
+  /**
+   * Calculates residual alkalinity
+   */
+  private calculateResidualAlkalinity = () => {
+    if (this.alkalinity == null || this.calcium == null || this.magnesium == null) {
+      return;
+    }
+    
+    this.setResidualAlkalinity(new AlkalinityValue("dH", this.getAlkalinity().getValue("dH") - this.getCalcium().getValue("dH") / 3.5 - this.getMagnesium().getValue("dH") / 7));
   }
 
 }
