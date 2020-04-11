@@ -109,6 +109,78 @@ export default class WaterCalculator {
   public setMagnesium = (value: Value<IonUnit>) => {
     this.magnesium = value;
   } 
+    
+  /**
+   * Returns sodium
+   * 
+   * @returns sodium or null if not set
+   */
+  public getSodium = (): Value<IonUnit> => {
+    return this.sodium;
+  }
+
+  /**
+   * Sets sodium
+   * 
+   * @param value sodium value
+   */
+  public setSodium = (value: Value<IonUnit>) => {
+    this.sodium = value;
+  } 
+
+  /**
+   * Returns sulfate
+   * 
+   * @returns sulfate or null if not set
+   */
+  public getSulfate = (): Value<IonUnit> => {
+    return this.sulfate;
+  }
+
+  /**
+   * Sets sulfate
+   * 
+   * @param value sulfate value
+   */
+  public setSulfate = (value: Value<IonUnit>) => {
+    this.sulfate = value;
+  } 
+
+  /**
+   * Returns chloride
+   * 
+   * @returns chloride or null if not set
+   */
+  public getChloride = (): Value<IonUnit> => {
+    return this.chloride;
+  }
+
+  /**
+   * Sets chloride
+   * 
+   * @param value chloride value
+   */
+  public setChloride = (value: Value<IonUnit>) => {
+    this.chloride = value;
+  } 
+
+  /**
+   * Returns bicarb
+   * 
+   * @returns bicarb or null if not set
+   */
+  public getBicarb = (): Value<IonUnit> => {
+    return this.bicarb;
+  }
+
+  /**
+   * Sets bicarb
+   * 
+   * @param value bicarb value
+   */
+  public setBicarb = (value: Value<IonUnit>) => {
+    this.bicarb = value;
+  } 
   
   /**
    * Estimates amount of calcium and magnesium from GH
