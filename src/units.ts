@@ -1,5 +1,6 @@
 export type WaterHardnessUnit = "dH" | "ppmCaCO3";
 export type IonUnit = "mg/l" | "dH";
+export type VolumeUnit = "l" | "gal" | "qt";
 
 /**
  * Interface for a value
@@ -55,10 +56,18 @@ export abstract class AbstactValue<U> implements Value<U> {
    * Returns a value
    * 
    * @param unit value unit
+   * @param roundTo rounds to given digits. Returns exact value if not specified
    * @returns value in given unit
    */
-  public getValue(unit: U): number | null {
-    return this.value === null ? null : this.fromBaseUnit(unit, this.value);
+  public getValue(unit: U, roundTo?: number): number | null {
+    const result = this.value === null ? null : this.fromBaseUnit(unit, this.value);
+
+    if (roundTo !== undefined) {
+      const mod = Math.pow(10.0, roundTo);
+      return Math.round(result * mod) / mod;
+    }
+
+    return result;
   }
 
   /**
@@ -86,9 +95,16 @@ export abstract class AbstactValue<U> implements Value<U> {
 }
 
 /**
- * Value for water hardness values (GH, KH)
+ * Abstract base class for values that can be converted using simple ratio 
  */
-export class WaterHardnessValue extends AbstactValue<WaterHardnessUnit> {
+export abstract class AbstractRatioBasedValue<U> extends AbstactValue<U> {
+
+  /**
+   * Returns convert ratio into base unit
+   * 
+   * @param unit from unit
+   */
+  protected abstract getConvertRatio(unit: U): number;
 
   /**
    * Converts value to type's base unit
@@ -99,13 +115,8 @@ export class WaterHardnessValue extends AbstactValue<WaterHardnessUnit> {
    * @param value numeric value in given unit
    * @returns numeric value in base units
    */
-  protected toBaseUnit(unit: WaterHardnessUnit, value: number) : number {
-    switch (unit) {
-      case "dH":
-        return value;
-      case "ppmCaCO3":
-        return value / 17.8;
-    }
+  protected toBaseUnit(unit: U, value: number) : number {
+    return value * this.getConvertRatio(unit);
   }
 
   /**
@@ -117,12 +128,50 @@ export class WaterHardnessValue extends AbstactValue<WaterHardnessUnit> {
    * @param value numeric value in given unit
    * @returns numeric value in given units
    */
-  protected fromBaseUnit(unit: WaterHardnessUnit, value: number) : number {
-    switch (unit) {
+  protected fromBaseUnit(unit: U, value: number) : number {
+    return value / this.getConvertRatio(unit);
+  }
+
+}
+
+/**
+ * Volume value
+ */
+export class VolumeValue extends AbstractRatioBasedValue<VolumeUnit> {
+
+  /**
+   * Returns convert ratio into base unit
+   * 
+   * @param unit from unit
+   */
+  protected getConvertRatio(unit: VolumeUnit): number {
+    switch (unit) {
+      case "l":
+        return 1;
+      case "gal":
+        return 3.78541;
+      case "qt":
+        return 0.946353;
+    }
+  }
+}
+
+/**
+ * Value for water hardness values (GH, KH)
+ */
+export class WaterHardnessValue extends AbstractRatioBasedValue<WaterHardnessUnit> {
+
+  /**
+   * Returns convert ratio into base unit
+   * 
+   * @param unit from unit
+   */
+  protected getConvertRatio(unit: WaterHardnessUnit): number {
+    switch (unit) {
       case "dH":
-        return value;
+        return 1;
       case "ppmCaCO3":
-        return value * 17.8;
+        return 0.0562;
     }
   }
 
@@ -195,79 +244,103 @@ export abstract class IonValue extends AbstactValue<IonUnit> {
 /**
  * Calcium ion value
  */
-export class CalciumValue extends IonValue {
+export class CalciumValue extends AbstractRatioBasedValue<IonUnit> {
   
   /**
-   * Constructor
+   * Returns convert ratio into base unit
    * 
-   * @param unit value unit
-   * @param value value in given unit
+   * @param unit from unit
    */
-  constructor(unit: IonUnit, value: number | null) {
-    super(unit, value, 7.14);
+  protected getConvertRatio(unit: IonUnit): number {
+    switch (unit) {
+      case "mg/l":
+        return 1;
+      case "dH":
+        return 7.14;
+    }
   }
+  
 }
 
 /**
  * Magnesium ion value
  */
-export class MagnesiumValue extends IonValue {
-
+export class MagnesiumValue extends AbstractRatioBasedValue<IonUnit> {
+  
   /**
-   * Constructor
+   * Returns convert ratio into base unit
    * 
-   * @param unit value unit
-   * @param value value in given unit
+   * @param unit from unit
    */
-  constructor(unit: IonUnit, value: number | null) {
-    super(unit, value, 4.33);
+  protected getConvertRatio(unit: IonUnit): number {
+    switch (unit) {
+      case "mg/l":
+        return 1;
+      case "dH":
+        return 4.33;
+    }
   }
 }
 
 /**
  * Sodium ion value
  */
-export class SodiumValue extends IonValue {
+export class SodiumValue extends AbstractRatioBasedValue<IonUnit> {
 
   /**
-   * Constructor
+   * Returns convert ratio into base unit
    * 
-   * @param unit value unit
-   * @param value value in given unit
+   * @param unit from unit
    */
-  constructor(unit: IonUnit, value: number | null) {
-    super(unit, value, 8.19);
+  protected getConvertRatio(unit: IonUnit): number {
+    switch (unit) {
+      case "mg/l":
+        return 1;
+      case "dH":
+        return 8.19;
+    }
   }
+
 }
 
 /**
  * Sulfate ion value
  */
-export class SulfateValue extends IonValue {
+export class SulfateValue extends AbstractRatioBasedValue<IonUnit> {
 
   /**
-   * Constructor
+   * Returns convert ratio into base unit
    * 
-   * @param unit value unit
-   * @param value value in given unit
+   * @param unit from unit
    */
-  constructor(unit: IonUnit, value: number | null) {
-    super(unit, value, 17.1);
+  protected getConvertRatio(unit: IonUnit): number {
+    switch (unit) {
+      case "mg/l":
+        return 1;
+      case "dH":
+        return 17.1;
+    }
   }
+
 }
 
 /**
  * Chloride ion value
  */
-export class ChlorideValue extends IonValue {
+export class ChlorideValue extends AbstractRatioBasedValue<IonUnit> {
 
   /**
-   * Constructor
+   * Returns convert ratio into base unit
    * 
-   * @param unit value unit
-   * @param value value in given unit
+   * @param unit from unit
    */
-  constructor(unit: IonUnit, value: number | null) {
-    super(unit, value, 12.62);
+  protected getConvertRatio(unit: IonUnit): number {
+    switch (unit) {
+      case "mg/l":
+        return 1;
+      case "dH":
+        return 12.62;
+    }
   }
+
 }

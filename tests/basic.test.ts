@@ -1,5 +1,5 @@
 import WaterCalculator from "../src/index";
-import { WaterHardnessValue, ChlorideValue, MagnesiumValue, CalciumValue, SodiumValue, SulfateValue, AlkalinityValue } from "../src/units";
+import { WaterHardnessValue, ChlorideValue, MagnesiumValue, CalciumValue, SodiumValue, SulfateValue, AlkalinityValue, VolumeValue } from "../src/units";
 
 describe("Water Profile Calculator (basic)", () => {
 
@@ -7,12 +7,12 @@ describe("Water Profile Calculator (basic)", () => {
     const waterCalculator = new WaterCalculator();
 
     waterCalculator.setGH(new WaterHardnessValue("dH", 5));
-    expect(waterCalculator.getGH().getValue("dH")).toEqual(5);
-    expect(waterCalculator.getGH().getValue("ppmCaCO3")).toEqual(89);
+    expect(waterCalculator.getGH().getValue("dH", 2)).toEqual(5);
+    expect(waterCalculator.getGH().getValue("ppmCaCO3", 2)).toEqual(88.97);
 
     waterCalculator.setGH(new WaterHardnessValue("ppmCaCO3", 35.6));
-    expect(waterCalculator.getGH().getValue("dH")).toEqual(2);
-    expect(waterCalculator.getGH().getValue("ppmCaCO3")).toEqual(35.6);
+    expect(waterCalculator.getGH().getValue("dH", 2)).toEqual(2);
+    expect(waterCalculator.getGH().getValue("ppmCaCO3", 2)).toEqual(35.6);
 
     waterCalculator.setGH(null);
     expect(waterCalculator.getGH()).toBeNull();
@@ -22,12 +22,12 @@ describe("Water Profile Calculator (basic)", () => {
     const waterCalculator = new WaterCalculator();
 
     waterCalculator.setKH(new WaterHardnessValue("dH", 5));
-    expect(waterCalculator.getKH().getValue("dH")).toEqual(5);
-    expect(waterCalculator.getKH().getValue("ppmCaCO3")).toEqual(89);
+    expect(waterCalculator.getKH().getValue("dH", 2)).toEqual(5);
+    expect(waterCalculator.getKH().getValue("ppmCaCO3", 2)).toEqual(88.97);
 
     waterCalculator.setKH(new WaterHardnessValue("ppmCaCO3", 35.6));
-    expect(waterCalculator.getKH().getValue("dH")).toEqual(2);
-    expect(waterCalculator.getKH().getValue("ppmCaCO3")).toEqual(35.6);
+    expect(waterCalculator.getKH().getValue("dH", 2)).toEqual(2);
+    expect(waterCalculator.getKH().getValue("ppmCaCO3", 2)).toEqual(35.6);
 
     waterCalculator.setKH(null);
     expect(waterCalculator.getKH()).toBeNull();
@@ -36,15 +36,15 @@ describe("Water Profile Calculator (basic)", () => {
   it("test calcium from GH", () => {
     const waterCalculator = new WaterCalculator();
     waterCalculator.setGH(new WaterHardnessValue("dH", 5));
-    expect(waterCalculator.getCalcium().getValue("mg/l")).toEqual(24.989999999999995);
+    expect(waterCalculator.getCalcium().getValue("mg/l", 2)).toEqual(24.98);
   });
 
   it("test calcium", () => {
     const waterCalculator = new WaterCalculator();
     expect(waterCalculator.getCalcium()).toBeNull();
     waterCalculator.setCalcium(new CalciumValue("mg/l", 22.5));
-    expect(waterCalculator.getCalcium().getValue("mg/l")).toEqual(22.5);
-    expect(waterCalculator.getCalcium().getValue("dH")).toEqual(3.151260504201681);
+    expect(waterCalculator.getCalcium().getValue("mg/l", 2)).toEqual(22.5);
+    expect(waterCalculator.getCalcium().getValue("dH", 2)).toEqual(3.15);
     waterCalculator.setCalcium(null);
     expect(waterCalculator.getCalcium()).toBeNull();
   });
@@ -52,15 +52,15 @@ describe("Water Profile Calculator (basic)", () => {
   it("test magnesium from GH", () => {
     const waterCalculator = new WaterCalculator();
     waterCalculator.setGH(new WaterHardnessValue("dH", 5));
-    expect(waterCalculator.getMagnesium().getValue("mg/l")).toEqual(6.495);
+    expect(waterCalculator.getMagnesium().getValue("mg/l", 2)).toEqual(6.49);
   });
 
   it("test magnesium", () => {
     const waterCalculator = new WaterCalculator();
     expect(waterCalculator.getMagnesium()).toBeNull();
     waterCalculator.setMagnesium(new MagnesiumValue("mg/l", 5.8));
-    expect(waterCalculator.getMagnesium().getValue("mg/l")).toEqual(5.8);
-    expect(waterCalculator.getMagnesium().getValue("dH")).toEqual(1.3394919168591224);
+    expect(waterCalculator.getMagnesium().getValue("mg/l", 2)).toEqual(5.8);
+    expect(waterCalculator.getMagnesium().getValue("dH", 2)).toEqual(1.34);
     waterCalculator.setMagnesium(null);
     expect(waterCalculator.getMagnesium()).toBeNull();
   });
@@ -68,19 +68,19 @@ describe("Water Profile Calculator (basic)", () => {
   it("test GH assumedMgContributionToTestedGh change", () => {
     const waterCalculator = new WaterCalculator();
     waterCalculator.setGH(new WaterHardnessValue("dH", 4.5));
-    expect(waterCalculator.getCalcium().getValue("mg/l")).toEqual(22.49100000);
-    expect(waterCalculator.getMagnesium().getValue("mg/l")).toEqual(5.84550000);
+    expect(waterCalculator.getCalcium().getValue("mg/l", 2)).toEqual(22.48);
+    expect(waterCalculator.getMagnesium().getValue("mg/l", 2)).toEqual(5.84);
     waterCalculator.setAssumedMgContributionToTestedGh(25);
-    expect(waterCalculator.getCalcium().getValue("mg/l")).toEqual(24.09750000);
-    expect(waterCalculator.getMagnesium().getValue("mg/l")).toEqual(4.87125000);
+    expect(waterCalculator.getCalcium().getValue("mg/l", 2)).toEqual(24.09);
+    expect(waterCalculator.getMagnesium().getValue("mg/l", 2)).toEqual(4.87);
   });
   
   it("test sodium", () => {
     const waterCalculator = new WaterCalculator();
     expect(waterCalculator.getSodium()).toBeNull();
     waterCalculator.setSodium(new SodiumValue("mg/l", 60));
-    expect(waterCalculator.getSodium().getValue("mg/l")).toEqual(60);
-    expect(waterCalculator.getSodium().getValue("dH")).toEqual(7.326007326007327);
+    expect(waterCalculator.getSodium().getValue("mg/l", 2)).toEqual(60);
+    expect(waterCalculator.getSodium().getValue("dH", 2)).toEqual(7.33);
     waterCalculator.setSodium(null);
     expect(waterCalculator.getSodium()).toBeNull();
   });
@@ -88,8 +88,8 @@ describe("Water Profile Calculator (basic)", () => {
   it("test sulfate", () => {
     const waterCalculator = new WaterCalculator();
     waterCalculator.setSulfate(new SulfateValue("mg/l", 44));
-    expect(waterCalculator.getSulfate().getValue("mg/l")).toEqual(44);
-    expect(waterCalculator.getSulfate().getValue("dH")).toEqual(2.573099415204678);
+    expect(waterCalculator.getSulfate().getValue("mg/l", 2)).toEqual(44);
+    expect(waterCalculator.getSulfate().getValue("dH", 2)).toEqual(2.57);
     waterCalculator.setSulfate(null);
     expect(waterCalculator.getSulfate()).toBeNull();
   });
@@ -97,8 +97,8 @@ describe("Water Profile Calculator (basic)", () => {
   it("test chloride", () => {
     const waterCalculator = new WaterCalculator();
     waterCalculator.setChloride(new ChlorideValue("mg/l", 33));
-    expect(waterCalculator.getChloride().getValue("mg/l")).toEqual(33);
-    expect(waterCalculator.getChloride().getValue("dH")).toEqual(2.614896988906498);
+    expect(waterCalculator.getChloride().getValue("mg/l", 2)).toEqual(33);
+    expect(waterCalculator.getChloride().getValue("dH", 2)).toEqual(2.61);
     waterCalculator.setChloride(null);
     expect(waterCalculator.getChloride()).toBeNull();
   });
@@ -109,8 +109,8 @@ describe("Water Profile Calculator (basic)", () => {
     const waterCalculator = new WaterCalculator();
     expect(waterCalculator.getAlkalinity()).toBeNull();
     waterCalculator.setAlkalinity(new AlkalinityValue("ppmCaCO3", 55));
-    expect(waterCalculator.getAlkalinity().getValue("ppmCaCO3")).toEqual(55);
-    expect(waterCalculator.getAlkalinity().getValue("dH")).toEqual(3.089887640449438);
+    expect(waterCalculator.getAlkalinity().getValue("ppmCaCO3", 2)).toEqual(55);
+    expect(waterCalculator.getAlkalinity().getValue("dH", 2)).toEqual(3.09);
     waterCalculator.setAlkalinity(null);
     expect(waterCalculator.getAlkalinity()).toBeNull();
   });
@@ -120,8 +120,29 @@ describe("Water Profile Calculator (basic)", () => {
     expect(waterCalculator.getResidualAlkalinity()).toBeNull();
     waterCalculator.setGH(new WaterHardnessValue("dH", 4.5));
     waterCalculator.setKH(new WaterHardnessValue("dH", 1));
-    expect(waterCalculator.getResidualAlkalinity().getValue("dH")).toEqual(-0.09285714285714289);
-    expect(waterCalculator.getResidualAlkalinity().getValue("ppmCaCO3")).toEqual(-1.6528571428571435);
+    expect(waterCalculator.getResidualAlkalinity().getValue("dH", 2)).toEqual(-0.09);
+    expect(waterCalculator.getResidualAlkalinity().getValue("ppmCaCO3", 2)).toEqual(-1.65);
   });
 
+  it("test water volumes", () => {
+    const waterCalculator = new WaterCalculator();
+    expect(waterCalculator.getStrikeWater().getValue("l", 2)).toEqual(0);
+    expect(waterCalculator.getSpargeWater().getValue("l", 2)).toEqual(0);
+    expect(waterCalculator.getTotalWater().getValue("l", 2)).toEqual(0);
+
+    waterCalculator.setStrikeWater(new VolumeValue("l", 10));
+
+    expect(waterCalculator.getStrikeWater().getValue("l", 2)).toEqual(10);
+    expect(waterCalculator.getStrikeWater().getValue("qt", 2)).toEqual(10.57);
+    expect(waterCalculator.getStrikeWater().getValue("gal", 2)).toEqual(2.64);
+    expect(waterCalculator.getSpargeWater().getValue("l", 2)).toEqual(0);
+    expect(waterCalculator.getTotalWater().getValue("l", 2)).toEqual(10);
+
+    waterCalculator.setSpargeWater(new VolumeValue("l", 5));
+
+    expect(waterCalculator.getSpargeWater().getValue("l", 2)).toEqual(5);
+    expect(waterCalculator.getSpargeWater().getValue("qt", 2)).toEqual(5.28);
+    expect(waterCalculator.getSpargeWater().getValue("gal", 2)).toEqual(1.32);
+    expect(waterCalculator.getTotalWater().getValue("l", 2)).toEqual(15);
+  });
 })

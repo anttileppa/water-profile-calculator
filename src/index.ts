@@ -1,4 +1,4 @@
-import { AlkalinityValue, ChlorideValue, SulfateValue, IonValue, WaterHardnessValue, MagnesiumValue, CalciumValue, SodiumValue } from "./units";
+import { AlkalinityValue, ChlorideValue, SulfateValue, IonValue, WaterHardnessValue, MagnesiumValue, CalciumValue, SodiumValue, VolumeValue } from "./units";
 import consts from "./consts"; 
 
 /**
@@ -16,6 +16,8 @@ export default class WaterCalculator {
   private sulfate: SulfateValue | null = null;
   private chloride: ChlorideValue | null = null;
   private alkalinity: AlkalinityValue | null = null;
+  private strikeWater: VolumeValue = new VolumeValue("l", 0);
+  private spargeWater: VolumeValue = new VolumeValue("l", 0);
 
   /**
    * Returns GH
@@ -205,6 +207,53 @@ export default class WaterCalculator {
     this.alkalinity = value;
     this.calculateResidualAlkalinity();
   } 
+
+  /**
+   * Returns strike water
+   * 
+   * @returns strike water or null if not set
+   */
+  public getStrikeWater = (): VolumeValue => {
+    return this.strikeWater;
+  }
+
+  /**
+   * Sets strike water
+   * 
+   * @param value strike water value
+   */
+  public setStrikeWater = (value: VolumeValue) => {
+    this.strikeWater = value;
+  } 
+
+  /**
+   * Returns sparge water
+   * 
+   * @returns sparge water or null if not set
+   */
+  public getSpargeWater = (): VolumeValue => {
+    return this.spargeWater;
+  }
+
+  /**
+   * Sets sparge water
+   * 
+   * @param value sparge water value
+   */
+  public setSpargeWater = (value: VolumeValue) => {
+    this.spargeWater = value;
+  }
+
+  /**
+   * Returns total water
+   * 
+   * @returns total water
+   */
+  public getTotalWater = () => {
+    const strikeLiters = this.strikeWater != null ? this.strikeWater.getValue("l") : 0;
+    const spargeLiters = this.spargeWater != null ? this.spargeWater.getValue("l") : 0;
+    return new VolumeValue("l", spargeLiters + strikeLiters);
+  }
 
   /**
    * Estimates amount of calcium and magnesium from GH
