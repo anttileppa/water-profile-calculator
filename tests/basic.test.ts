@@ -1,5 +1,5 @@
 import WaterCalculator from "../src/index";
-import { WaterHardnessValue, ChlorideValue, MagnesiumValue, CalciumValue, SodiumValue, SulfateValue, AlkalinityValue, VolumeValue } from "../src/units";
+import { WaterHardnessValue, WeightValue, ChlorideValue, MagnesiumValue, CalciumValue, SodiumValue, SulfateValue, AlkalinityValue, VolumeValue } from "../src/units";
 
 describe("Water Profile Calculator (basic)", () => {
 
@@ -103,7 +103,7 @@ describe("Water Profile Calculator (basic)", () => {
     expect(waterCalculator.getChloride()).toBeNull();
   });
 
-  // TODO: bicarb
+  // TODO: bicarb00
 
   it("test alkalinity", () => {
     const waterCalculator = new WaterCalculator();
@@ -144,5 +144,13 @@ describe("Water Profile Calculator (basic)", () => {
     expect(waterCalculator.getSpargeWater().getValue("qt", 2)).toEqual(5.28);
     expect(waterCalculator.getSpargeWater().getValue("gal", 2)).toEqual(1.32);
     expect(waterCalculator.getTotalWater().getValue("l", 2)).toEqual(15);
+  });
+
+  it("test grist weight", () => {
+    const waterCalculator = new WaterCalculator();
+    expect(waterCalculator.getGristWeight().getValue("kg", 2)).toEqual(0);
+    waterCalculator.setGristWeight(new WeightValue("kg", 10));
+    expect(waterCalculator.getGristWeight().getValue("kg", 2)).toEqual(10);
+    expect(waterCalculator.getGristWeight().getValue("lb", 2)).toEqual(22.05);
   });
 })

@@ -1,4 +1,4 @@
-import { AlkalinityValue, ChlorideValue, SulfateValue, IonValue, WaterHardnessValue, MagnesiumValue, CalciumValue, SodiumValue, VolumeValue } from "./units";
+import { AlkalinityValue, ChlorideValue, SulfateValue, IonValue, WaterHardnessValue, MagnesiumValue, CalciumValue, SodiumValue, VolumeValue, WeightValue } from "./units";
 import consts from "./consts"; 
 
 /**
@@ -18,6 +18,7 @@ export default class WaterCalculator {
   private alkalinity: AlkalinityValue | null = null;
   private strikeWater: VolumeValue = new VolumeValue("l", 0);
   private spargeWater: VolumeValue = new VolumeValue("l", 0);
+  private gristWeight: WeightValue = new WeightValue("kg", 0);
 
   /**
    * Returns GH
@@ -243,6 +244,25 @@ export default class WaterCalculator {
   public setSpargeWater = (value: VolumeValue) => {
     this.spargeWater = value;
   }
+
+  /**
+   * Returns grist weight
+   * 
+   * @returns grist weight or null if not set
+   */
+  public getGristWeight = (): WeightValue => {
+    return this.gristWeight;
+  }
+
+  /**
+   * Sets grist weight
+   * 
+   * @param value grist weight value
+   */
+  public setGristWeight = (value: WeightValue) => {
+    this.gristWeight = value;
+  }
+  
 
   /**
    * Returns total water

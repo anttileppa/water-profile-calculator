@@ -1,6 +1,7 @@
 export type WaterHardnessUnit = "dH" | "ppmCaCO3";
 export type IonUnit = "mg/l" | "dH";
 export type VolumeUnit = "l" | "gal" | "qt";
+export type WeightUnit = "kg" | "lb";
 
 /**
  * Interface for a value
@@ -152,6 +153,26 @@ export class VolumeValue extends AbstractRatioBasedValue<VolumeUnit> {
         return 3.78541;
       case "qt":
         return 0.946353;
+    }
+  }
+}
+
+/**
+ * Weight value
+ */
+export class WeightValue extends AbstractRatioBasedValue<WeightUnit> {
+
+  /**
+   * Returns convert ratio into base unit
+   * 
+   * @param unit from unit
+   */
+  protected getConvertRatio(unit: WeightUnit): number {
+    switch (unit) {
+      case "kg":
+        return 1;
+      case "lb":
+        return 0.453592;
     }
   }
 }
