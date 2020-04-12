@@ -28,6 +28,9 @@ export default class WaterCalculator {
   private magnesiumChloride: MassValue | null = null;
   private bakingSoda: MassValue | null = null;
   private chalk: MassValue | null = null;
+  private lacticAcid: VolumeValue | null = null;
+  private phosphoricAcid: VolumeValue | null = null;
+
 
   /**
    * Returns GH
@@ -459,6 +462,64 @@ export default class WaterCalculator {
   public setChalk = (value: MassValue) => {
     this.chalk = value;
   } 
+
+  /**
+   * Returns lactic acid
+   * 
+   * @param strength returned lactic acid strength as percents. Defaults to 88 %
+   * @returns lactic acid or null if not set
+   */
+  public getLacticAcid = (strength?: number): VolumeValue => {
+    return this.convertVolumeToStrength(this.lacticAcid, 88, strength || 88);
+  }
+
+  /**
+   * Sets lactic acid
+   * 
+   * @param value lactic acid value
+   * @param strength lactic acid strength as percents. Defaults to 88 %
+   */
+  public setLacticAcid = (value: VolumeValue | null, strength?: number) => {
+    this.lacticAcid = this.convertVolumeToStrength(value, strength || 88, 88);
+  }
+
+  /**
+   * Returns phosphoric acid
+   * 
+   * @param strength returned phosphoric acid strength as percents. Defaults to 10 %
+   * @returns phosphoric acid or null if not set
+   */
+  public getPhosphoricAcid = (strength?: number): VolumeValue => {
+    return this.convertVolumeToStrength(this.phosphoricAcid, 10, strength ||10);
+  }
+
+  /**
+   * Sets phosphoric acid
+   * 
+   * @param value phosphoric acid value
+   * @param strength phosphoric acid strength as percents. Defaults to 10 %
+   */
+  public setPhosphoricAcid = (value: VolumeValue | null, strength?: number) => {
+    this.phosphoricAcid = this.convertVolumeToStrength(value, strength || 10, 10);
+  }
+  
+  /**
+   * Converts volume value from given from strength to given to strength
+   * 
+   * e.g. from 88% lactic acid to 85% lactic acid
+   * 
+   * @param value value
+   * @param fromStrength initial strength 
+   * @param toStrength target strength
+   * @returns converted volume value
+   */
+  private convertVolumeToStrength(value: VolumeValue | null, fromStrength: number, toStrength: number) {
+    if (!value || !fromStrength || !toStrength) {
+      return value;
+    }
+
+    return new VolumeValue("ml", value.getValue("ml") / (toStrength / fromStrength));
+  }
 
   /**
    * Estimates amount of calcium and magnesium from GH

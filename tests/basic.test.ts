@@ -243,4 +243,35 @@ describe("Water Profile Calculator (basic)", () => {
     expect(waterCalculator.getChalk()).toBeNull();
   });
 
+  it("test lactic acid", () => {
+    const waterCalculator = new WaterCalculator();
+    expect(waterCalculator.getLacticAcid()).toBeNull();
+    waterCalculator.setLacticAcid(new VolumeValue("ml", 100));
+    
+    expect(waterCalculator.getLacticAcid().getValue("ml")).toEqual(100);
+    expect(waterCalculator.getLacticAcid(88).getValue("ml")).toEqual(100);
+    expect(waterCalculator.getLacticAcid(44).getValue("ml")).toEqual(200);
+
+    waterCalculator.setLacticAcid(new VolumeValue("ml", 100), 44);
+
+    expect(waterCalculator.getLacticAcid().getValue("ml")).toEqual(50);
+    expect(waterCalculator.getLacticAcid(88).getValue("ml")).toEqual(50);
+    expect(waterCalculator.getLacticAcid(44).getValue("ml")).toEqual(100);
+  });
+
+  it("test phosphoric acid", () => {
+    const waterCalculator = new WaterCalculator();
+    expect(waterCalculator.getPhosphoricAcid()).toBeNull();
+    waterCalculator.setPhosphoricAcid(new VolumeValue("ml", 100));
+    
+    expect(waterCalculator.getPhosphoricAcid().getValue("ml")).toEqual(100);
+    expect(waterCalculator.getPhosphoricAcid(10).getValue("ml")).toEqual(100);
+    expect(waterCalculator.getPhosphoricAcid(5).getValue("ml")).toEqual(200);
+
+    waterCalculator.setPhosphoricAcid(new VolumeValue("ml", 100), 5);
+
+    expect(waterCalculator.getPhosphoricAcid().getValue("ml")).toEqual(50);
+    expect(waterCalculator.getPhosphoricAcid(10).getValue("ml")).toEqual(50);
+    expect(waterCalculator.getPhosphoricAcid(5).getValue("ml")).toEqual(100);
+  });
 })
