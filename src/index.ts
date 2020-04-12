@@ -1,4 +1,4 @@
-import { AlkalinityValue, ChlorideValue, SulfateValue, IonValue, WaterHardnessValue, MagnesiumValue, CalciumValue, SodiumValue, VolumeValue, WeightValue, MassConcentrationValue, BeerColorValue } from "./units";
+import { AlkalinityValue, ChlorideValue, SulfateValue, WaterHardnessValue, MagnesiumValue, CalciumValue, SodiumValue, VolumeValue, MassConcentrationToWaterValue, BeerColorValue, MassValue } from "./units";
 import consts from "./consts"; 
 
 /**
@@ -19,8 +19,15 @@ export default class WaterCalculator {
   private alkalinity: AlkalinityValue | null = null;
   private strikeWater: VolumeValue = new VolumeValue("l", 0);
   private spargeWater: VolumeValue = new VolumeValue("l", 0);
-  private gristWeight: WeightValue = new WeightValue("kg", 0);
+  private gristWeight: MassValue = new MassValue("kg", 0);
   private beerColor: BeerColorValue | null = null;
+  private gypsum: MassValue | null = null;
+  private epsom: MassValue | null = null;
+  private tableSalt: MassValue | null = null;
+  private calciumChloride: MassValue | null = null;
+  private magnesiumChloride: MassValue | null = null;
+  private bakingSoda: MassValue | null = null;
+  private chalk: MassValue | null = null;
 
   /**
    * Returns GH
@@ -274,7 +281,7 @@ export default class WaterCalculator {
    * 
    * @returns grist weight or null if not set
    */
-  public getGristWeight = (): WeightValue => {
+  public getGristWeight = (): MassValue => {
     return this.gristWeight;
   }
 
@@ -283,7 +290,7 @@ export default class WaterCalculator {
    * 
    * @param value grist weight value
    */
-  public setGristWeight = (value: WeightValue) => {
+  public setGristWeight = (value: MassValue) => {
     this.gristWeight = value;
   }
 
@@ -313,10 +320,9 @@ export default class WaterCalculator {
   public getMashThickness = () => {
     const strikeLiters = this.getStrikeWater().getValue("l");
     const gristWeight = this.getGristWeight().getValue("kg");
-    return new MassConcentrationValue("l/kg", gristWeight == 0 || gristWeight == 0 ? 0 : strikeLiters / gristWeight);
+    return new MassConcentrationToWaterValue("l/kg", gristWeight == 0 || gristWeight == 0 ? 0 : strikeLiters / gristWeight);
   }
   
-
   /**
    * Returns total water
    * 
@@ -327,6 +333,132 @@ export default class WaterCalculator {
     const spargeLiters = this.spargeWater != null ? this.spargeWater.getValue("l") : 0;
     return new VolumeValue("l", spargeLiters + strikeLiters);
   }
+
+  /**
+   * Returns gypsum
+   * 
+   * @returns gypsum or null if not set
+   */
+  public getGypsum = (): MassValue => {
+    return this.gypsum;
+  }
+
+  /**
+   * Sets gypsum
+   * 
+   * @param value gypsum value
+   */
+  public setGypsum = (value: MassValue) => {
+    this.gypsum = value;
+  }
+
+  /**
+   * Returns epsom
+   * 
+   * @returns epsom or null if not set
+   */
+  public getEpsom = (): MassValue => {
+    return this.epsom;
+  }
+
+  /**
+   * Sets epsom
+   * 
+   * @param value epsom value
+   */
+  public setEpsom = (value: MassValue) => {
+    this.epsom = value;
+  } 
+
+  /**
+   * Returns tablesalt
+   * 
+   * @returns tablesalt or null if not set
+   */
+  public getTableSalt = (): MassValue => {
+    return this.tableSalt;
+  }
+
+  /**
+   * Sets tablesalt
+   * 
+   * @param value tablesalt value
+   */
+  public setTableSalt = (value: MassValue) => {
+    this.tableSalt = value;
+  } 
+
+  /**
+   * Returns bakingsoda
+   * 
+   * @returns bakingsoda or null if not set
+   */
+  public getBakingSoda = (): MassValue => {
+    return this.bakingSoda;
+  }
+
+  /**
+   * Sets bakingsoda
+   * 
+   * @param value bakingsoda value
+   */
+  public setBakingSoda = (value: MassValue) => {
+    this.bakingSoda = value;
+  } 
+
+  /**
+   * Returns magnesiumchloride
+   * 
+   * @returns magnesiumchloride or null if not set
+   */
+  public getMagnesiumChloride = (): MassValue => {
+    return this.magnesiumChloride;
+  }
+
+  /**
+   * Sets magnesiumchloride
+   * 
+   * @param value magnesiumchloride value
+   */
+  public setMagnesiumChloride = (value: MassValue) => {
+    this.magnesiumChloride = value;
+  } 
+
+  /**
+   * Returns calciumchloride
+   * 
+   * @returns calciumchloride or null if not set
+   */
+  public getCalciumChloride = (): MassValue => {
+    return this.calciumChloride;
+  }
+
+  /**
+   * Sets calciumchloride
+   * 
+   * @param value calciumchloride value
+   */
+  public setCalciumChloride = (value: MassValue) => {
+    this.calciumChloride = value;
+  } 
+
+  /**
+   * Returns chalk
+   * 
+   * @returns chalk or null if not set
+   */
+  public getChalk = (): MassValue => {
+    return this.chalk;
+  }
+
+  /**
+   * Sets chalk
+   * 
+   * @param value chalk value
+   */
+  public setChalk = (value: MassValue) => {
+    this.chalk = value;
+  } 
 
   /**
    * Estimates amount of calcium and magnesium from GH

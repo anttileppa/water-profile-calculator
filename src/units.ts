@@ -1,8 +1,9 @@
 export type WaterHardnessUnit = "dH" | "ppmCaCO3";
 export type IonUnit = "mg/l" | "dH";
-export type VolumeUnit = "l" | "gal" | "qt";
-export type WeightUnit = "kg" | "lb";
-export type MassConcentrationUnit = "l/kg" | "qt/lb";
+export type VolumeUnit = "ml" | "l" | "gal" | "qt";
+export type MassUnit = "mg" | "g" | "kg" | "lb";
+export type MassConcentrationToWaterUnit = "l/kg" | "qt/lb";
+export type MassConcentrationInWaterUnit = "mg/l"; 
 export type BeerColorUnit = "SRM" | "EBC";
 
 /**
@@ -149,38 +150,56 @@ export class VolumeValue extends AbstractRatioBasedValue<VolumeUnit> {
    */
   protected getConvertRatio(unit: VolumeUnit): number {
     switch (unit) {
-      case "l":
+      case "ml":
         return 1;
+      case "l":
+        return 1000;
       case "gal":
-        return 3.78541;
+        return 3785.41;
       case "qt":
-        return 0.946353;
+        return 946.353;
     }
   }
 }
 
 /**
- * Weight value
+ * Mass value
  */
-export class WeightValue extends AbstractRatioBasedValue<WeightUnit> {
+export class MassValue extends AbstractRatioBasedValue<MassUnit> {
+
+  /**
+   * Returns mass concentration in water for given volume of water
+   * 
+   * @param waterVolume water volume
+   * @returns mass concentration in water for given volume of water
+   */
+  public getMassConcentrationInWater(waterVolume: VolumeValue): MassConcentrationInWaterValue | null {
+    const mg = this.getValue("mg");
+    const ml = waterVolume.getValue("l");
+    return new MassConcentrationInWaterValue("mg/l", mg / ml);
+  }
 
   /**
    * Returns convert ratio into base unit
    * 
    * @param unit from unit
    */
-  protected getConvertRatio(unit: WeightUnit): number {
+  protected getConvertRatio(unit: MassUnit): number {
     switch (unit) {
-      case "kg":
+      case "mg":
+        return 0.001;
+      case "g":
         return 1;
+      case "kg":
+        return 1000;
       case "lb":
-        return 0.453592;
+        return 453.592;
     }
   }
 }
 
 /**
- * Weight value
+ * Beer color value
  */
 export class BeerColorValue extends AbstractRatioBasedValue<BeerColorUnit> {
 
@@ -200,21 +219,39 @@ export class BeerColorValue extends AbstractRatioBasedValue<BeerColorUnit> {
 }
 
 /**
- * Mass concentration value
+ * Mass concentration of substance to water value
  */
-export class MassConcentrationValue extends AbstractRatioBasedValue<MassConcentrationUnit> {
+export class MassConcentrationToWaterValue extends AbstractRatioBasedValue<MassConcentrationToWaterUnit> {
 
   /**
    * Returns convert ratio into base unit
    * 
    * @param unit from unit
    */
-  protected getConvertRatio(unit: MassConcentrationUnit): number {
+  protected getConvertRatio(unit: MassConcentrationToWaterUnit): number {
     switch (unit) {
       case "l/kg":
         return 1;
       case "qt/lb":
         return 2.08635;
+    }
+  }
+}
+
+/**
+ * Mass concentration of substance in water value
+ */
+export class MassConcentrationInWaterValue extends AbstractRatioBasedValue<MassConcentrationInWaterUnit> {
+
+  /**
+   * Returns convert ratio into base unit
+   * 
+   * @param unit from unit
+   */
+  protected getConvertRatio(unit: MassConcentrationInWaterUnit): number {
+    switch (unit) {
+      case "mg/l":
+        return 1;
     }
   }
 }
