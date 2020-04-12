@@ -1,4 +1,4 @@
-import { AlkalinityValue, ChlorideValue, SulfateValue, IonValue, WaterHardnessValue, MagnesiumValue, CalciumValue, SodiumValue, VolumeValue, WeightValue, MassConcentrationValue } from "./units";
+import { AlkalinityValue, ChlorideValue, SulfateValue, IonValue, WaterHardnessValue, MagnesiumValue, CalciumValue, SodiumValue, VolumeValue, WeightValue, MassConcentrationValue, BeerColorValue } from "./units";
 import consts from "./consts"; 
 
 /**
@@ -19,6 +19,7 @@ export default class WaterCalculator {
   private strikeWater: VolumeValue = new VolumeValue("l", 0);
   private spargeWater: VolumeValue = new VolumeValue("l", 0);
   private gristWeight: WeightValue = new WeightValue("kg", 0);
+  private beerColor: BeerColorValue | null = null;
 
   /**
    * Returns GH
@@ -261,6 +262,24 @@ export default class WaterCalculator {
    */
   public setGristWeight = (value: WeightValue) => {
     this.gristWeight = value;
+  }
+
+  /**
+   * Returns beer color
+   * 
+   * @returns beer color or null if not set
+   */
+  public getBeerColor = (): BeerColorValue => {
+    return this.beerColor;
+  }
+
+  /**
+   * Sets beer color
+   * 
+   * @param value beer color value
+   */
+  public setBeerColor = (value: BeerColorValue) => {
+    this.beerColor = value;
   }
 
   /**

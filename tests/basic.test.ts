@@ -1,5 +1,5 @@
 import WaterCalculator from "../src/index";
-import { WaterHardnessValue, WeightValue, ChlorideValue, MagnesiumValue, CalciumValue, SodiumValue, SulfateValue, AlkalinityValue, VolumeValue } from "../src/units";
+import { BeerColorValue, WaterHardnessValue, WeightValue, ChlorideValue, MagnesiumValue, CalciumValue, SodiumValue, SulfateValue, AlkalinityValue, VolumeValue } from "../src/units";
 
 describe("Water Profile Calculator (basic)", () => {
 
@@ -163,5 +163,13 @@ describe("Water Profile Calculator (basic)", () => {
 
     expect(waterCalculator.getMashThickness().getValue("l/kg", 2)).toEqual(3.33);
     expect(waterCalculator.getMashThickness().getValue("qt/lb", 2)).toEqual(1.60);
+  });
+
+  it("test beer color", () => {
+    const waterCalculator = new WaterCalculator();
+    expect(waterCalculator.getBeerColor()).toBeNull();
+    waterCalculator.setBeerColor(new BeerColorValue("SRM", 14));
+    expect(waterCalculator.getBeerColor().getValue("SRM", 2)).toEqual(14);
+    expect(waterCalculator.getBeerColor().getValue("EBC", 2)).toEqual(27.58);
   });
 })

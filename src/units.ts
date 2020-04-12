@@ -3,6 +3,7 @@ export type IonUnit = "mg/l" | "dH";
 export type VolumeUnit = "l" | "gal" | "qt";
 export type WeightUnit = "kg" | "lb";
 export type MassConcentrationUnit = "l/kg" | "qt/lb";
+export type BeerColorUnit = "SRM" | "EBC";
 
 /**
  * Interface for a value
@@ -174,6 +175,26 @@ export class WeightValue extends AbstractRatioBasedValue<WeightUnit> {
         return 1;
       case "lb":
         return 0.453592;
+    }
+  }
+}
+
+/**
+ * Weight value
+ */
+export class BeerColorValue extends AbstractRatioBasedValue<BeerColorUnit> {
+
+  /**
+   * Returns convert ratio into base unit
+   * 
+   * @param unit from unit
+   */
+  protected getConvertRatio(unit: BeerColorUnit): number {
+    switch (unit) {
+      case "SRM":
+        return 1;
+      case "EBC":
+        return 0.5076142131979695;
     }
   }
 }
