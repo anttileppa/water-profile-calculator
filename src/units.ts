@@ -2,6 +2,7 @@ export type WaterHardnessUnit = "dH" | "ppmCaCO3";
 export type IonUnit = "mg/l" | "dH";
 export type VolumeUnit = "l" | "gal" | "qt";
 export type WeightUnit = "kg" | "lb";
+export type MassConcentrationUnit = "l/kg" | "qt/lb";
 
 /**
  * Interface for a value
@@ -176,6 +177,27 @@ export class WeightValue extends AbstractRatioBasedValue<WeightUnit> {
     }
   }
 }
+
+/**
+ * Mass concentration value
+ */
+export class MassConcentrationValue extends AbstractRatioBasedValue<MassConcentrationUnit> {
+
+  /**
+   * Returns convert ratio into base unit
+   * 
+   * @param unit from unit
+   */
+  protected getConvertRatio(unit: MassConcentrationUnit): number {
+    switch (unit) {
+      case "l/kg":
+        return 1;
+      case "qt/lb":
+        return 2.08635;
+    }
+  }
+}
+
 
 /**
  * Value for water hardness values (GH, KH)

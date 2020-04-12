@@ -153,4 +153,15 @@ describe("Water Profile Calculator (basic)", () => {
     expect(waterCalculator.getGristWeight().getValue("kg", 2)).toEqual(10);
     expect(waterCalculator.getGristWeight().getValue("lb", 2)).toEqual(22.05);
   });
+
+  it("test mash thickness", () => {
+    const waterCalculator = new WaterCalculator();
+    expect(waterCalculator.getMashThickness().getValue("l/kg", 2)).toEqual(0);
+
+    waterCalculator.setStrikeWater(new VolumeValue("l", 200));
+    waterCalculator.setGristWeight(new WeightValue("kg", 60));
+
+    expect(waterCalculator.getMashThickness().getValue("l/kg", 2)).toEqual(3.33);
+    expect(waterCalculator.getMashThickness().getValue("qt/lb", 2)).toEqual(1.60);
+  });
 })

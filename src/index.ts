@@ -1,4 +1,4 @@
-import { AlkalinityValue, ChlorideValue, SulfateValue, IonValue, WaterHardnessValue, MagnesiumValue, CalciumValue, SodiumValue, VolumeValue, WeightValue } from "./units";
+import { AlkalinityValue, ChlorideValue, SulfateValue, IonValue, WaterHardnessValue, MagnesiumValue, CalciumValue, SodiumValue, VolumeValue, WeightValue, MassConcentrationValue } from "./units";
 import consts from "./consts"; 
 
 /**
@@ -261,6 +261,17 @@ export default class WaterCalculator {
    */
   public setGristWeight = (value: WeightValue) => {
     this.gristWeight = value;
+  }
+
+  /**
+   * Returns mash thickness
+   * 
+   * @returns mash thickness
+   */
+  public getMashThickness = () => {
+    const strikeLiters = this.getStrikeWater().getValue("l");
+    const gristWeight = this.getGristWeight().getValue("kg");
+    return new MassConcentrationValue("l/kg", gristWeight == 0 || gristWeight == 0 ? 0 : strikeLiters / gristWeight);
   }
   
 
