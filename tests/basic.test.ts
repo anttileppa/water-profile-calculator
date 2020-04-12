@@ -274,4 +274,20 @@ describe("Water Profile Calculator (basic)", () => {
     expect(waterCalculator.getPhosphoricAcid(10).getValue("ml")).toEqual(50);
     expect(waterCalculator.getPhosphoricAcid(5).getValue("ml")).toEqual(100);
   });
+
+  it("test acid malt", () => {
+    const waterCalculator = new WaterCalculator();
+    expect(waterCalculator.getAcidMalt()).toBeNull();
+    waterCalculator.setAcidMalt(new MassValue("g", 100));
+    
+    expect(waterCalculator.getAcidMalt().getValue("g")).toEqual(100);
+    expect(waterCalculator.getAcidMalt(3).getValue("g")).toEqual(100);
+    expect(waterCalculator.getAcidMalt(1.5).getValue("g")).toEqual(200);
+
+    waterCalculator.setAcidMalt(new MassValue("g", 100), 1.5);
+
+    expect(waterCalculator.getAcidMalt().getValue("g")).toEqual(50);
+    expect(waterCalculator.getAcidMalt(3).getValue("g")).toEqual(50);
+    expect(waterCalculator.getAcidMalt(1.5).getValue("g")).toEqual(100);
+  });
 })

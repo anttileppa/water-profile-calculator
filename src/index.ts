@@ -30,6 +30,7 @@ export default class WaterCalculator {
   private chalk: MassValue | null = null;
   private lacticAcid: VolumeValue | null = null;
   private phosphoricAcid: VolumeValue | null = null;
+  private acidMalt: MassValue | null = null;
 
 
   /**
@@ -502,6 +503,26 @@ export default class WaterCalculator {
   public setPhosphoricAcid = (value: VolumeValue | null, strength?: number) => {
     this.phosphoricAcid = this.convertVolumeToStrength(value, strength || 10, 10);
   }
+
+  /**
+   * Returns acid malt
+   * 
+   * @param strength returned acid malt strength as percents. Defaults to 88 %
+   * @returns acid malt or null if not set
+   */
+  public getAcidMalt = (strength?: number): MassValue => {
+    return this.convertMassToStrength(this.acidMalt, 3, strength || 3);
+  }
+
+  /**
+   * Sets acid malt
+   * 
+   * @param value acid malt value
+   * @param strength acid malt strength as percents. Defaults to 88 %
+   */
+  public setAcidMalt = (value: MassValue| null, strength?: number) => {
+    this.acidMalt = this.convertMassToStrength(value, strength || 3, 3);
+  }
   
   /**
    * Converts volume value from given from strength to given to strength
@@ -519,6 +540,24 @@ export default class WaterCalculator {
     }
 
     return new VolumeValue("ml", value.getValue("ml") / (toStrength / fromStrength));
+  }
+  
+  /**
+   * Converts mass value from given from strength to given to strength
+   * 
+   * e.g. from 3% acid malt to 2% acid malt
+   * 
+   * @param value value
+   * @param fromStrength initial strength 
+   * @param toStrength target strength
+   * @returns converted volume value
+   */
+  private convertMassToStrength(value: MassValue| null, fromStrength: number, toStrength: number) {
+    if (!value || !fromStrength || !toStrength) {
+      return value;
+    }
+
+    return new MassValue("g", value.getValue("g") / (toStrength / fromStrength));
   }
 
   /**
