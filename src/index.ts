@@ -7,6 +7,7 @@ import consts from "./consts";
 export default class WaterCalculator {
 
   private assumedMgContributionToTestedGh = consts.ASSUMED_MG_CONTRIBUTION_TO_TESTED_GH;
+  private maltRoastedPercent: number | null = null;
   private gh: WaterHardnessValue | null = null;
   private kh: WaterHardnessValue | null = null;
   private residualAlkalinity: AlkalinityValue | null = null;
@@ -97,6 +98,28 @@ export default class WaterCalculator {
   public setAssumedMgContributionToTestedGh = (assumedMgContributionToTestedGh: number) => {
     this.assumedMgContributionToTestedGh = assumedMgContributionToTestedGh;
     this.estimateCalciumAndMagnesiumFromGh();
+  }
+
+  /**
+   * Returns malt roasted percent
+   * 
+   * The “roasted %” allows you to specify how much of the beer's color is contributed by roasted malts. 
+   * E.g. if a beer is brewed with 90% 2-row, 7% 60 Lovibond cara malts and 3% 500 Lovibond roasted malts, 
+   * the roasted malt portion of the color is 3%*500/(7%*60+3%*500)=78% (this neglects the color from the 2-row). 
+   * 
+   * @returns malt roasted percent
+   */
+  public getMaltRoastedPercent() {
+    return this.maltRoastedPercent;
+  }
+
+  /**
+   * Sets malt roasted percent
+   * 
+   * @returns malt roasted percent
+   */
+  public setMaltRoastedPercent(maltRoastedPercent: number) {
+    this.maltRoastedPercent = maltRoastedPercent;
   }
 
   /**
