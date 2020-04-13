@@ -119,6 +119,10 @@ describe("Water Profile Calculator (basic)", () => {
     expect(waterCalculator.getAlkalinity().getValue("dH", 2)).toEqual(3.09);
     waterCalculator.setAlkalinity(null);
     expect(waterCalculator.getAlkalinity()).toBeNull();
+
+    waterCalculator.setBicarbonate(new BicarbonateValue("mg/l", 20));
+    expect(waterCalculator.getAlkalinity().getValue("ppmCaCO3", 2)).toEqual(16.39);
+    expect(waterCalculator.getAlkalinity().getValue("dH", 2)).toEqual(0.92);
   });
 
   it("test residual alkalinity", () => {

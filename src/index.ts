@@ -258,12 +258,21 @@ export default class WaterCalculator {
   } 
 
   /**
-   * Returns alkalinity
+   * Returns alkalinity either from given alkalinity value or 
+   * value derived from given bicarbonate value
    * 
    * @returns alkalinity or null if not set
    */
   public getAlkalinity = (): AlkalinityValue => {
-    return this.alkalinity;
+    if (this.alkalinity != null) {
+      return this.alkalinity;
+    }
+
+    if (this.bicarbonate != null) {
+      return new AlkalinityValue("ppmCaCO3", this.bicarbonate.getValue("mg/l") * 50 / 61);
+    }
+
+    return null;
   }
 
   /**
