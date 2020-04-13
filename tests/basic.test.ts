@@ -1,5 +1,5 @@
 import WaterCalculator from "../src/index";
-import { BeerColorValue, WaterHardnessValue, MassValue, ChlorideValue, MagnesiumValue, CalciumValue, SodiumValue, SulfateValue, BicarbonateValue, AlkalinityValue, VolumeValue } from "../src/units";
+import { BeerColorValue, WaterHardnessValue, MassValue, ChlorideValue, MagnesiumValue, CalciumValue, SodiumValue, SulfateValue, BicarbonateValue, AlkalinityValue, VolumeValue, MassConcentrationInWaterValue } from "../src/units";
 
 describe("Water Profile Calculator (basic)", () => {
 
@@ -16,6 +16,20 @@ describe("Water Profile Calculator (basic)", () => {
 
     waterCalculator.setGH(null);
     expect(waterCalculator.getGH()).toBeNull();
+  });
+
+  it("test mass concentration in water", () => {
+    const water = new VolumeValue("l", 100);
+    const mass = new MassValue("kg", 25);
+
+    expect(mass.getMassConcentrationInWater(water).getValue("kg/l", 2)).toEqual(0.25);
+  });
+
+  it("test mass concentration in mass", () => {
+    const mass1 = new MassValue("g", 25);
+    const mass2 = new MassValue("kg", 1);
+
+    expect(mass1.getMassConcentrationInMass(mass2).getValue("mg/kg", 2)).toEqual(25000);
   });
 
   it("test basic KH", () => {
@@ -366,6 +380,25 @@ describe("Water Profile Calculator (basic)", () => {
     waterCalculator.setBeerColor(new BeerColorValue("SRM", 44));
     waterCalculator.setMaltRoastedPercent(70);
     expect(waterCalculator.estimateDistilledWaterMashPh().getValue("pH", 2)).toEqual(5.22);
+  });
+
+  it("test acid pH change", () => {
+    const waterCalculator = new WaterCalculator();
+
+    waterCalculator.setGristWeight(new MassValue("kg", 60));
+    waterCalculator.setStrikeWater(new VolumeValue("l", 100));
+    waterCalculator.setLacticAcid(new VolumeValue("ml", 100));
+    waterCalculator.setPhosphoricAcid(new VolumeValue("ml", 50), 10);
+    waterCalculator.setAcidMalt(new MassValue("g", 200));
+
+    expect(waterCalculator.getMashPhChangeFromAcidAdditions().getValue("pH", 2)).toEqual(-0.43);
+    waterCalculator.setPhosphoricAcid(null);
+    expect(waterCalculator.getMashPhChangeFromAcidAdditions().getValue("pH", 2)).toEqual(-0.41);
+    waterCalculator.setLacticAcid(null);
+    expect(waterCalculator.getMashPhChangeFromAcidAdditions().getValue("pH", 2)).toEqual(-0.02);
+    waterCalculator.setAcidMalt(null);
+    expect(waterCalculator.getMashPhChangeFromAcidAdditions().getValue("pH", 2)).toEqual(-0);
+
   });
 
 })

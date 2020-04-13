@@ -2,7 +2,8 @@ export type WaterHardnessUnit = "dH" | "ppmCaCO3";
 export type VolumeUnit = "ml" | "l" | "gal" | "qt";
 export type MassUnit = "mg" | "g" | "kg" | "lb";
 export type MassConcentrationToWaterUnit = "l/kg" | "qt/lb";
-export type MassConcentrationInWaterUnit = "mg/l"; 
+export type MassConcentrationInWaterUnit = "mg/l" | "kg/l"; 
+export type MassConcentrationInMassUnit = "g/g" | "mg/kg";
 export type BeerColorUnit = "SRM" | "EBC";
 export type PhUnit = "pH";
 
@@ -208,6 +209,16 @@ export class MassValue extends AbstractRatioBasedValue<MassUnit> {
   }
 
   /**
+   * Returns mass concentration in mass
+   * 
+   * @param mass mass
+   * @returns mass concentration in mass
+   */
+  public getMassConcentrationInMass(mass: MassValue): MassConcentrationInMassValue | null {
+    return new MassConcentrationInMassValue("g/g", this.getValue("g") / mass.getValue("g"));
+  }
+
+  /**
    * Returns convert ratio into base unit
    * 
    * @param unit from unit
@@ -280,10 +291,32 @@ export class MassConcentrationInWaterValue extends AbstractRatioBasedValue<MassC
     switch (unit) {
       case "mg/l":
         return 1;
+      case "kg/l":
+        return 1000000;
     }
   }
 }
 
+/**
+ * Mass concentration of substance within another mass
+ */
+export class MassConcentrationInMassValue extends AbstractRatioBasedValue<MassConcentrationInMassUnit> {
+  
+  /**
+   * Returns convert ratio into base unit
+   * 
+   * @param unit from unit
+   */
+  protected getConvertRatio(unit: MassConcentrationInMassUnit): number {
+    switch (unit) {
+      case "g/g":
+        return 1;
+      case "mg/kg":
+        return 0.000001;
+    }
+  }
+
+}
 
 /**
  * Value for water hardness values (GH, KH)

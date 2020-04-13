@@ -1,4 +1,4 @@
-import { PhValue, AlkalinityValue, ChlorideValue, SulfateValue, WaterHardnessValue, MagnesiumValue, CalciumValue, SodiumValue, VolumeValue, MassConcentrationToWaterValue, BeerColorValue, MassValue, BicarbonateValue } from "./units";
+import { MassConcentrationInWaterValue, PhValue, AlkalinityValue, ChlorideValue, SulfateValue, WaterHardnessValue, MagnesiumValue, CalciumValue, SodiumValue, VolumeValue, MassConcentrationToWaterValue, BeerColorValue, MassValue, BicarbonateValue, MassConcentrationInMassValue } from "./units";
 import consts from "./consts";
 import saltIonMap, { SaltIons } from "./salt-ions"; 
 
@@ -566,7 +566,7 @@ export default class WaterCalculator {
   /**
    * Returns acid malt
    * 
-   * @param strength returned acid malt strength as percents. Defaults to 88 %
+   * @param strength returned acid malt strength as percents. Defaults to 3 %
    * @returns acid malt or null if not set
    */
   public getAcidMalt = (strength?: number): MassValue => {
@@ -577,7 +577,7 @@ export default class WaterCalculator {
    * Sets acid malt
    * 
    * @param value acid malt value
-   * @param strength acid malt strength as percents. Defaults to 88 %
+   * @param strength acid malt strength as percents. Defaults to 3 %
    */
   public setAcidMalt = (value: MassValue| null, strength?: number) => {
     this.acidMalt = this.convertMassToStrength(value, strength || 3, 3);
@@ -667,6 +667,25 @@ export default class WaterCalculator {
     const srm = this.getBeerColor().getValue("SRM");
     const r = this.getMaltRoastedPercent() / 100;
     return new PhValue("pH", ph0Srm - srm * (sC * (1 - r) + sR * r) / p);
+  }
+
+  /**
+   * Calculates mash pH change from acid additions
+   * 
+   * @returns mash pH change from acid additions
+   */
+  public getMashPhChangeFromAcidAdditions = (): PhValue => {
+    const phosphoricAcidStrength = 10;
+    const lacticAcidStrength = 88;
+    const phosphoricAcidDensity = phosphoricAcidStrength / 85 * (consts.PHOSPHORIC_ACID_DENSITY_85 - 1) + 1;
+    const phosporicAcidSolutionWeight = new MassValue("g", (this.getPhosphoricAcid(phosphoricAcidStrength)?.getValue("ml") || 0) * phosphoricAcidDensity);
+    const phosphoricAcidFromLiquidPhosphoricAcid = phosphoricAcidStrength / 100 * phosporicAcidSolutionWeight.getValue("mg");
+    const phosphoricAcidPower = phosphoricAcidFromLiquidPhosphoricAcid / consts.PHOSPHORIC_ACID_MOLECULAR_WEIGHT;
+    const lacticAcidWeightFronLiquidLacticAcid = (this.getLacticAcid(lacticAcidStrength)?.getValue("ml") || 0) * consts.LACTIC_ACID_DENSITY_88 * (lacticAcidStrength / 100);
+    const lacticAcidFromAcidMalt = this.getAcidMalt(100)?.getValue("g") || 0;
+    const totalLacticAcidWeight = new MassValue("g", lacticAcidWeightFronLiquidLacticAcid + lacticAcidFromAcidMalt);
+    const totalAcidMaltPower = totalLacticAcidWeight.getValue("mg") / consts.LACTIC_ACID_MOLAR_WEIGHT;
+    return new PhValue("pH", -(phosphoricAcidPower + totalAcidMaltPower) / consts.MASH_BUFFER_CAPACITY_FOR_ACID_ADDITIONS / this.getGristWeight().getValue("kg"));
   }
 
   /**
