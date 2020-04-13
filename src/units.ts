@@ -4,6 +4,7 @@ export type MassUnit = "mg" | "g" | "kg" | "lb";
 export type MassConcentrationToWaterUnit = "l/kg" | "qt/lb";
 export type MassConcentrationInWaterUnit = "mg/l"; 
 export type BeerColorUnit = "SRM" | "EBC";
+export type PhUnit = "pH";
 
 /**
  * Interface for a value
@@ -371,5 +372,21 @@ export class ChlorideValue extends MassConcentrationInWaterValue {
  * Bicarbonate ion value
  */
 export class BicarbonateValue extends MassConcentrationInWaterValue {
+
+}
+
+/**
+ * pH value
+ */
+export class PhValue extends AbstractRatioBasedValue<PhUnit> {
+  
+  /**
+   * Returns convert ratio into base unit
+   * 
+   * @param unit from unit
+   */
+  protected getConvertRatio(unit: "pH"): number {
+    return 1;
+  }
 
 }

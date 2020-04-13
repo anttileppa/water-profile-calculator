@@ -359,7 +359,13 @@ describe("Water Profile Calculator (basic)", () => {
     waterCalculator.setChloride(new ChlorideValue("mg/l", 120));
     waterCalculator.setBicarbonate(new BicarbonateValue("mg/l", 20));
     expect(waterCalculator.getIonBalance()).toEqual(3.9482486399687198);
+  });
 
+  it("test distilled water mash pH estimation", () => {
+    const waterCalculator = new WaterCalculator();
+    waterCalculator.setBeerColor(new BeerColorValue("SRM", 44));
+    waterCalculator.setMaltRoastedPercent(70);
+    expect(waterCalculator.estimateDistilledWaterMashPh().getValue("pH", 2)).toEqual(5.22);
   });
 
 })
