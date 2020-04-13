@@ -1,4 +1,4 @@
-import { MassConcentrationInWaterValue, PhValue, AlkalinityValue, ChlorideValue, SulfateValue, WaterHardnessValue, MagnesiumValue, CalciumValue, SodiumValue, VolumeValue, MassConcentrationToWaterValue, BeerColorValue, MassValue, BicarbonateValue, MassConcentrationInMassValue } from "./units";
+import { MassConcentrationValue, PhValue, AlkalinityValue, ChlorideValue, SulfateValue, WaterHardnessValue, MagnesiumValue, CalciumValue, SodiumValue, VolumeValue, DensityValue, BeerColorValue, MassValue, BicarbonateValue, MassFractionValue } from "./units";
 import consts from "./consts";
 import saltIonMap, { SaltIons } from "./salt-ions"; 
 
@@ -365,7 +365,7 @@ export default class WaterCalculator {
   public getMashThickness = () => {
     const strikeLiters = this.getStrikeWater().getValue("l");
     const gristWeight = this.getGristWeight().getValue("kg");
-    return new MassConcentrationToWaterValue("l/kg", gristWeight == 0 || gristWeight == 0 ? 0 : strikeLiters / gristWeight);
+    return new DensityValue("l/kg", gristWeight == 0 || gristWeight == 0 ? 0 : strikeLiters / gristWeight);
   }
   
   /**
@@ -757,7 +757,7 @@ export default class WaterCalculator {
    */
   private addSaltIonChanges(result: Ions, waterVolume: VolumeValue, salt: MassValue | undefined, saltIons: SaltIons) {
     if (salt) {
-      const saltConcentration = salt.getMassConcentrationInWater(waterVolume).getValue("mg/l");
+      const saltConcentration = salt.getMassConcentration(waterVolume).getValue("mg/l");
       result.calcium.add("mg/l", saltConcentration * (saltIons.calcium || 0));
       result.chloride.add("mg/l", saltConcentration * (saltIons.chloride || 0));
       result.magnesium.add("mg/l", saltConcentration * (saltIons.magnesium || 0));

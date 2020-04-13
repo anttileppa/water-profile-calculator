@@ -1,5 +1,5 @@
 import WaterCalculator from "../src/index";
-import { BeerColorValue, WaterHardnessValue, MassValue, ChlorideValue, MagnesiumValue, CalciumValue, SodiumValue, SulfateValue, BicarbonateValue, AlkalinityValue, VolumeValue, MassConcentrationInWaterValue } from "../src/units";
+import { BeerColorValue, WaterHardnessValue, MassValue, ChlorideValue, MagnesiumValue, CalciumValue, SodiumValue, SulfateValue, BicarbonateValue, AlkalinityValue, VolumeValue, MassConcentrationValue } from "../src/units";
 
 describe("Water Profile Calculator (basic)", () => {
 
@@ -22,14 +22,14 @@ describe("Water Profile Calculator (basic)", () => {
     const water = new VolumeValue("l", 100);
     const mass = new MassValue("kg", 25);
 
-    expect(mass.getMassConcentrationInWater(water).getValue("kg/l", 2)).toEqual(0.25);
+    expect(mass.getMassConcentration(water).getValue("kg/l", 2)).toEqual(0.25);
   });
 
   it("test mass concentration in mass", () => {
     const mass1 = new MassValue("g", 25);
     const mass2 = new MassValue("kg", 1);
 
-    expect(mass1.getMassConcentrationInMass(mass2).getValue("mg/kg", 2)).toEqual(25000);
+    expect(mass1.getMassFraction(mass2).getValue("mg/kg", 2)).toEqual(25000);
   });
 
   it("test basic KH", () => {
@@ -202,7 +202,7 @@ describe("Water Profile Calculator (basic)", () => {
     expect(waterCalculator.getGypsum()).toBeNull();
     waterCalculator.setGypsum(new MassValue("g", 10));
     expect(waterCalculator.getGypsum().getValue("g", 2)).toEqual(10);
-    expect(waterCalculator.getGypsum().getMassConcentrationInWater(new VolumeValue("l", 300)).getValue("mg/l", 2)).toEqual(33.33);
+    expect(waterCalculator.getGypsum().getMassConcentration(new VolumeValue("l", 300)).getValue("mg/l", 2)).toEqual(33.33);
     waterCalculator.setGypsum(null);
     expect(waterCalculator.getGypsum()).toBeNull();
   }); 
@@ -212,7 +212,7 @@ describe("Water Profile Calculator (basic)", () => {
     expect(waterCalculator.getEpsom()).toBeNull();
     waterCalculator.setEpsom(new MassValue("g", 20));
     expect(waterCalculator.getEpsom().getValue("g", 2)).toEqual(20);
-    expect(waterCalculator.getEpsom().getMassConcentrationInWater(new VolumeValue("l", 300)).getValue("mg/l", 2)).toEqual(66.67);
+    expect(waterCalculator.getEpsom().getMassConcentration(new VolumeValue("l", 300)).getValue("mg/l", 2)).toEqual(66.67);
     waterCalculator.setEpsom(null);
     expect(waterCalculator.getEpsom()).toBeNull();
   });
@@ -222,7 +222,7 @@ describe("Water Profile Calculator (basic)", () => {
     expect(waterCalculator.getTableSalt()).toBeNull();
     waterCalculator.setTableSalt(new MassValue("g", 30));
     expect(waterCalculator.getTableSalt().getValue("g", 2)).toEqual(30);
-    expect(waterCalculator.getTableSalt().getMassConcentrationInWater(new VolumeValue("l", 300)).getValue("mg/l", 2)).toEqual(100);
+    expect(waterCalculator.getTableSalt().getMassConcentration(new VolumeValue("l", 300)).getValue("mg/l", 2)).toEqual(100);
     waterCalculator.setTableSalt(null);
     expect(waterCalculator.getTableSalt()).toBeNull();
   });
@@ -232,7 +232,7 @@ describe("Water Profile Calculator (basic)", () => {
     expect(waterCalculator.getCalciumChloride()).toBeNull();
     waterCalculator.setCalciumChloride(new MassValue("g", 40));
     expect(waterCalculator.getCalciumChloride().getValue("g", 2)).toEqual(40);
-    expect(waterCalculator.getCalciumChloride().getMassConcentrationInWater(new VolumeValue("l", 300)).getValue("mg/l", 2)).toEqual(133.33);
+    expect(waterCalculator.getCalciumChloride().getMassConcentration(new VolumeValue("l", 300)).getValue("mg/l", 2)).toEqual(133.33);
     waterCalculator.setCalciumChloride(null);
     expect(waterCalculator.getCalciumChloride()).toBeNull();
   });
@@ -242,7 +242,7 @@ describe("Water Profile Calculator (basic)", () => {
     expect(waterCalculator.getMagnesiumChloride()).toBeNull();
     waterCalculator.setMagnesiumChloride(new MassValue("g", 50));
     expect(waterCalculator.getMagnesiumChloride().getValue("g", 2)).toEqual(50);
-    expect(waterCalculator.getMagnesiumChloride().getMassConcentrationInWater(new VolumeValue("l", 300)).getValue("mg/l", 2)).toEqual(166.67);
+    expect(waterCalculator.getMagnesiumChloride().getMassConcentration(new VolumeValue("l", 300)).getValue("mg/l", 2)).toEqual(166.67);
     waterCalculator.setMagnesiumChloride(null);
     expect(waterCalculator.getMagnesiumChloride()).toBeNull();
   });
@@ -252,7 +252,7 @@ describe("Water Profile Calculator (basic)", () => {
     expect(waterCalculator.getBakingSoda()).toBeNull();
     waterCalculator.setBakingSoda(new MassValue("g", 60));
     expect(waterCalculator.getBakingSoda().getValue("g", 2)).toEqual(60);
-    expect(waterCalculator.getBakingSoda().getMassConcentrationInWater(new VolumeValue("l", 300)).getValue("mg/l", 2)).toEqual(200);
+    expect(waterCalculator.getBakingSoda().getMassConcentration(new VolumeValue("l", 300)).getValue("mg/l", 2)).toEqual(200);
     waterCalculator.setBakingSoda(null);
     expect(waterCalculator.getBakingSoda()).toBeNull();
   }); 
@@ -262,7 +262,7 @@ describe("Water Profile Calculator (basic)", () => {
     expect(waterCalculator.getChalkUndissolved()).toBeNull();
     waterCalculator.setChalkUndissolved(new MassValue("g", 70));
     expect(waterCalculator.getChalkUndissolved().getValue("g", 2)).toEqual(70);
-    expect(waterCalculator.getChalkUndissolved().getMassConcentrationInWater(new VolumeValue("l", 300)).getValue("mg/l", 2)).toEqual(233.33);
+    expect(waterCalculator.getChalkUndissolved().getMassConcentration(new VolumeValue("l", 300)).getValue("mg/l", 2)).toEqual(233.33);
     waterCalculator.setChalkUndissolved(null);
     expect(waterCalculator.getChalkUndissolved()).toBeNull();
   }); 
@@ -272,7 +272,7 @@ describe("Water Profile Calculator (basic)", () => {
     expect(waterCalculator.getChalkDissolved()).toBeNull();
     waterCalculator.setChalkDissolved(new MassValue("g", 70));
     expect(waterCalculator.getChalkDissolved().getValue("g", 2)).toEqual(70);
-    expect(waterCalculator.getChalkDissolved().getMassConcentrationInWater(new VolumeValue("l", 300)).getValue("mg/l", 2)).toEqual(233.33);
+    expect(waterCalculator.getChalkDissolved().getMassConcentration(new VolumeValue("l", 300)).getValue("mg/l", 2)).toEqual(233.33);
     waterCalculator.setChalkDissolved(null);
     expect(waterCalculator.getChalkDissolved()).toBeNull();
   });

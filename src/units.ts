@@ -1,9 +1,9 @@
 export type WaterHardnessUnit = "dH" | "ppmCaCO3";
 export type VolumeUnit = "ml" | "l" | "gal" | "qt";
 export type MassUnit = "mg" | "g" | "kg" | "lb";
-export type MassConcentrationToWaterUnit = "l/kg" | "qt/lb";
-export type MassConcentrationInWaterUnit = "mg/l" | "kg/l"; 
-export type MassConcentrationInMassUnit = "g/g" | "mg/kg";
+export type DensityUnit = "l/kg" | "qt/lb";
+export type MassConcentrationUnit = "mg/l" | "kg/l"; 
+export type MassFractionUnit = "g/g" | "mg/kg";
 export type BeerColorUnit = "SRM" | "EBC";
 export type PhUnit = "pH";
 
@@ -202,20 +202,20 @@ export class MassValue extends AbstractRatioBasedValue<MassUnit> {
    * @param waterVolume water volume
    * @returns mass concentration in water for given volume of water
    */
-  public getMassConcentrationInWater(waterVolume: VolumeValue): MassConcentrationInWaterValue | null {
+  public getMassConcentration(waterVolume: VolumeValue): MassConcentrationValue | null {
     const mg = this.getValue("mg");
     const ml = waterVolume.getValue("l");
-    return new MassConcentrationInWaterValue("mg/l", mg / ml);
+    return new MassConcentrationValue("mg/l", mg / ml);
   }
 
   /**
-   * Returns mass concentration in mass
+   * Returns mass fraction
    * 
    * @param mass mass
-   * @returns mass concentration in mass
+   * @returns mass fraction
    */
-  public getMassConcentrationInMass(mass: MassValue): MassConcentrationInMassValue | null {
-    return new MassConcentrationInMassValue("g/g", this.getValue("g") / mass.getValue("g"));
+  public getMassFraction(mass: MassValue): MassFractionValue | null {
+    return new MassFractionValue("g/g", this.getValue("g") / mass.getValue("g"));
   }
 
   /**
@@ -260,14 +260,14 @@ export class BeerColorValue extends AbstractRatioBasedValue<BeerColorUnit> {
 /**
  * Mass concentration of substance to water value
  */
-export class MassConcentrationToWaterValue extends AbstractRatioBasedValue<MassConcentrationToWaterUnit> {
+export class DensityValue extends AbstractRatioBasedValue<DensityUnit> {
 
   /**
    * Returns convert ratio into base unit
    * 
    * @param unit from unit
    */
-  protected getConvertRatio(unit: MassConcentrationToWaterUnit): number {
+  protected getConvertRatio(unit: DensityUnit): number {
     switch (unit) {
       case "l/kg":
         return 1;
@@ -280,14 +280,14 @@ export class MassConcentrationToWaterValue extends AbstractRatioBasedValue<MassC
 /**
  * Mass concentration of substance in water value
  */
-export class MassConcentrationInWaterValue extends AbstractRatioBasedValue<MassConcentrationInWaterUnit> {
+export class MassConcentrationValue extends AbstractRatioBasedValue<MassConcentrationUnit> {
 
   /**
    * Returns convert ratio into base unit
    * 
    * @param unit from unit
    */
-  protected getConvertRatio(unit: MassConcentrationInWaterUnit): number {
+  protected getConvertRatio(unit: MassConcentrationUnit): number {
     switch (unit) {
       case "mg/l":
         return 1;
@@ -300,14 +300,14 @@ export class MassConcentrationInWaterValue extends AbstractRatioBasedValue<MassC
 /**
  * Mass concentration of substance within another mass
  */
-export class MassConcentrationInMassValue extends AbstractRatioBasedValue<MassConcentrationInMassUnit> {
+export class MassFractionValue extends AbstractRatioBasedValue<MassFractionUnit> {
   
   /**
    * Returns convert ratio into base unit
    * 
    * @param unit from unit
    */
-  protected getConvertRatio(unit: MassConcentrationInMassUnit): number {
+  protected getConvertRatio(unit: MassFractionUnit): number {
     switch (unit) {
       case "g/g":
         return 1;
@@ -349,7 +349,7 @@ export class AlkalinityValue extends WaterHardnessValue {
 /**
  * Calcium ion value
  */
-export class CalciumValue extends MassConcentrationInWaterValue {
+export class CalciumValue extends MassConcentrationValue {
   
   public toDh(digits?: number) {
     return this.roundTo(this.getValue("mg/l") / 7.14, digits);
@@ -360,7 +360,7 @@ export class CalciumValue extends MassConcentrationInWaterValue {
 /**
  * Magnesium ion value
  */
-export class MagnesiumValue extends MassConcentrationInWaterValue {
+export class MagnesiumValue extends MassConcentrationValue {
   
   public toDh(digits?: number) {
     return this.roundTo(this.getValue("mg/l") / 4.33, digits);
@@ -371,7 +371,7 @@ export class MagnesiumValue extends MassConcentrationInWaterValue {
 /**
  * Sodium ion value
  */
-export class SodiumValue extends MassConcentrationInWaterValue {
+export class SodiumValue extends MassConcentrationValue {
   
   public toDh(digits?: number) {
     return this.roundTo(this.getValue("mg/l") / 8.19, digits);
@@ -382,7 +382,7 @@ export class SodiumValue extends MassConcentrationInWaterValue {
 /**
  * Sulfate ion value
  */
-export class SulfateValue extends MassConcentrationInWaterValue {
+export class SulfateValue extends MassConcentrationValue {
 
   public toDh(digits?: number) {
     return this.roundTo(this.getValue("mg/l") / 17.1, digits);
@@ -393,7 +393,7 @@ export class SulfateValue extends MassConcentrationInWaterValue {
 /**
  * Chloride ion value
  */
-export class ChlorideValue extends MassConcentrationInWaterValue {
+export class ChlorideValue extends MassConcentrationValue {
 
   public toDh(digits?: number) {
     return this.roundTo(this.getValue("mg/l") / 12.62, digits);
@@ -404,7 +404,7 @@ export class ChlorideValue extends MassConcentrationInWaterValue {
 /**
  * Bicarbonate ion value
  */
-export class BicarbonateValue extends MassConcentrationInWaterValue {
+export class BicarbonateValue extends MassConcentrationValue {
 
 }
 
