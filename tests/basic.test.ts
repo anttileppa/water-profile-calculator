@@ -1,5 +1,5 @@
 import WaterCalculator from "../src/index";
-import { BeerColorValue, WaterHardnessValue, MassValue, ChlorideValue, MagnesiumValue, CalciumValue, SodiumValue, SulfateValue, BicarbonateValue, AlkalinityValue, VolumeValue, MassConcentrationValue } from "../src/units";
+import { BeerColorValue, WaterHardnessValue, MassValue, ChlorideValue, MagnesiumValue, CalciumValue, SodiumValue, SulfateValue, BicarbonateValue, AlkalinityValue, VolumeValue, MassConcentrationValue, PhValue } from "../src/units";
 
 describe("Water Profile Calculator (basic)", () => {
 
@@ -30,6 +30,10 @@ describe("Water Profile Calculator (basic)", () => {
     const mass2 = new MassValue("kg", 1);
 
     expect(mass1.getMassFraction(mass2).getValue("mg/kg", 2)).toEqual(25000);
+  });
+
+  it("test bicarbonate mEq/l", () => {
+    expect(new BicarbonateValue("mg/l", 52).getValue("mEq/l", 2)).toEqual(0.85);
   });
 
   it("test basic KH", () => {
@@ -398,7 +402,40 @@ describe("Water Profile Calculator (basic)", () => {
     expect(waterCalculator.getMashPhChangeFromAcidAdditions().getValue("pH", 2)).toEqual(-0.02);
     waterCalculator.setAcidMalt(null);
     expect(waterCalculator.getMashPhChangeFromAcidAdditions().getValue("pH", 2)).toEqual(-0);
+  });
 
+  it("test water post boil pH", () => {
+    const waterCalculator = new WaterCalculator();
+
+    waterCalculator.setStrikeWater(new VolumeValue("l", 100));
+    waterCalculator.setGristWeight(new MassValue("kg", 60));
+    waterCalculator.setGypsum(new MassValue("g", 20));
+    waterCalculator.setCalciumChloride(new MassValue("g", 20));
+    waterCalculator.setCalcium(new CalciumValue("mg/l", 12));
+    waterCalculator.setMagnesium(new MagnesiumValue("mg/l", 1.5));
+    waterCalculator.setSodium(new SodiumValue("mg/l", 6.1));
+    waterCalculator.setSulfate(new SulfateValue("mg/l", 5.0));
+    waterCalculator.setChloride(new ChlorideValue("mg/l", 5.0));
+    waterCalculator.setBicarbonate(new BicarbonateValue("mg/l", 300));
+    expect(waterCalculator.getWaterPhAfterBoiling().getValue("pH", 2)).toEqual(0.02);
+    expect(waterCalculator.getWaterPhAfterBoiling(new WaterHardnessValue("dH", 0.5)).getValue("pH", 2)).toEqual(-0.01);
+  });
+
+  it("test water post lime treatment pH", () => {
+    const waterCalculator = new WaterCalculator();
+
+    waterCalculator.setStrikeWater(new VolumeValue("l", 100));
+    waterCalculator.setGristWeight(new MassValue("kg", 60));
+    waterCalculator.setGypsum(new MassValue("g", 20));
+    waterCalculator.setCalciumChloride(new MassValue("g", 20));
+    waterCalculator.setCalcium(new CalciumValue("mg/l", 12));
+    waterCalculator.setMagnesium(new MagnesiumValue("mg/l", 1.5));
+    waterCalculator.setSodium(new SodiumValue("mg/l", 6.1));
+    waterCalculator.setSulfate(new SulfateValue("mg/l", 5.0));
+    waterCalculator.setChloride(new ChlorideValue("mg/l", 5.0));
+    waterCalculator.setBicarbonate(new BicarbonateValue("mg/l", 300));
+    expect(waterCalculator.getWaterPhAfterLimeTreatment().getValue("pH", 2)).toEqual(0.11);
+    expect(waterCalculator.getWaterPhAfterLimeTreatment(new WaterHardnessValue("dH", 3), new WaterHardnessValue("dH", 1.3)).getValue("pH", 2)).toEqual(0.01);
   });
 
 })

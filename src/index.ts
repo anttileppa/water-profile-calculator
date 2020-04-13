@@ -1,6 +1,7 @@
-import { MassConcentrationValue, PhValue, AlkalinityValue, ChlorideValue, SulfateValue, WaterHardnessValue, MagnesiumValue, CalciumValue, SodiumValue, VolumeValue, DensityValue, BeerColorValue, MassValue, BicarbonateValue, MassFractionValue } from "./units";
+import { PhValue, AlkalinityValue, ChlorideValue, SulfateValue, WaterHardnessValue, MagnesiumValue, CalciumValue, SodiumValue, VolumeValue, DensityValue, BeerColorValue, MassValue, BicarbonateValue } from "./units";
 import consts from "./consts";
 import saltIonMap, { SaltIons } from "./salt-ions"; 
+import atomicWeight from "./atomic-weight";
 
 /**
  * Interface that contains values for water ion mass concentrations
@@ -592,12 +593,12 @@ export default class WaterCalculator {
   public getIonsAfterSalts(waterVolume: VolumeValue): Ions  {
     const result = this.getIonSaltChanges(waterVolume);
     
-    result.calcium.add("mg/l", this.getCalcium()?.getValue("mg/l") || 0);
-    result.chloride.add("mg/l", this.getChloride()?.getValue("mg/l") || 0);
-    result.magnesium.add("mg/l", this.getMagnesium()?.getValue("mg/l") || 0);
-    result.sodium.add("mg/l", this.getSodium()?.getValue("mg/l") || 0);
-    result.sulfate.add("mg/l", this.getSulfate()?.getValue("mg/l") || 0);
-    result.bicarbonate.add("mg/l", this.getBicarbonate()?.getValue("mg/l") || 0);
+    result.calcium.add("mg/l", (this.getCalcium()?.getValue("mg/l")) || 0);
+    result.chloride.add("mg/l", (this.getChloride()?.getValue("mg/l")) || 0);
+    result.magnesium.add("mg/l", (this.getMagnesium()?.getValue("mg/l")) || 0);
+    result.sodium.add("mg/l", (this.getSodium()?.getValue("mg/l")) || 0);
+    result.sulfate.add("mg/l", (this.getSulfate()?.getValue("mg/l")) || 0);
+    result.bicarbonate.add("mg/l", (this.getBicarbonate()?.getValue("mg/l")) || 0);
 
     return result;
   }
@@ -618,14 +619,16 @@ export default class WaterCalculator {
       bicarbonate: new BicarbonateValue("mg/l", 0)
     };
 
-    this.addSaltIonChanges(result, waterVolume, this.gypsum, saltIonMap.gypsum);
-    this.addSaltIonChanges(result, waterVolume, this.epsom, saltIonMap.epsom);
-    this.addSaltIonChanges(result, waterVolume, this.tableSalt, saltIonMap.tableSalt);
-    this.addSaltIonChanges(result, waterVolume, this.calciumChloride, saltIonMap.calciumChloride);
-    this.addSaltIonChanges(result, waterVolume, this.magnesiumChloride, saltIonMap.magnesiumChloride);
-    this.addSaltIonChanges(result, waterVolume, this.bakingSoda, saltIonMap.bakingSoda);
-    this.addSaltIonChanges(result, waterVolume, this.chalkUndissolved, saltIonMap.chalkUndissolved);
-    this.addSaltIonChanges(result, waterVolume, this.chalkDissolved, saltIonMap.chalkDissolved);
+    if (waterVolume && waterVolume.getValue("l") > 0) {
+      this.addSaltIonChanges(result, waterVolume, this.gypsum, saltIonMap.gypsum);
+      this.addSaltIonChanges(result, waterVolume, this.epsom, saltIonMap.epsom);
+      this.addSaltIonChanges(result, waterVolume, this.tableSalt, saltIonMap.tableSalt);
+      this.addSaltIonChanges(result, waterVolume, this.calciumChloride, saltIonMap.calciumChloride);
+      this.addSaltIonChanges(result, waterVolume, this.magnesiumChloride, saltIonMap.magnesiumChloride);
+      this.addSaltIonChanges(result, waterVolume, this.bakingSoda, saltIonMap.bakingSoda);
+      this.addSaltIonChanges(result, waterVolume, this.chalkUndissolved, saltIonMap.chalkUndissolved);
+      this.addSaltIonChanges(result, waterVolume, this.chalkDissolved, saltIonMap.chalkDissolved);
+    }
 
     return result;
   }
@@ -686,6 +689,77 @@ export default class WaterCalculator {
     const totalLacticAcidWeight = new MassValue("g", lacticAcidWeightFronLiquidLacticAcid + lacticAcidFromAcidMalt);
     const totalAcidMaltPower = totalLacticAcidWeight.getValue("mg") / consts.LACTIC_ACID_MOLAR_WEIGHT;
     return new PhValue("pH", -(phosphoricAcidPower + totalAcidMaltPower) / consts.MASH_BUFFER_CAPACITY_FOR_ACID_ADDITIONS / this.getGristWeight().getValue("kg"));
+  }
+
+  /**
+   * Calculates pH change if water is boiled to precipitate alkalinity.
+   * 
+   * Method takes added salts into account  
+   * 
+   * @param postBoilKh optional measured post boil KH
+   * @returns pH change if water is boiled to precipitate alkalinity
+   */
+  public getWaterPhAfterBoiling(postBoilKh?: WaterHardnessValue): PhValue {
+    const ionsAfterChange = this.getIonsAfterSalts(this.getTotalWater());
+    const startingCalcium = ionsAfterChange.calcium.getValue("mg/l");
+    const startingAlkalinity = ionsAfterChange.bicarbonate.getValue("mEq/l");
+    const calciumHardness = startingCalcium / atomicWeight.calcium * 2;
+    const alkalinityCh = startingAlkalinity - calciumHardness;
+    
+    let estimatedPostBoilAlkalinity = 0;
+    if (startingAlkalinity < consts.LOWER_ALKALINITY_LIMIT_FOR_BOLING) {
+      estimatedPostBoilAlkalinity = startingAlkalinity;
+    } else if (alkalinityCh < consts.LOWER_ALKALINITY_LIMIT_FOR_BOLING) {
+      estimatedPostBoilAlkalinity = consts.LOWER_ALKALINITY_LIMIT_FOR_BOLING;
+    } else {
+      estimatedPostBoilAlkalinity = alkalinityCh;
+    }
+
+    const postBoilAlkalinity = postBoilKh ? postBoilKh.getValue("dH") * 0.035 : estimatedPostBoilAlkalinity;
+    const postBoilAlkalinityDrop = Math.max(startingAlkalinity - postBoilAlkalinity, 0);
+    const postBoilCh = calciumHardness - postBoilAlkalinityDrop;
+
+    const startingMagnesium = ionsAfterChange.magnesium.getValue("mg/l");
+    const finalAlkalinity = postBoilAlkalinity;
+    const finalCaHardness = postBoilCh;
+    const magnesiumHardness = startingMagnesium / atomicWeight.magnesium * 2;
+    
+    return this.getWaterPhAfterTreatment(finalAlkalinity, finalCaHardness, magnesiumHardness);
+  }
+
+  /**
+   * Returns pH after water has been treated with lime to precipitate alkalinity
+   * 
+   * @param postTreatmentGh optional measured post treatment KH
+   * @param postTreatmentKh optional measured post treatment GH
+   * @returns pH after water has been treated with lime to precipitate alkalinity
+   */
+  public getWaterPhAfterLimeTreatment(postTreatmentGh?: WaterHardnessValue, postTreatmentKh?: WaterHardnessValue): PhValue {
+    const ionsAfterChange = this.getIonsAfterSalts(this.getTotalWater());
+    const startingCalcium = ionsAfterChange.calcium.getValue("mg/l");
+    const calciumHardness = startingCalcium / atomicWeight.calcium * 2;
+    const startingMagnesium = ionsAfterChange.magnesium.getValue("mg/l");
+    const startingAlkalinity = ionsAfterChange.bicarbonate.getValue("mEq/l");
+    
+    const magnesiumHardness = startingMagnesium / atomicWeight.magnesium * 2;
+    const finalAlkalinity = postTreatmentKh != null ? postTreatmentKh.getValue("dH") / 2.81 : startingAlkalinity;
+    const finalCaHardness = postTreatmentGh != null ? postTreatmentGh.getValue("dH") / 2.81 - magnesiumHardness : calciumHardness;
+    
+    return this.getWaterPhAfterTreatment(finalAlkalinity, finalCaHardness, magnesiumHardness);
+  }
+
+  /**
+   * Returns pH after water treatment
+   * 
+   * @param finalAlkalinity final alkalinity
+   * @param finalCaHardness final ca hardness
+   * @param magnesiumHardness magnesium hardness
+   * @returns pH after water treatment
+   */
+  private getWaterPhAfterTreatment(finalAlkalinity: number, finalCaHardness: number, magnesiumHardness: number) {
+    const residualAlkalinity = finalAlkalinity - finalCaHardness / 3.5 - magnesiumHardness / 7;
+    const residualAlkalinityInWater = residualAlkalinity * this.getStrikeWater().getValue("l");
+    return new PhValue("pH", residualAlkalinityInWater / this.getGristWeight().getValue("kg") / consts.MASH_BUFFER_CAPACITY_FOR_WATER_RESIDUAL_ALKALINITY);
   }
 
   /**

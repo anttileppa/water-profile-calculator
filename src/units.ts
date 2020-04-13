@@ -2,7 +2,7 @@ export type WaterHardnessUnit = "dH" | "ppmCaCO3";
 export type VolumeUnit = "ml" | "l" | "gal" | "qt";
 export type MassUnit = "mg" | "g" | "kg" | "lb";
 export type DensityUnit = "l/kg" | "qt/lb";
-export type MassConcentrationUnit = "mg/l" | "kg/l"; 
+export type MassConcentrationUnit = "mg/l" | "kg/l" | "mEq/l"; 
 export type MassFractionUnit = "g/g" | "mg/kg";
 export type BeerColorUnit = "SRM" | "EBC";
 export type PhUnit = "pH";
@@ -205,7 +205,7 @@ export class MassValue extends AbstractRatioBasedValue<MassUnit> {
   public getMassConcentration(waterVolume: VolumeValue): MassConcentrationValue | null {
     const mg = this.getValue("mg");
     const ml = waterVolume.getValue("l");
-    return new MassConcentrationValue("mg/l", mg / ml);
+    return new MassConcentrationValue("mg/l", mg / ml, NaN);
   }
 
   /**
@@ -282,6 +282,20 @@ export class DensityValue extends AbstractRatioBasedValue<DensityUnit> {
  */
 export class MassConcentrationValue extends AbstractRatioBasedValue<MassConcentrationUnit> {
 
+  private equivalentWeight: number;
+
+  /**
+   * Constructor
+   * 
+   * @param unit value unit
+   * @param value value in given unit
+   * @param equivalentWeight equivalent weight
+   */
+  constructor(unit: MassConcentrationUnit, value: number | null, equivalentWeight: number) {
+    super(unit, value);
+    this.equivalentWeight = equivalentWeight;
+  }
+
   /**
    * Returns convert ratio into base unit
    * 
@@ -293,6 +307,8 @@ export class MassConcentrationValue extends AbstractRatioBasedValue<MassConcentr
         return 1;
       case "kg/l":
         return 1000000;
+      case "mEq/l":
+        return this.equivalentWeight;
     }
   }
 }
@@ -350,6 +366,16 @@ export class AlkalinityValue extends WaterHardnessValue {
  * Calcium ion value
  */
 export class CalciumValue extends MassConcentrationValue {
+
+  /**
+   * Constructor
+   * 
+   * @param unit value unit
+   * @param value value in given unit
+   */
+  constructor(unit: MassConcentrationUnit, value: number | null) {
+    super(unit, value, 20);
+  }
   
   public toDh(digits?: number) {
     return this.roundTo(this.getValue("mg/l") / 7.14, digits);
@@ -362,6 +388,16 @@ export class CalciumValue extends MassConcentrationValue {
  */
 export class MagnesiumValue extends MassConcentrationValue {
   
+  /**
+   * Constructor
+   * 
+   * @param unit value unit
+   * @param value value in given unit
+   */
+  constructor(unit: MassConcentrationUnit, value: number | null) {
+    super(unit, value, 12);
+  }
+
   public toDh(digits?: number) {
     return this.roundTo(this.getValue("mg/l") / 4.33, digits);
   }
@@ -373,6 +409,16 @@ export class MagnesiumValue extends MassConcentrationValue {
  */
 export class SodiumValue extends MassConcentrationValue {
   
+  /**
+   * Constructor
+   * 
+   * @param unit value unit
+   * @param value value in given unit
+   */
+  constructor(unit: MassConcentrationUnit, value: number | null) {
+    super(unit, value, 23);
+  }
+
   public toDh(digits?: number) {
     return this.roundTo(this.getValue("mg/l") / 8.19, digits);
   }
@@ -383,6 +429,16 @@ export class SodiumValue extends MassConcentrationValue {
  * Sulfate ion value
  */
 export class SulfateValue extends MassConcentrationValue {
+
+  /**
+   * Constructor
+   * 
+   * @param unit value unit
+   * @param value value in given unit
+   */
+  constructor(unit: MassConcentrationUnit, value: number | null) {
+    super(unit, value, 48);
+  }
 
   public toDh(digits?: number) {
     return this.roundTo(this.getValue("mg/l") / 17.1, digits);
@@ -395,6 +451,16 @@ export class SulfateValue extends MassConcentrationValue {
  */
 export class ChlorideValue extends MassConcentrationValue {
 
+  /**
+   * Constructor
+   * 
+   * @param unit value unit
+   * @param value value in given unit
+   */
+  constructor(unit: MassConcentrationUnit, value: number | null) {
+    super(unit, value, 35);
+  }
+
   public toDh(digits?: number) {
     return this.roundTo(this.getValue("mg/l") / 12.62, digits);
   }
@@ -405,6 +471,16 @@ export class ChlorideValue extends MassConcentrationValue {
  * Bicarbonate ion value
  */
 export class BicarbonateValue extends MassConcentrationValue {
+
+  /**
+   * Constructor
+   * 
+   * @param unit value unit
+   * @param value value in given unit
+   */
+  constructor(unit: MassConcentrationUnit, value: number | null) {
+    super(unit, value, 61);
+  }
 
 }
 
