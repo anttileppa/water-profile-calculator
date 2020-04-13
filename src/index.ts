@@ -631,6 +631,30 @@ export default class WaterCalculator {
   }
 
   /**
+   * Returns ion balance. 
+   * 
+   * Ion balance gives the ion balance in %. Ideally it should be 0 (i.e. there are as many equivalents of cations as there are anions) 
+   * but if the water contains a substantial amount of ions that are not listed here (i.e. Potassium or Phosphates), the ions may not add up
+   * 
+   * @returns ion balance
+   */
+  public getIonBalance(): number {
+    const calciumDh = this.getCalcium()?.toDh() || 0;
+    const magnesiumDh = this.getMagnesium()?.toDh() || 0;
+    const sodiumDh = this.getSodium()?.toDh() || 0;
+    const sulfateDh = this.getSulfate()?.toDh() || 0;
+    const chlorideDh = this.getChloride()?.toDh() || 0;
+    const alkalinityDh = this.getAlkalinity().getValue("dH");
+
+    const ionDhs = calciumDh + magnesiumDh + sodiumDh + sulfateDh + chlorideDh + alkalinityDh;
+    if (ionDhs == 0) {
+      return 0;
+    }
+
+    return (calciumDh + magnesiumDh + sodiumDh - sulfateDh - chlorideDh - alkalinityDh) / ionDhs * 50;
+  }
+
+  /**
    * Converts volume value from given from strength to given to strength
    * 
    * e.g. from 88% lactic acid to 85% lactic acid

@@ -349,4 +349,17 @@ describe("Water Profile Calculator (basic)", () => {
     expect(ionsAfterChange.chloride.getValue("mg/l", 0)).toEqual(213);
     expect(ionsAfterChange.bicarbonate.getValue("mg/l", 0)).toEqual(632);
   });
+
+  it("test ion balance", () => {
+    const waterCalculator = new WaterCalculator();
+    waterCalculator.setCalcium(new CalciumValue("mg/l", 22.5));
+    waterCalculator.setMagnesium(new MagnesiumValue("mg/l", 5.8));
+    waterCalculator.setSodium(new SodiumValue("mg/l", 79));
+    waterCalculator.setSulfate(new SulfateValue("mg/l", 28));
+    waterCalculator.setChloride(new ChlorideValue("mg/l", 120));
+    waterCalculator.setBicarbonate(new BicarbonateValue("mg/l", 20));
+    expect(waterCalculator.getIonBalance()).toEqual(3.9482486399687198);
+
+  });
+
 })
