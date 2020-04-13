@@ -437,5 +437,23 @@ describe("Water Profile Calculator (basic)", () => {
     expect(waterCalculator.getWaterPhAfterLimeTreatment().getValue("pH", 2)).toEqual(0.11);
     expect(waterCalculator.getWaterPhAfterLimeTreatment(new WaterHardnessValue("dH", 3), new WaterHardnessValue("dH", 1.3)).getValue("pH", 2)).toEqual(0.01);
   });
+  
+  it("test water post lime treatment pH", () => {
+    const waterCalculator = new WaterCalculator();
+    waterCalculator.setStrikeWater(new VolumeValue("l", 100));
+    waterCalculator.setGristWeight(new MassValue("kg", 60));
+    waterCalculator.setGypsum(new MassValue("g", 20));
+    waterCalculator.setCalciumChloride(new MassValue("g", 20));
+    waterCalculator.setCalcium(new CalciumValue("mg/l", 12));
+    waterCalculator.setMagnesium(new MagnesiumValue("mg/l", 1.5));
+    waterCalculator.setSodium(new SodiumValue("mg/l", 6.1));
+    waterCalculator.setSulfate(new SulfateValue("mg/l", 5.0));
+    waterCalculator.setChloride(new ChlorideValue("mg/l", 5.0));
+    waterCalculator.setBicarbonate(new BicarbonateValue("mg/l", 300));
+
+    waterCalculator.setStrikeWater(new VolumeValue("l", 100));
+    expect(waterCalculator.getLimeConcentrationForLimeTreatment(new PhValue("pH", 8)).getValue("mg/l", 2)).toEqual(189.47);
+    expect(waterCalculator.getLimeNeededForLimeTreatment(waterCalculator.getStrikeWater(), new PhValue("pH", 8)).getValue("g", 2)).toEqual(18.95);
+  });
 
 })

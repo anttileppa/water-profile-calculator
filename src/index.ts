@@ -1,7 +1,8 @@
-import { PhValue, AlkalinityValue, ChlorideValue, SulfateValue, WaterHardnessValue, MagnesiumValue, CalciumValue, SodiumValue, VolumeValue, DensityValue, BeerColorValue, MassValue, BicarbonateValue } from "./units";
+import { PhValue, AlkalinityValue, ChlorideValue, SulfateValue, WaterHardnessValue, MagnesiumValue, CalciumValue, SodiumValue, VolumeValue, DensityValue, BeerColorValue, MassValue, BicarbonateValue, MassConcentrationValue } from "./units";
 import consts from "./consts";
 import saltIonMap, { SaltIons } from "./salt-ions"; 
 import atomicWeight from "./atomic-weight";
+import molarMass from "./molar-mass";
 
 /**
  * Interface that contains values for water ion mass concentrations
@@ -746,6 +747,40 @@ export default class WaterCalculator {
     const finalCaHardness = postTreatmentGh != null ? postTreatmentGh.getValue("dH") / 2.81 - magnesiumHardness : calciumHardness;
     
     return this.getWaterPhAfterTreatment(finalAlkalinity, finalCaHardness, magnesiumHardness);
+  }
+
+  /**
+   * Returns required amount of calcium oxide or "lime" to treat the water
+   * 
+   * @param waterVolume volume of water to treat
+   * @param phBeforeTreatment pH before treatment
+   * @returns required concentration of calcium oxide or "lime" to treat the water
+   */
+  public getLimeNeededForLimeTreatment(waterVolume: VolumeValue, phBeforeTreatment: PhValue): MassValue {
+    const limeConcentration = this.getLimeConcentrationForLimeTreatment(phBeforeTreatment);
+    return new MassValue("g", limeConcentration.getValue("mg/l") * waterVolume.getValue("l") / 1000);
+  }
+
+  /**
+   * Returns required concentration of calcium oxide or "lime" to treat the water
+   * 
+   * @param phBeforeTreatment pH before treatment
+   * @returns required concentration of calcium oxide or "lime" to treat the water
+   */
+  public getLimeConcentrationForLimeTreatment(phBeforeTreatment: PhValue): MassConcentrationValue {
+    const ionsAfterChange = this.getIonsAfterSalts(this.getTotalWater());
+    const startingAlkalinity = ionsAfterChange.bicarbonate.getValue("mEq/l");
+
+    const carbonicAcidPKa1 = 6.40;
+    const carbonicAcidPKa2 = 10.30
+    const r1 = Math.pow(10, carbonicAcidPKa1 - phBeforeTreatment.getValue("pH"));
+    const r2 = Math.pow(10, carbonicAcidPKa2 - phBeforeTreatment.getValue("pH"));
+    const HCO3 = r2 * startingAlkalinity / (2 + r2);
+    const H2CO3_CO2 = r1 * HCO3;
+    const CO3 = HCO3 + 2 * H2CO3_CO2;
+    const limeNeededForThisAmountOfOH = CO3 / 2;
+    
+    return new MassConcentrationValue("mg/l", limeNeededForThisAmountOfOH * molarMass.calciumOxide, NaN);
   }
 
   /**
