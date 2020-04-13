@@ -1,5 +1,18 @@
-import { AlkalinityValue, ChlorideValue, SulfateValue, WaterHardnessValue, MagnesiumValue, CalciumValue, SodiumValue, VolumeValue, MassConcentrationToWaterValue, BeerColorValue, MassValue } from "./units";
-import consts from "./consts"; 
+import { MassConcentrationInWaterValue, AlkalinityValue, ChlorideValue, SulfateValue, WaterHardnessValue, MagnesiumValue, CalciumValue, SodiumValue, VolumeValue, MassConcentrationToWaterValue, BeerColorValue, MassValue, BicarbonateValue } from "./units";
+import consts from "./consts";
+import saltIonMap, { SaltIons } from "./salt-ions"; 
+
+/**
+ * Interface that contains values for water ion mass concentrations
+ */
+export interface Ions {
+  calcium: CalciumValue,
+  magnesium: MagnesiumValue,
+  sodium: SodiumValue,
+  sulfate: SulfateValue,
+  chloride: ChlorideValue,
+  bicarbonate: BicarbonateValue
+}
 
 /**
  * Water profile calculator
@@ -16,6 +29,7 @@ export default class WaterCalculator {
   private sodium: SodiumValue | null = null;
   private sulfate: SulfateValue | null = null;
   private chloride: ChlorideValue | null = null;
+  private bicarbonate: BicarbonateValue | null = null;
   private alkalinity: AlkalinityValue | null = null;
   private strikeWater: VolumeValue = new VolumeValue("l", 0);
   private spargeWater: VolumeValue = new VolumeValue("l", 0);
@@ -27,11 +41,11 @@ export default class WaterCalculator {
   private calciumChloride: MassValue | null = null;
   private magnesiumChloride: MassValue | null = null;
   private bakingSoda: MassValue | null = null;
-  private chalk: MassValue | null = null;
+  private chalkUndissolved: MassValue | null = null;
+  private chalkDissolved: MassValue | null = null;
   private lacticAcid: VolumeValue | null = null;
   private phosphoricAcid: VolumeValue | null = null;
   private acidMalt: MassValue | null = null;
-
 
   /**
    * Returns GH
@@ -223,6 +237,24 @@ export default class WaterCalculator {
    */
   public setChloride = (value: ChlorideValue) => {
     this.chloride = value;
+  } 
+
+  /**
+   * Returns bicarbonate
+   * 
+   * @returns bicarbonate or null if not set
+   */
+  public getBicarbonate = (): BicarbonateValue => {
+    return this.bicarbonate;
+  }
+
+  /**
+   * Sets bicarbonate
+   * 
+   * @param value bicarbonate value
+   */
+  public setBicarbonate = (value: BicarbonateValue) => {
+    this.bicarbonate = value;
   } 
 
   /**
@@ -447,21 +479,39 @@ export default class WaterCalculator {
   } 
 
   /**
-   * Returns chalk
+   * Returns undissolved chalk
    * 
-   * @returns chalk or null if not set
+   * @returns undissolved chalk or null if not set
    */
-  public getChalk = (): MassValue => {
-    return this.chalk;
+  public getChalkUndissolved = (): MassValue => {
+    return this.chalkUndissolved;
   }
 
   /**
-   * Sets chalk
+   * Sets undissolved chalk
    * 
-   * @param value chalk value
+   * @param value undissolved chalk value
    */
-  public setChalk = (value: MassValue) => {
-    this.chalk = value;
+  public setChalkUndissolved = (value: MassValue) => {
+    this.chalkUndissolved = value;
+  } 
+
+  /**
+   * Returns dissolved chalk
+   * 
+   * @returns dissolved chalk or null if not set
+   */
+  public getChalkDissolved = (): MassValue => {
+    return this.chalkDissolved;
+  }
+
+  /**
+   * Sets dissolved chalk
+   * 
+   * @param value dissolved chalk value
+   */
+  public setChalkDissolved = (value: MassValue) => {
+    this.chalkDissolved = value;
   } 
 
   /**
@@ -525,6 +575,53 @@ export default class WaterCalculator {
   }
   
   /**
+   * Returns water ion mass concentrations after added salts
+   * 
+   * @param waterVolume volume of water the ions are beign observed
+   * @returns water ion mass concentrations after added salts
+   */
+  public getIonsAfterSalts(waterVolume: VolumeValue): Ions  {
+    const result = this.getIonSaltChanges(waterVolume);
+    
+    result.calcium.add("mg/l", this.getCalcium()?.getValue("mg/l") || 0);
+    result.chloride.add("mg/l", this.getChloride()?.getValue("mg/l") || 0);
+    result.magnesium.add("mg/l", this.getMagnesium()?.getValue("mg/l") || 0);
+    result.sodium.add("mg/l", this.getSodium()?.getValue("mg/l") || 0);
+    result.sulfate.add("mg/l", this.getSulfate()?.getValue("mg/l") || 0);
+    result.bicarbonate.add("mg/l", this.getBicarbonate()?.getValue("mg/l") || 0);
+
+    return result;
+  }
+
+  /**
+   * Returns water ion mass concentration changes caused by added salts
+   * 
+   * @param waterVolume volume of water the changes are observed
+   * @returns water ion mass concentration changes caused by added salts
+   */
+  public getIonSaltChanges(waterVolume: VolumeValue): Ions {
+    const result: Ions = {
+      calcium: new CalciumValue("mg/l", 0),
+      chloride: new ChlorideValue("mg/l", 0),
+      magnesium: new MagnesiumValue("mg/l", 0),
+      sodium: new SodiumValue("mg/l", 0),
+      sulfate: new SulfateValue("mg/l", 0),
+      bicarbonate: new BicarbonateValue("mg/l", 0)
+    };
+
+    this.addSaltIonChanges(result, waterVolume, this.gypsum, saltIonMap.gypsum);
+    this.addSaltIonChanges(result, waterVolume, this.epsom, saltIonMap.epsom);
+    this.addSaltIonChanges(result, waterVolume, this.tableSalt, saltIonMap.tableSalt);
+    this.addSaltIonChanges(result, waterVolume, this.calciumChloride, saltIonMap.calciumChloride);
+    this.addSaltIonChanges(result, waterVolume, this.magnesiumChloride, saltIonMap.magnesiumChloride);
+    this.addSaltIonChanges(result, waterVolume, this.bakingSoda, saltIonMap.bakingSoda);
+    this.addSaltIonChanges(result, waterVolume, this.chalkUndissolved, saltIonMap.chalkUndissolved);
+    this.addSaltIonChanges(result, waterVolume, this.chalkDissolved, saltIonMap.chalkDissolved);
+
+    return result;
+  }
+
+  /**
    * Converts volume value from given from strength to given to strength
    * 
    * e.g. from 88% lactic acid to 85% lactic acid
@@ -580,7 +677,27 @@ export default class WaterCalculator {
       return;
     }
     
-    this.setResidualAlkalinity(new AlkalinityValue("dH", this.getAlkalinity().getValue("dH") - this.getCalcium().getValue("dH") / 3.5 - this.getMagnesium().getValue("dH") / 7));
+    this.setResidualAlkalinity(new AlkalinityValue("dH", this.getAlkalinity().getValue("dH") - this.getCalcium().toDh() / 3.5 - this.getMagnesium().toDh() / 7));
+  }
+
+  /**
+   * Adds ion changes by given salt 
+   * 
+   * @param result resulting ions
+   * @param waterVolume volume of water where changes take place
+   * @param salt amount of salt
+   * @param saltIons salt ion properties
+   */
+  private addSaltIonChanges(result: Ions, waterVolume: VolumeValue, salt: MassValue | undefined, saltIons: SaltIons) {
+    if (salt) {
+      const saltConcentration = salt.getMassConcentrationInWater(waterVolume).getValue("mg/l");
+      result.calcium.add("mg/l", saltConcentration * (saltIons.calcium || 0));
+      result.chloride.add("mg/l", saltConcentration * (saltIons.chloride || 0));
+      result.magnesium.add("mg/l", saltConcentration * (saltIons.magnesium || 0));
+      result.sodium.add("mg/l", saltConcentration * (saltIons.sodium || 0));
+      result.sulfate.add("mg/l", saltConcentration * (saltIons.sulfate || 0));
+      result.bicarbonate.add("mg/l", saltConcentration * (saltIons.bicarbonate || 0));
+    }
   }
 
 }

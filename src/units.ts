@@ -1,5 +1,4 @@
 export type WaterHardnessUnit = "dH" | "ppmCaCO3";
-export type IonUnit = "mg/l" | "dH";
 export type VolumeUnit = "ml" | "l" | "gal" | "qt";
 export type MassUnit = "mg" | "g" | "kg" | "lb";
 export type MassConcentrationToWaterUnit = "l/kg" | "qt/lb";
@@ -26,6 +25,14 @@ export interface Value<U> {
    * @returns value in given unit
    */
   getValue: (unit: U) => number | null;
+
+  /**
+   * Adds given value to existing value
+   * 
+   * @param unit value unit
+   * @param value numeric value in given unit
+   */
+  add: (unit: U, value: number) => void;
 
 }
 
@@ -65,13 +72,33 @@ export abstract class AbstactValue<U> implements Value<U> {
    */
   public getValue(unit: U, roundTo?: number): number | null {
     const result = this.value === null ? null : this.fromBaseUnit(unit, this.value);
+    return this.roundTo(result, roundTo);
+  }
 
-    if (roundTo !== undefined) {
-      const mod = Math.pow(10.0, roundTo);
-      return Math.round(result * mod) / mod;
+  /**
+   * Rounds value to given digits. Returns exact value if digits not specified
+   * 
+   * @param value value
+   * @param digits digits
+   * @returns rounded value
+   */
+  protected roundTo(value: number, digits?: number) {
+    if (digits === undefined) {
+      return value; 
     }
 
-    return result;
+    const mod = Math.pow(10.0, digits);
+    return Math.round(value * mod) / mod;
+  }
+
+  /**
+   * Adds given value to existing value
+   * 
+   * @param unit value unit
+   * @param value numeric value in given unit
+   */
+  public add(unit: U, value: number | null) {
+    this.setValue(unit, this.getValue(unit) + value);
   }
 
   /**
@@ -286,79 +313,12 @@ export class AlkalinityValue extends WaterHardnessValue {
 }
 
 /**
- * Abstract base class ion values 
- */
-export abstract class IonValue extends AbstactValue<IonUnit> {
-
-  private dhRatio: number;
-
-  /**
-   * Constructor
-   * 
-   * @param unit value unit
-   * @param value value in given unit
-   * @param dhRatio ratio for converting mg/l tp dH
-   */
-  constructor(unit: IonUnit, value: number | null, dhRatio: number) {
-    super(unit, value);
-    this.dhRatio = dhRatio;
-  }
-
-  /**
-   * Converts value to type's base unit
-   * 
-   * Base unit is an unit the value is stored internally
-   * 
-   * @param unit value unit
-   * @param value numeric value in given unit
-   * @returns numeric value in base units
-   */
-  protected toBaseUnit(unit: IonUnit, value: number) : number {
-    switch (unit) {
-      case "mg/l":
-        return value;
-      case "dH":
-        return value * this.dhRatio;
-    }
-  }
-
-  /**
-   * Converts value from type's base unit into given unit
-   * 
-   * Base unit is an unit the value is stored internally
-   * 
-   * @param unit value unit
-   * @param value numeric value in given unit
-   * @returns numeric value in given units
-   */
-  protected fromBaseUnit(unit: IonUnit, value: number) : number {
-    switch (unit) {
-      case "mg/l":
-        return value;
-      case "dH":
-        return value / this.dhRatio;
-    }
-  }
-
-}
-
-/**
  * Calcium ion value
  */
-export class CalciumValue extends AbstractRatioBasedValue<IonUnit> {
+export class CalciumValue extends MassConcentrationInWaterValue {
   
-  /**
-   * Returns convert ratio into base unit
-   * 
-   * @param unit from unit
-   */
-  protected getConvertRatio(unit: IonUnit): number {
-    switch (unit) {
-      case "mg/l":
-        return 1;
-      case "dH":
-        return 7.14;
-    }
+  public toDh(digits?: number) {
+    return this.roundTo(this.getValue("mg/l") / 7.14, digits);
   }
   
 }
@@ -366,40 +326,21 @@ export class CalciumValue extends AbstractRatioBasedValue<IonUnit> {
 /**
  * Magnesium ion value
  */
-export class MagnesiumValue extends AbstractRatioBasedValue<IonUnit> {
+export class MagnesiumValue extends MassConcentrationInWaterValue {
   
-  /**
-   * Returns convert ratio into base unit
-   * 
-   * @param unit from unit
-   */
-  protected getConvertRatio(unit: IonUnit): number {
-    switch (unit) {
-      case "mg/l":
-        return 1;
-      case "dH":
-        return 4.33;
-    }
+  public toDh(digits?: number) {
+    return this.roundTo(this.getValue("mg/l") / 4.33, digits);
   }
+
 }
 
 /**
  * Sodium ion value
  */
-export class SodiumValue extends AbstractRatioBasedValue<IonUnit> {
-
-  /**
-   * Returns convert ratio into base unit
-   * 
-   * @param unit from unit
-   */
-  protected getConvertRatio(unit: IonUnit): number {
-    switch (unit) {
-      case "mg/l":
-        return 1;
-      case "dH":
-        return 8.19;
-    }
+export class SodiumValue extends MassConcentrationInWaterValue {
+  
+  public toDh(digits?: number) {
+    return this.roundTo(this.getValue("mg/l") / 8.19, digits);
   }
 
 }
@@ -407,20 +348,10 @@ export class SodiumValue extends AbstractRatioBasedValue<IonUnit> {
 /**
  * Sulfate ion value
  */
-export class SulfateValue extends AbstractRatioBasedValue<IonUnit> {
+export class SulfateValue extends MassConcentrationInWaterValue {
 
-  /**
-   * Returns convert ratio into base unit
-   * 
-   * @param unit from unit
-   */
-  protected getConvertRatio(unit: IonUnit): number {
-    switch (unit) {
-      case "mg/l":
-        return 1;
-      case "dH":
-        return 17.1;
-    }
+  public toDh(digits?: number) {
+    return this.roundTo(this.getValue("mg/l") / 17.1, digits);
   }
 
 }
@@ -428,20 +359,17 @@ export class SulfateValue extends AbstractRatioBasedValue<IonUnit> {
 /**
  * Chloride ion value
  */
-export class ChlorideValue extends AbstractRatioBasedValue<IonUnit> {
+export class ChlorideValue extends MassConcentrationInWaterValue {
 
-  /**
-   * Returns convert ratio into base unit
-   * 
-   * @param unit from unit
-   */
-  protected getConvertRatio(unit: IonUnit): number {
-    switch (unit) {
-      case "mg/l":
-        return 1;
-      case "dH":
-        return 12.62;
-    }
+  public toDh(digits?: number) {
+    return this.roundTo(this.getValue("mg/l") / 12.62, digits);
   }
+
+}
+
+/**
+ * Bicarbonate ion value
+ */
+export class BicarbonateValue extends MassConcentrationInWaterValue {
 
 }

@@ -1,5 +1,5 @@
 import WaterCalculator from "../src/index";
-import { BeerColorValue, WaterHardnessValue, MassValue, ChlorideValue, MagnesiumValue, CalciumValue, SodiumValue, SulfateValue, AlkalinityValue, VolumeValue } from "../src/units";
+import { BeerColorValue, WaterHardnessValue, MassValue, ChlorideValue, MagnesiumValue, CalciumValue, SodiumValue, SulfateValue, BicarbonateValue, AlkalinityValue, VolumeValue } from "../src/units";
 
 describe("Water Profile Calculator (basic)", () => {
 
@@ -44,7 +44,7 @@ describe("Water Profile Calculator (basic)", () => {
     expect(waterCalculator.getCalcium()).toBeNull();
     waterCalculator.setCalcium(new CalciumValue("mg/l", 22.5));
     expect(waterCalculator.getCalcium().getValue("mg/l", 2)).toEqual(22.5);
-    expect(waterCalculator.getCalcium().getValue("dH", 2)).toEqual(3.15);
+    expect(waterCalculator.getCalcium().toDh(2)).toEqual(3.15);
     waterCalculator.setCalcium(null);
     expect(waterCalculator.getCalcium()).toBeNull();
   });
@@ -60,7 +60,7 @@ describe("Water Profile Calculator (basic)", () => {
     expect(waterCalculator.getMagnesium()).toBeNull();
     waterCalculator.setMagnesium(new MagnesiumValue("mg/l", 5.8));
     expect(waterCalculator.getMagnesium().getValue("mg/l", 2)).toEqual(5.8);
-    expect(waterCalculator.getMagnesium().getValue("dH", 2)).toEqual(1.34);
+    expect(waterCalculator.getMagnesium().toDh(2)).toEqual(1.34);
     waterCalculator.setMagnesium(null);
     expect(waterCalculator.getMagnesium()).toBeNull();
   });
@@ -80,7 +80,7 @@ describe("Water Profile Calculator (basic)", () => {
     expect(waterCalculator.getSodium()).toBeNull();
     waterCalculator.setSodium(new SodiumValue("mg/l", 60));
     expect(waterCalculator.getSodium().getValue("mg/l", 2)).toEqual(60);
-    expect(waterCalculator.getSodium().getValue("dH", 2)).toEqual(7.33);
+    expect(waterCalculator.getSodium().toDh(2)).toEqual(7.33);
     waterCalculator.setSodium(null);
     expect(waterCalculator.getSodium()).toBeNull();
   });
@@ -89,7 +89,7 @@ describe("Water Profile Calculator (basic)", () => {
     const waterCalculator = new WaterCalculator();
     waterCalculator.setSulfate(new SulfateValue("mg/l", 44));
     expect(waterCalculator.getSulfate().getValue("mg/l", 2)).toEqual(44);
-    expect(waterCalculator.getSulfate().getValue("dH", 2)).toEqual(2.57);
+    expect(waterCalculator.getSulfate().toDh(2)).toEqual(2.57);
     waterCalculator.setSulfate(null);
     expect(waterCalculator.getSulfate()).toBeNull();
   });
@@ -98,12 +98,18 @@ describe("Water Profile Calculator (basic)", () => {
     const waterCalculator = new WaterCalculator();
     waterCalculator.setChloride(new ChlorideValue("mg/l", 33));
     expect(waterCalculator.getChloride().getValue("mg/l", 2)).toEqual(33);
-    expect(waterCalculator.getChloride().getValue("dH", 2)).toEqual(2.61);
+    expect(waterCalculator.getChloride().toDh(2)).toEqual(2.61);
     waterCalculator.setChloride(null);
     expect(waterCalculator.getChloride()).toBeNull();
   });
 
-  // TODO: bicarb00
+  it("test bicarbonate", () => {
+    const waterCalculator = new WaterCalculator();
+    waterCalculator.setBicarbonate(new BicarbonateValue("mg/l", 33));
+    expect(waterCalculator.getBicarbonate().getValue("mg/l", 2)).toEqual(33);
+    waterCalculator.setBicarbonate(null);
+    expect(waterCalculator.getBicarbonate()).toBeNull();
+  });
 
   it("test alkalinity", () => {
     const waterCalculator = new WaterCalculator();
@@ -233,14 +239,24 @@ describe("Water Profile Calculator (basic)", () => {
     expect(waterCalculator.getBakingSoda()).toBeNull();
   }); 
 
-  it("test chalk", () => {
+  it("test undissolved chalk", () => {
     const waterCalculator = new WaterCalculator();
-    expect(waterCalculator.getChalk()).toBeNull();
-    waterCalculator.setChalk(new MassValue("g", 70));
-    expect(waterCalculator.getChalk().getValue("g", 2)).toEqual(70);
-    expect(waterCalculator.getChalk().getMassConcentrationInWater(new VolumeValue("l", 300)).getValue("mg/l", 2)).toEqual(233.33);
-    waterCalculator.setChalk(null);
-    expect(waterCalculator.getChalk()).toBeNull();
+    expect(waterCalculator.getChalkUndissolved()).toBeNull();
+    waterCalculator.setChalkUndissolved(new MassValue("g", 70));
+    expect(waterCalculator.getChalkUndissolved().getValue("g", 2)).toEqual(70);
+    expect(waterCalculator.getChalkUndissolved().getMassConcentrationInWater(new VolumeValue("l", 300)).getValue("mg/l", 2)).toEqual(233.33);
+    waterCalculator.setChalkUndissolved(null);
+    expect(waterCalculator.getChalkUndissolved()).toBeNull();
+  }); 
+
+  it("test uissolved chalk", () => {
+    const waterCalculator = new WaterCalculator();
+    expect(waterCalculator.getChalkDissolved()).toBeNull();
+    waterCalculator.setChalkDissolved(new MassValue("g", 70));
+    expect(waterCalculator.getChalkDissolved().getValue("g", 2)).toEqual(70);
+    expect(waterCalculator.getChalkDissolved().getMassConcentrationInWater(new VolumeValue("l", 300)).getValue("mg/l", 2)).toEqual(233.33);
+    waterCalculator.setChalkDissolved(null);
+    expect(waterCalculator.getChalkDissolved()).toBeNull();
   });
 
   it("test lactic acid", () => {
@@ -289,5 +305,44 @@ describe("Water Profile Calculator (basic)", () => {
     expect(waterCalculator.getAcidMalt().getValue("g")).toEqual(50);
     expect(waterCalculator.getAcidMalt(3).getValue("g")).toEqual(50);
     expect(waterCalculator.getAcidMalt(1.5).getValue("g")).toEqual(100);
+  });
+
+  it("test salt ion shift", () => {
+    const waterCalculator = new WaterCalculator();
+
+    waterCalculator.setCalcium(new CalciumValue("mg/l", 70));
+    waterCalculator.setMagnesium(new MagnesiumValue("mg/l", 60));
+    waterCalculator.setSodium(new SodiumValue("mg/l", 50));
+    waterCalculator.setSulfate(new SulfateValue("mg/l", 40));
+    waterCalculator.setChloride(new ChlorideValue("mg/l", 30));
+    waterCalculator.setBicarbonate(new BicarbonateValue("mg/l", 20));
+    
+    waterCalculator.setStrikeWater(new VolumeValue("l", 300));
+    waterCalculator.setGypsum(new MassValue("g", 10));
+    waterCalculator.setEpsom(new MassValue("g", 20));
+    waterCalculator.setTableSalt(new MassValue("g", 30));
+    waterCalculator.setCalciumChloride(new MassValue("g", 40));
+    waterCalculator.setMagnesiumChloride(new MassValue("g", 50));
+    waterCalculator.setBakingSoda(new MassValue("g", 60));
+    waterCalculator.setChalkUndissolved(new MassValue("g", 70));
+    waterCalculator.setChalkDissolved(new MassValue("g", 80));
+
+    const ionChanges = waterCalculator.getIonSaltChanges(waterCalculator.getStrikeWater());
+
+    expect(ionChanges.calcium.getValue("mg/l", 0)).toEqual(198);
+    expect(ionChanges.magnesium.getValue("mg/l", 0)).toEqual(26);
+    expect(ionChanges.sodium.getValue("mg/l", 0)).toEqual(94);
+    expect(ionChanges.sulfate.getValue("mg/l", 0)).toEqual(45);
+    expect(ionChanges.chloride.getValue("mg/l", 0)).toEqual(183);
+    expect(ionChanges.bicarbonate.getValue("mg/l", 0)).toEqual(612);
+
+    const ionsAfterChange = waterCalculator.getIonsAfterSalts(waterCalculator.getStrikeWater());
+
+    expect(ionsAfterChange.calcium.getValue("mg/l", 0)).toEqual(268);
+    expect(ionsAfterChange.magnesium.getValue("mg/l", 0)).toEqual(86);
+    expect(ionsAfterChange.sodium.getValue("mg/l", 0)).toEqual(144);
+    expect(ionsAfterChange.sulfate.getValue("mg/l", 0)).toEqual(85);
+    expect(ionsAfterChange.chloride.getValue("mg/l", 0)).toEqual(213);
+    expect(ionsAfterChange.bicarbonate.getValue("mg/l", 0)).toEqual(632);
   });
 })
