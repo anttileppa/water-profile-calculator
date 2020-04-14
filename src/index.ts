@@ -84,7 +84,11 @@ export default class WaterCalculator {
    */
   public setKH = (value: WaterHardnessValue | null) => {
     this.kh = value;
-    this.setAlkalinity(value);
+    
+    if (value) {
+      this.setAlkalinity(new AlkalinityValue("mg/l", value.getValue("ppmCaCO3")));
+    }
+
     this.calculateResidualAlkalinity();
   } 
 
@@ -93,7 +97,7 @@ export default class WaterCalculator {
    * 
    * @returns residual alkalinity or null if not set
    */
-  public getResidualAlkalinity = (): WaterHardnessValue => {
+  public getResidualAlkalinity = (): AlkalinityValue => {
     return this.residualAlkalinity;
   }
 
@@ -102,7 +106,7 @@ export default class WaterCalculator {
    * 
    * @param value residual alkalinity value
    */
-  public setResidualAlkalinity = (value: WaterHardnessValue | null) => {
+  public setResidualAlkalinity = (value: AlkalinityValue | null) => {
     this.residualAlkalinity = value;
   } 
 
@@ -271,7 +275,7 @@ export default class WaterCalculator {
     }
 
     if (this.bicarbonate != null) {
-      return new AlkalinityValue("ppmCaCO3", this.bicarbonate.getValue("mg/l") * 50 / 61);
+      return new AlkalinityValue("mg/l", this.bicarbonate.getValue("mg/l") * 50 / 61);
     }
 
     return null;
@@ -643,11 +647,11 @@ export default class WaterCalculator {
    * @returns ion balance
    */
   public getIonBalance(): number {
-    const calciumDh = this.getCalcium()?.toDh() || 0;
-    const magnesiumDh = this.getMagnesium()?.toDh() || 0;
-    const sodiumDh = this.getSodium()?.toDh() || 0;
-    const sulfateDh = this.getSulfate()?.toDh() || 0;
-    const chlorideDh = this.getChloride()?.toDh() || 0;
+    const calciumDh = this.getCalcium()?.getValue("dH") || 0;
+    const magnesiumDh = this.getMagnesium()?.getValue("dH") || 0;
+    const sodiumDh = this.getSodium()?.getValue("dH") || 0;
+    const sulfateDh = this.getSulfate()?.getValue("dH") || 0;
+    const chlorideDh = this.getChloride()?.getValue("dH") || 0;
     const alkalinityDh = this.getAlkalinity().getValue("dH");
 
     const ionDhs = calciumDh + magnesiumDh + sodiumDh + sulfateDh + chlorideDh + alkalinityDh;
@@ -780,7 +784,7 @@ export default class WaterCalculator {
     const CO3 = HCO3 + 2 * H2CO3_CO2;
     const limeNeededForThisAmountOfOH = CO3 / 2;
     
-    return new MassConcentrationValue("mg/l", limeNeededForThisAmountOfOH * molarMass.calciumOxide, NaN);
+    return new MassConcentrationValue("mg/l", limeNeededForThisAmountOfOH * molarMass.calciumOxide, NaN, NaN);
   }
 
   /**
@@ -852,8 +856,9 @@ export default class WaterCalculator {
     if (this.alkalinity == null || this.calcium == null || this.magnesium == null) {
       return;
     }
-    
-    this.setResidualAlkalinity(new AlkalinityValue("dH", this.getAlkalinity().getValue("dH") - this.getCalcium().toDh() / 3.5 - this.getMagnesium().toDh() / 7));
+
+    const alk = this.getAlkalinity().getValue("dH") - this.getCalcium().getValue("dH") / 3.5 - this.getMagnesium().getValue("dH") / 7;
+    this.setResidualAlkalinity(new AlkalinityValue("dH", alk));
   }
 
   /**
