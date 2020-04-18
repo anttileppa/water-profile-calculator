@@ -1,8 +1,8 @@
 import { PhValue, AlkalinityValue, ChlorideValue, SulfateValue, WaterHardnessValue, MagnesiumValue, CalciumValue, SodiumValue, VolumeValue, DensityValue, BeerColorValue, MassValue, BicarbonateValue, MassConcentrationValue } from "./units";
 import consts from "./consts";
 import saltIonMap, { SaltIons } from "./salt-ions"; 
-import atomicWeight from "./atomic-weight";
 import molarMass from "./molar-mass";
+import { BoilingWaterTreatment, LimeWaterTreatment, WaterTreatment } from "./water-treatment"; 
 
 /**
  * Interface that contains values for water ion mass concentrations
@@ -48,6 +48,7 @@ export default class WaterCalculator {
   private lacticAcid: VolumeValue | null = null;
   private phosphoricAcid: VolumeValue | null = null;
   private acidMalt: MassValue | null = null;
+  private waterTreatment: WaterTreatment | null = null;
 
   /**
    * Returns GH
@@ -697,62 +698,26 @@ export default class WaterCalculator {
   }
 
   /**
-   * Calculates pH change if water is boiled to precipitate alkalinity.
+   * Sets used water treatment method
    * 
-   * Method takes added salts into account  
-   * 
-   * @param postBoilKh optional measured post boil KH
-   * @returns pH change if water is boiled to precipitate alkalinity
+   * @param waterTreatment water treatment method
    */
-  public getWaterPhAfterBoiling(postBoilKh?: WaterHardnessValue): PhValue {
-    const ionsAfterChange = this.getIonsAfterSalts(this.getTotalWater());
-    const startingCalcium = ionsAfterChange.calcium.getValue("mg/l");
-    const startingAlkalinity = ionsAfterChange.bicarbonate.getValue("mEq/l");
-    const calciumHardness = startingCalcium / atomicWeight.calcium * 2;
-    const alkalinityCh = startingAlkalinity - calciumHardness;
-    
-    let estimatedPostBoilAlkalinity = 0;
-    if (startingAlkalinity < consts.LOWER_ALKALINITY_LIMIT_FOR_BOLING) {
-      estimatedPostBoilAlkalinity = startingAlkalinity;
-    } else if (alkalinityCh < consts.LOWER_ALKALINITY_LIMIT_FOR_BOLING) {
-      estimatedPostBoilAlkalinity = consts.LOWER_ALKALINITY_LIMIT_FOR_BOLING;
-    } else {
-      estimatedPostBoilAlkalinity = alkalinityCh;
-    }
-
-    const postBoilAlkalinity = postBoilKh ? postBoilKh.getValue("dH") * 0.035 : estimatedPostBoilAlkalinity;
-    const postBoilAlkalinityDrop = Math.max(startingAlkalinity - postBoilAlkalinity, 0);
-    const postBoilCh = calciumHardness - postBoilAlkalinityDrop;
-
-    const startingMagnesium = ionsAfterChange.magnesium.getValue("mg/l");
-    const finalAlkalinity = postBoilAlkalinity;
-    const finalCaHardness = postBoilCh;
-    const magnesiumHardness = startingMagnesium / atomicWeight.magnesium * 2;
-    
-    return this.getWaterPhAfterTreatment(finalAlkalinity, finalCaHardness, magnesiumHardness);
+  public setWaterTreatment(waterTreatment: WaterTreatment) {
+    this.waterTreatment = waterTreatment;
+    this.waterTreatment.init(this);
   }
 
   /**
-   * Returns pH after water has been treated with lime to precipitate alkalinity
-   * 
-   * @param postTreatmentGh optional measured post treatment KH
-   * @param postTreatmentKh optional measured post treatment GH
-   * @returns pH after water has been treated with lime to precipitate alkalinity
+   * Returns ph change caused by water treatment
    */
-  public getWaterPhAfterLimeTreatment(postTreatmentGh?: WaterHardnessValue, postTreatmentKh?: WaterHardnessValue): PhValue {
-    const ionsAfterChange = this.getIonsAfterSalts(this.getTotalWater());
-    const startingCalcium = ionsAfterChange.calcium.getValue("mg/l");
-    const calciumHardness = startingCalcium / atomicWeight.calcium * 2;
-    const startingMagnesium = ionsAfterChange.magnesium.getValue("mg/l");
-    const startingAlkalinity = ionsAfterChange.bicarbonate.getValue("mEq/l");
-    
-    const magnesiumHardness = startingMagnesium / atomicWeight.magnesium * 2;
-    const finalAlkalinity = postTreatmentKh != null ? postTreatmentKh.getValue("dH") / 2.81 : startingAlkalinity;
-    const finalCaHardness = postTreatmentGh != null ? postTreatmentGh.getValue("dH") / 2.81 - magnesiumHardness : calciumHardness;
-    
-    return this.getWaterPhAfterTreatment(finalAlkalinity, finalCaHardness, magnesiumHardness);
-  }
+  public getWaterTreatmentPhChange = (): PhValue | null => {
+    if (this.waterTreatment) {
+      return this.waterTreatment.getPhChange();
+    }
 
+    return null;
+  }
+  
   /**
    * Returns required amount of calcium oxide or "lime" to treat the water
    * 
@@ -785,20 +750,6 @@ export default class WaterCalculator {
     const limeNeededForThisAmountOfOH = CO3 / 2;
     
     return new MassConcentrationValue("mg/l", limeNeededForThisAmountOfOH * molarMass.calciumOxide, NaN, NaN);
-  }
-
-  /**
-   * Returns pH after water treatment
-   * 
-   * @param finalAlkalinity final alkalinity
-   * @param finalCaHardness final ca hardness
-   * @param magnesiumHardness magnesium hardness
-   * @returns pH after water treatment
-   */
-  private getWaterPhAfterTreatment(finalAlkalinity: number, finalCaHardness: number, magnesiumHardness: number) {
-    const residualAlkalinity = finalAlkalinity - finalCaHardness / 3.5 - magnesiumHardness / 7;
-    const residualAlkalinityInWater = residualAlkalinity * this.getStrikeWater().getValue("l");
-    return new PhValue("pH", residualAlkalinityInWater / this.getGristWeight().getValue("kg") / consts.MASH_BUFFER_CAPACITY_FOR_WATER_RESIDUAL_ALKALINITY);
   }
 
   /**

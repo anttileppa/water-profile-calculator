@@ -1,5 +1,6 @@
 import WaterCalculator from "../src/index";
 import { BeerColorValue, WaterHardnessValue, MassValue, ChlorideValue, MagnesiumValue, CalciumValue, SodiumValue, SulfateValue, BicarbonateValue, AlkalinityValue, VolumeValue, MassConcentrationValue, PhValue } from "../src/units";
+import { BoilingWaterTreatment, LimeWaterTreatment } from "../src/water-treatment";
 
 describe("Water Profile Calculator (basic)", () => {
 
@@ -403,7 +404,7 @@ describe("Water Profile Calculator (basic)", () => {
     waterCalculator.setAcidMalt(null);
     expect(waterCalculator.getMashPhChangeFromAcidAdditions().getValue("pH", 2)).toEqual(-0);
   });
-
+  
   it("test water post boil pH", () => {
     const waterCalculator = new WaterCalculator();
 
@@ -417,10 +418,11 @@ describe("Water Profile Calculator (basic)", () => {
     waterCalculator.setSulfate(new SulfateValue("mg/l", 5.0));
     waterCalculator.setChloride(new ChlorideValue("mg/l", 5.0));
     waterCalculator.setBicarbonate(new BicarbonateValue("mg/l", 300));
-    expect(waterCalculator.getWaterPhAfterBoiling().getValue("pH", 2)).toEqual(0.02);
-    expect(waterCalculator.getWaterPhAfterBoiling(new WaterHardnessValue("dH", 0.5)).getValue("pH", 2)).toEqual(-0.01);
-  });
+    waterCalculator.setWaterTreatment(new BoilingWaterTreatment(new WaterHardnessValue("dH", 0.5)));
 
+    expect(waterCalculator.getWaterTreatmentPhChange().getValue("pH", 2)).toEqual(-0.01);
+  });
+  
   it("test water post lime treatment pH", () => {
     const waterCalculator = new WaterCalculator();
 
@@ -434,8 +436,13 @@ describe("Water Profile Calculator (basic)", () => {
     waterCalculator.setSulfate(new SulfateValue("mg/l", 5.0));
     waterCalculator.setChloride(new ChlorideValue("mg/l", 5.0));
     waterCalculator.setBicarbonate(new BicarbonateValue("mg/l", 300));
-    expect(waterCalculator.getWaterPhAfterLimeTreatment().getValue("pH", 2)).toEqual(0.11);
-    expect(waterCalculator.getWaterPhAfterLimeTreatment(new WaterHardnessValue("dH", 3), new WaterHardnessValue("dH", 1.3)).getValue("pH", 2)).toEqual(0.01);
+
+    waterCalculator.setWaterTreatment(new LimeWaterTreatment());
+    expect(waterCalculator.getWaterTreatmentPhChange().getValue("pH", 2)).toEqual(0.11);
+    waterCalculator.setWaterTreatment(new LimeWaterTreatment(new WaterHardnessValue("dH", 3), new WaterHardnessValue("dH", 1.3)));
+    expect(waterCalculator.getWaterTreatmentPhChange().getValue("pH", 2)).toEqual(0.01);
+    waterCalculator.setWaterTreatment(new LimeWaterTreatment(new WaterHardnessValue("dH", 4)));
+    expect(waterCalculator.getWaterTreatmentPhChange().getValue("pH", 2)).toEqual(0.15);
   });
   
   it("test water post lime treatment pH", () => {
@@ -455,5 +462,4 @@ describe("Water Profile Calculator (basic)", () => {
     expect(waterCalculator.getLimeConcentrationForLimeTreatment(new PhValue("pH", 8)).getValue("mg/l", 2)).toEqual(189.47);
     expect(waterCalculator.getLimeNeededForLimeTreatment(waterCalculator.getStrikeWater(), new PhValue("pH", 8)).getValue("g", 2)).toEqual(18.95);
   });
-
 })
