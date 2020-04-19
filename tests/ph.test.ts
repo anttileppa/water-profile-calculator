@@ -1,6 +1,6 @@
 import WaterCalculator from "../src/index";
-import { BeerColorValue, WaterHardnessValue, MassValue, ChlorideValue, MagnesiumValue, CalciumValue, SodiumValue, SulfateValue, BicarbonateValue, AlkalinityValue, VolumeValue, MassConcentrationValue, PhValue } from "../src/units";
-import { BoilingWaterTreatment, LimeWaterTreatment } from "../src/water-treatment";
+import { BeerColorValue, WaterHardnessValue, MassValue, VolumeValue, PhValue } from "../src/units";
+import { BoilingWaterTreatment } from "../src/water-treatment";
 
 describe("Water Profile Calculator (pH tests)", () => {
 
@@ -57,6 +57,23 @@ describe("Water Profile Calculator (pH tests)", () => {
 
     waterCalculator.setPhosphoricAcid(new VolumeValue("ml", 20));
     expect(waterCalculator.getOverallPhChange().getValue("pH", 2)).toEqual(-0.22);
+  });
+
+  it("test required lactic acid for ph change", () => {
+    const waterCalculator = new WaterCalculator();
+
+    waterCalculator.setStrikeWater(new VolumeValue("l", 100));
+    waterCalculator.setGristWeight(new MassValue("kg", 60));
+    waterCalculator.setBeerColor(new BeerColorValue("SRM", 11));
+    waterCalculator.setMaltRoastedPercent(70);
+    waterCalculator.setGH(new WaterHardnessValue("dH", 4.5));
+    waterCalculator.setKH(new WaterHardnessValue("dH", 1.0));
+    waterCalculator.setWaterTreatment(new BoilingWaterTreatment(new WaterHardnessValue("dH", 2)));
+    expect(waterCalculator.getRequiredLacticAcidForPhChange(new PhValue("pH", -0.16)).getValue("ml", 2)).toEqual(40.91);
+    expect(waterCalculator.getRequiredLacticAcidForPhChange(new PhValue("pH", -0.2)).getValue("ml", 2)).toEqual(51.14);
+    expect(waterCalculator.getRequiredLacticAcidForPhChange(new PhValue("pH", -0.51)).getValue("ml", 2)).toEqual(130.40);
+    expect(waterCalculator.getRequiredLacticAcidForPhChange(new PhValue("pH", 0)).getValue("ml", 2)).toEqual(0);
+    expect(waterCalculator.getRequiredLacticAcidForPhChange(new PhValue("pH", 2)).getValue("ml", 2)).toEqual(0);
   });
 
 })

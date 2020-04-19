@@ -810,13 +810,31 @@ export default class WaterCalculator {
   }
 
   /**
+   * Calculates required amount of lactic acid to lower pH by given amount.
+   * 
+   * If pH delta is positive, returned amount will be 0 
+   * 
+   * @param phDelta required delta of pH
+   * @returns required amount of lactic acid to lower pH by given amount.
+   */
+  public getRequiredLacticAcidForPhChange(phDelta: PhValue): VolumeValue {
+    if (phDelta.getValue("pH") >= 0) {
+      return new VolumeValue("ml", 0);  
+    }
+
+    const lacticAcidStrength = 88;
+    return new VolumeValue("μl", -phDelta.getValue("pH") * this.getGristWeight().getValue("kg") * consts.MASH_BUFFER_CAPACITY_FOR_ACID_ADDITIONS * consts.LACTIC_ACID_MOLAR_WEIGHT * 100 / lacticAcidStrength / consts.LACTIC_ACID_DENSITY_88);
+  }
+
+  /**
    * Calculates mash pH change from lacic acid
    * 
    * @returns mash pH change from lacic acid
    */
   private getMashPhChangeFromLacticAcid = () => {
     const lacticAcidStrength = 88;
-    return this.getMashPhChangeFromLacticAcidWeight(new MassValue("g", (this.getLacticAcid(lacticAcidStrength)?.getValue("ml") || 0) * consts.LACTIC_ACID_DENSITY_88 * (lacticAcidStrength / 100)));
+    const totalLacticAcidWeight = (this.getLacticAcid(lacticAcidStrength)?.getValue("ml") || 0) * consts.LACTIC_ACID_DENSITY_88 * (lacticAcidStrength / 100);
+    return this.getMashPhChangeFromLacticAcidWeight(new MassValue("g", totalLacticAcidWeight));
   }
 
   /**
@@ -842,7 +860,7 @@ export default class WaterCalculator {
     const phosphoricAcidPower = phosphoricAcidFromLiquidPhosphoricAcid / consts.PHOSPHORIC_ACID_MOLECULAR_WEIGHT;
     return -phosphoricAcidPower / consts.MASH_BUFFER_CAPACITY_FOR_ACID_ADDITIONS / this.getGristWeight().getValue("kg");
   }
-  
+
   /**
    * Converts volume value from given from strength to given to strength
    * 

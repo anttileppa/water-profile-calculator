@@ -1,5 +1,5 @@
 export type WaterHardnessUnit = "dH" | "ppmCaCO3";
-export type VolumeUnit = "ml" | "l" | "gal" | "qt";
+export type VolumeUnit = "μl" | "ml" | "l" | "gal" | "qt";
 export type MassUnit = "mg" | "g" | "kg" | "lb";
 export type DensityUnit = "l/kg" | "qt/lb";
 export type MassConcentrationUnit = "mg/l" | "kg/l" | "mEq/l" | "dH"; 
@@ -233,6 +233,8 @@ export class VolumeValue extends AbstractRatioBasedValue<VolumeUnit> {
    */
   protected getConvertRatio(unit: VolumeUnit): number {
     switch (unit) {
+      case "μl":
+        return 0.001;
       case "ml":
         return 1;
       case "l":
