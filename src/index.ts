@@ -701,17 +701,7 @@ export default class WaterCalculator {
    * @returns mash pH change from acid additions
    */
   public getMashPhChangeFromAcidAdditions = (): PhValue => {
-    const phosphoricAcidStrength = 10;
-    const lacticAcidStrength = 88;
-    const phosphoricAcidDensity = phosphoricAcidStrength / 85 * (consts.PHOSPHORIC_ACID_DENSITY_85 - 1) + 1;
-    const phosporicAcidSolutionWeight = new MassValue("g", (this.getPhosphoricAcid(phosphoricAcidStrength)?.getValue("ml") || 0) * phosphoricAcidDensity);
-    const phosphoricAcidFromLiquidPhosphoricAcid = phosphoricAcidStrength / 100 * phosporicAcidSolutionWeight.getValue("mg");
-    const phosphoricAcidPower = phosphoricAcidFromLiquidPhosphoricAcid / consts.PHOSPHORIC_ACID_MOLECULAR_WEIGHT;
-    const lacticAcidWeightFronLiquidLacticAcid = (this.getLacticAcid(lacticAcidStrength)?.getValue("ml") || 0) * consts.LACTIC_ACID_DENSITY_88 * (lacticAcidStrength / 100);
-    const lacticAcidFromAcidMalt = this.getAcidMalt(100)?.getValue("g") || 0;
-    const totalLacticAcidWeight = new MassValue("g", lacticAcidWeightFronLiquidLacticAcid + lacticAcidFromAcidMalt);
-    const totalAcidMaltPower = totalLacticAcidWeight.getValue("mg") / consts.LACTIC_ACID_MOLAR_WEIGHT;
-    return new PhValue("pH", -(phosphoricAcidPower + totalAcidMaltPower) / consts.MASH_BUFFER_CAPACITY_FOR_ACID_ADDITIONS / this.getGristWeight().getValue("kg"));
+    return new PhValue("pH", this.getMashPhChangeFromPhosporicAcid() + this.getMashPhChangeFromLacticAcid() + this.getMashPhChangeFromAcidMalt());
   }
 
   /**
@@ -807,6 +797,52 @@ export default class WaterCalculator {
     return result;
   }
 
+
+  /**
+   * Calculates mash pH change from acid malt
+   * 
+   * @returns mash pH change from acid malt
+   */
+  private getMashPhChangeFromAcidMalt = () => {
+    const lacticAcidFromAcidMalt = this.getAcidMalt(100)?.getValue("g") || 0;
+    const totalLacticAcidWeight = new MassValue("g", lacticAcidFromAcidMalt);
+    return this.getMashPhChangeFromLacticAcidWeight(totalLacticAcidWeight);
+  }
+
+  /**
+   * Calculates mash pH change from lacic acid
+   * 
+   * @returns mash pH change from lacic acid
+   */
+  private getMashPhChangeFromLacticAcid = () => {
+    const lacticAcidStrength = 88;
+    return this.getMashPhChangeFromLacticAcidWeight(new MassValue("g", (this.getLacticAcid(lacticAcidStrength)?.getValue("ml") || 0) * consts.LACTIC_ACID_DENSITY_88 * (lacticAcidStrength / 100)));
+  }
+
+  /**
+   * Calculates mash pH change from weight of 100% lacic acid
+   * 
+   * @returns mash pH change from weight of 100% lacic acid
+   */
+  private getMashPhChangeFromLacticAcidWeight = (totalLacticAcidWeight: MassValue) => {
+    const totalAcidMaltPower = totalLacticAcidWeight.getValue("mg") / consts.LACTIC_ACID_MOLAR_WEIGHT;
+    return -totalAcidMaltPower / consts.MASH_BUFFER_CAPACITY_FOR_ACID_ADDITIONS / this.getGristWeight().getValue("kg");
+  }
+
+  /**
+   * Calculates mash pH change from phosporic acid
+   * 
+   * @returns mash pH change from phosporic acid
+   */
+  private getMashPhChangeFromPhosporicAcid = () => {
+    const phosphoricAcidStrength = 10;
+    const phosphoricAcidDensity = phosphoricAcidStrength / 85 * (consts.PHOSPHORIC_ACID_DENSITY_85 - 1) + 1;
+    const phosporicAcidSolutionWeight = new MassValue("g", (this.getPhosphoricAcid(phosphoricAcidStrength)?.getValue("ml") || 0) * phosphoricAcidDensity);
+    const phosphoricAcidFromLiquidPhosphoricAcid = phosphoricAcidStrength / 100 * phosporicAcidSolutionWeight.getValue("mg");
+    const phosphoricAcidPower = phosphoricAcidFromLiquidPhosphoricAcid / consts.PHOSPHORIC_ACID_MOLECULAR_WEIGHT;
+    return -phosphoricAcidPower / consts.MASH_BUFFER_CAPACITY_FOR_ACID_ADDITIONS / this.getGristWeight().getValue("kg");
+  }
+  
   /**
    * Converts volume value from given from strength to given to strength
    * 
