@@ -717,7 +717,9 @@ export default class WaterCalculator {
   }
 
   /**
-   * Returns ph change caused by water treatment
+   * Returns ph change after by water treatment and salt additions
+   * 
+   * @returns ph change after by water treatment and salt additions
    */
   public getWaterTreatmentPhChange = (): PhValue | null => {
     if (this.waterTreatment) {
