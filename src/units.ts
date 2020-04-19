@@ -111,6 +111,16 @@ export abstract class AbstactValue<U> implements Value<U> {
   }
 
   /**
+   * Substracts given value from existing value
+   * 
+   * @param unit value unit
+   * @param value numeric value in given unit
+   */
+  public sub(unit: U, value: number | null) {
+    this.setValue(unit, this.getValue(unit) - value);
+  }
+
+  /**
    * Adds given value to existing value
    * 
    * @param value value
@@ -120,6 +130,22 @@ export abstract class AbstactValue<U> implements Value<U> {
       const unit = this.getBaseUnit();
       this.add(unit, value.toBaseUnit(unit, value.getValue(unit)));
     }
+
+    return this;
+  }
+
+  /**
+   * Substracts given value from existing value
+   * 
+   * @param value value
+   */
+  public subValue(value: AbstactValue<U>) {
+    if (value) {
+      const unit = this.getBaseUnit();
+      this.sub(unit, value.toBaseUnit(unit, value.getValue(unit)));
+    }
+
+    return this;
   }
 
   /**
@@ -436,7 +462,7 @@ export class WaterHardnessValue extends AbstractRatioBasedValue<WaterHardnessUni
       case "dH":
         return 1;
       case "ppmCaCO3":
-        return 0.0562;
+        return 1 / 17.8;
     }
   }
 
@@ -454,7 +480,7 @@ export class AlkalinityValue extends MassConcentrationValue {
    * @param value value in given unit
    */
   constructor(unit: MassConcentrationUnit, value: number | null) {
-    super(unit, value, 50, 1 / 0.0562);
+    super(unit, value, 50, 17.81);
   }
 
 }

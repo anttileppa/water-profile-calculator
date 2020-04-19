@@ -89,8 +89,6 @@ export default class WaterCalculator {
     if (value) {
       this.setAlkalinity(new AlkalinityValue("mg/l", value.getValue("ppmCaCO3")));
     }
-
-    this.calculateResidualAlkalinity();
   } 
 
   /**
@@ -98,8 +96,21 @@ export default class WaterCalculator {
    * 
    * @returns residual alkalinity or null if not set
    */
-  public getResidualAlkalinity = (): AlkalinityValue => {
-    return this.residualAlkalinity;
+  public getResidualAlkalinity = (): AlkalinityValue | null => {
+    if (this.residualAlkalinity) {
+      return this.residualAlkalinity;
+    }
+
+    const alkalinity = this.getAlkalinity();
+    const calcium = this.getCalcium();
+    const magnesium = this.getMagnesium();
+
+    if (alkalinity == null || calcium == null || magnesium == null) {
+      return null;
+    }
+
+
+    return new AlkalinityValue("dH", this.getAlkalinity().getValue("dH") - this.getCalcium().getValue("dH") / 3.5 - this.getMagnesium().getValue("dH") / 7);
   }
 
   /**
@@ -170,7 +181,6 @@ export default class WaterCalculator {
    */
   public setCalcium = (value: CalciumValue) => {
     this.calcium = value;
-    this.calculateResidualAlkalinity();
   } 
 
   /**
@@ -189,7 +199,6 @@ export default class WaterCalculator {
    */
   public setMagnesium = (value: MagnesiumValue) => {
     this.magnesium = value;
-    this.calculateResidualAlkalinity();
   } 
     
   /**
@@ -251,8 +260,17 @@ export default class WaterCalculator {
    * 
    * @returns bicarbonate or null if not set
    */
-  public getBicarbonate = (): BicarbonateValue => {
-    return this.bicarbonate;
+  public getBicarbonate = (): BicarbonateValue | null => {
+    if (this.bicarbonate) {
+      return this.bicarbonate;
+    }
+
+    const alkalinity = this.getAlkalinity();
+    if (alkalinity) {
+      return new BicarbonateValue("mg/l", alkalinity.getValue("mg/l") * 61 / 50);
+    }
+
+    return null;
   }
 
   /**
@@ -289,7 +307,6 @@ export default class WaterCalculator {
    */
   public setAlkalinity = (value: AlkalinityValue) => {
     this.alkalinity = value;
-    this.calculateResidualAlkalinity();
   } 
 
   /**
@@ -698,6 +715,30 @@ export default class WaterCalculator {
   }
 
   /**
+   * Calculates mash pH change from salt additions
+   * 
+   * @returns mash pH change from salt additions
+   */
+  public getPhChangeFromSalts = (): PhValue | null => {
+    const ionsFromSalts = this.getIonsAfterSalts(this.getStrikeWater());
+    const strikeWater = this.getStrikeWater();
+    const gristWeight = this.getGristWeight();
+
+    const calcium = ionsFromSalts.calcium.subValue(this.getCalcium());
+    const magnesium = ionsFromSalts.magnesium.subValue(this.getMagnesium());
+    const bicarbonate = ionsFromSalts.bicarbonate.subValue(this.getBicarbonate());
+
+    const caHardnessFromSalts = (calcium.getValue("mg/l") || 0) / 20;
+    const mgHardnessFromSalts = (magnesium.getValue("mg/l") || 0) / 12.15;
+    const alkalinityFromSalts = (bicarbonate.getValue("mg/l") || 0) / 61;
+
+    const residualAlkalinityFromSalts = alkalinityFromSalts - caHardnessFromSalts / 3.5 - mgHardnessFromSalts / 7
+    const totalResidualAlkalinityFromSalts = residualAlkalinityFromSalts * strikeWater.getValue("l");
+
+    return new PhValue("pH", totalResidualAlkalinityFromSalts / consts.MASH_BUFFER_CAPACITY_FOR_WATER_RESIDUAL_ALKALINITY / gristWeight.getValue("kg"));
+  }
+
+  /**
    * Sets used water treatment method
    * 
    * @param waterTreatment water treatment method
@@ -717,9 +758,9 @@ export default class WaterCalculator {
   }
 
   /**
-   * Returns ph change after by water treatment and salt additions
+   * Returns pH change after water treatment and salt additions
    * 
-   * @returns ph change after by water treatment and salt additions
+   * @returns pH change after water treatment and salt additions
    */
   public getWaterTreatmentPhChange = (): PhValue | null => {
     if (this.waterTreatment) {
@@ -727,6 +768,43 @@ export default class WaterCalculator {
     }
 
     return null;
+  }
+
+  /**
+   * Returns pH change from base water
+   * 
+   * @returns pH change from base water
+   */
+  public getPhChangeFromBaseWater = (): PhValue | null => {
+    const strikeWater = this.getStrikeWater();
+    const gristWeight = this.getGristWeight();
+    const residualAlkalinity = this.getResidualAlkalinity();
+    if (!strikeWater || !gristWeight || !residualAlkalinity) {
+      return null;
+    }
+
+    const totalResidualAlkalinityInBaseMashWater = (strikeWater.getValue("l") * residualAlkalinity.getValue("mg/l")) / 50;
+    return new PhValue("pH", totalResidualAlkalinityInBaseMashWater / gristWeight.getValue("kg") / consts.MASH_BUFFER_CAPACITY_FOR_WATER_RESIDUAL_ALKALINITY);
+  }
+
+
+  /**
+   * Returns pH change after water treatment and salt and acid additions
+   * 
+   * @returns pH change after water treatment and salt and acid additions
+   */
+  public getOverallPhChange = (): PhValue | null => {
+    const result = this.getPhChangeFromBaseWater();
+
+    if (this.waterTreatment) {
+      result.addValue(this.waterTreatment?.getPhChange());
+    } else {
+      result.addValue(this.getPhChangeFromSalts());
+    }
+
+    result.addValue(this.getMashPhChangeFromAcidAdditions());
+
+    return result;
   }
 
   /**
@@ -775,18 +853,6 @@ export default class WaterCalculator {
 
     this.setCalcium(new CalciumValue("mg/l", this.gh.getValue("ppmCaCO3") * (1 - this.assumedMgContributionToTestedGh / 100) / 17.8 * 7.14));
     this.setMagnesium(new MagnesiumValue("mg/l", this.gh.getValue("ppmCaCO3") * (this.assumedMgContributionToTestedGh / 100) / 17.8 * 4.33));
-  }
-
-  /**
-   * Calculates residual alkalinity
-   */
-  private calculateResidualAlkalinity = () => {
-    if (this.alkalinity == null || this.calcium == null || this.magnesium == null) {
-      return;
-    }
-
-    const alk = this.getAlkalinity().getValue("dH") - this.getCalcium().getValue("dH") / 3.5 - this.getMagnesium().getValue("dH") / 7;
-    this.setResidualAlkalinity(new AlkalinityValue("dH", alk));
   }
 
   /**
