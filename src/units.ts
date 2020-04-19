@@ -78,6 +78,13 @@ export abstract class AbstactValue<U> implements Value<U> {
   }
 
   /**
+   * Returns value's base unit
+   * 
+   * @returns value's base unit
+   */
+  protected abstract getBaseUnit(): U;
+
+  /**
    * Rounds value to given digits. Returns exact value if digits not specified
    * 
    * @param value value
@@ -101,6 +108,18 @@ export abstract class AbstactValue<U> implements Value<U> {
    */
   public add(unit: U, value: number | null) {
     this.setValue(unit, this.getValue(unit) + value);
+  }
+
+  /**
+   * Adds given value to existing value
+   * 
+   * @param value value
+   */
+  public addValue(value: AbstactValue<U>) {
+    if (value) {
+      const unit = this.getBaseUnit();
+      this.add(unit, value.toBaseUnit(unit, value.getValue(unit)));
+    }
   }
 
   /**
@@ -171,6 +190,15 @@ export abstract class AbstractRatioBasedValue<U> extends AbstactValue<U> {
  * Volume value
  */
 export class VolumeValue extends AbstractRatioBasedValue<VolumeUnit> {
+  
+  /**
+   * Returns value's base unit
+   * 
+   * @returns value's base unit
+   */
+  protected getBaseUnit = (): VolumeUnit => {
+    return "ml";
+  }
 
   /**
    * Returns convert ratio into base unit
@@ -219,6 +247,15 @@ export class MassValue extends AbstractRatioBasedValue<MassUnit> {
   }
 
   /**
+   * Returns value's base unit
+   * 
+   * @returns value's base unit
+   */
+  protected getBaseUnit = (): MassUnit => {
+    return "g";
+  }
+
+  /**
    * Returns convert ratio into base unit
    * 
    * @param unit from unit
@@ -243,6 +280,15 @@ export class MassValue extends AbstractRatioBasedValue<MassUnit> {
 export class BeerColorValue extends AbstractRatioBasedValue<BeerColorUnit> {
 
   /**
+   * Returns value's base unit
+   * 
+   * @returns value's base unit
+   */
+  protected getBaseUnit = (): BeerColorUnit => {
+    return "SRM";
+  }
+
+  /**
    * Returns convert ratio into base unit
    * 
    * @param unit from unit
@@ -261,6 +307,15 @@ export class BeerColorValue extends AbstractRatioBasedValue<BeerColorUnit> {
  * Mass concentration of substance to water value
  */
 export class DensityValue extends AbstractRatioBasedValue<DensityUnit> {
+
+  /**
+   * Returns value's base unit
+   * 
+   * @returns value's base unit
+   */
+  protected getBaseUnit = (): DensityUnit => {
+    return "l/kg";
+  }
 
   /**
    * Returns convert ratio into base unit
@@ -300,6 +355,15 @@ export class MassConcentrationValue extends AbstractRatioBasedValue<MassConcentr
   }
 
   /**
+   * Returns value's base unit
+   * 
+   * @returns value's base unit
+   */
+  protected getBaseUnit = (): MassConcentrationUnit => {
+    return "mg/l";
+  }
+
+  /**
    * Returns convert ratio into base unit
    * 
    * @param unit from unit
@@ -324,6 +388,15 @@ export class MassConcentrationValue extends AbstractRatioBasedValue<MassConcentr
 export class MassFractionValue extends AbstractRatioBasedValue<MassFractionUnit> {
   
   /**
+   * Returns value's base unit
+   * 
+   * @returns value's base unit
+   */
+  protected getBaseUnit = (): MassFractionUnit => {
+    return "g/g";
+  }
+
+  /**
    * Returns convert ratio into base unit
    * 
    * @param unit from unit
@@ -343,6 +416,15 @@ export class MassFractionValue extends AbstractRatioBasedValue<MassFractionUnit>
  * Value for water hardness values (GH, KH)
  */
 export class WaterHardnessValue extends AbstractRatioBasedValue<WaterHardnessUnit> {
+
+  /**
+   * Returns value's base unit
+   * 
+   * @returns value's base unit
+   */
+  protected getBaseUnit = (): WaterHardnessUnit => {
+    return "dH";
+  }
 
   /**
    * Returns convert ratio into base unit
@@ -484,6 +566,15 @@ export class BicarbonateValue extends MassConcentrationValue {
  */
 export class PhValue extends AbstractRatioBasedValue<PhUnit> {
   
+  /**
+   * Returns value's base unit
+   * 
+   * @returns value's base unit
+   */
+  protected getBaseUnit = (): PhUnit => {
+    return "pH";
+  }
+
   /**
    * Returns convert ratio into base unit
    * 
