@@ -1,8 +1,9 @@
-import { AlkalinityValue, WaterHardnessValue, PhValue } from "./units";
+import { AlkalinityValue, WaterHardnessValue, PhValue, VolumeValue, MassValue, MassConcentrationValue } from "./units";
 import WaterCalculator from ".";
 import atomicWeight from "./atomic-weight";
 import consts from "./consts";
 import { Ions } from "./";
+import molarMass from "./molar-mass";
 
 /**
  * Interface describing a water treatment method
@@ -31,7 +32,6 @@ export interface WaterTreatment {
 abstract class AbstractWaterTreatment implements WaterTreatment {
 
   private waterCalculator: WaterCalculator;
-  private ionsAfterSalts: Ions;
 
   /**
    * Init method
@@ -40,7 +40,6 @@ abstract class AbstractWaterTreatment implements WaterTreatment {
    */
   public init = (waterCalculator: WaterCalculator) => {
     this.waterCalculator = waterCalculator;
-    this.ionsAfterSalts = this.getIonsAfterSalts();
   }
   
   /**
@@ -95,7 +94,7 @@ abstract class AbstractWaterTreatment implements WaterTreatment {
    * @returns starting calcium
    */
   protected getStartingCalcium() {
-    return this.ionsAfterSalts.calcium.getValue("mg/l");
+    return this.getIonsAfterSalts().calcium.getValue("mg/l");
   }
 
   /**
@@ -104,7 +103,7 @@ abstract class AbstractWaterTreatment implements WaterTreatment {
    * @returns starting magnesium
    */
   protected getStartingMagnesium() {
-    return this.ionsAfterSalts.magnesium.getValue("mg/l");
+    return this.getIonsAfterSalts().magnesium.getValue("mg/l");
   }
 
   /**
@@ -113,7 +112,7 @@ abstract class AbstractWaterTreatment implements WaterTreatment {
    * @returns starting alkalinity
    */
   protected getStartingAlkalinity() {
-    return this.ionsAfterSalts.bicarbonate.getValue("mEq/l");
+    return this.getIonsAfterSalts().bicarbonate.getValue("mEq/l");
   }
 
   /**
@@ -263,5 +262,37 @@ export class LimeWaterTreatment extends AbstractWaterTreatment {
   public getFinalAlkalinity  = (): AlkalinityValue | null => {
     const startingAlkalinity = this.getStartingAlkalinity();
     return new AlkalinityValue("mEq/l", this.postTreatmentKh != null ? this.postTreatmentKh.getValue("dH") / 2.81 : startingAlkalinity);
+  }
+
+  /**
+   * Returns required amount of calcium oxide or "lime" to treat the water
+   * 
+   * @param waterVolume volume of water to treat
+   * @param phBeforeTreatment pH before treatment
+   * @returns required concentration of calcium oxide or "lime" to treat the water
+   */
+  public getLimeNeededForLimeTreatment(waterVolume: VolumeValue, phBeforeTreatment: PhValue): MassValue {
+    const limeConcentration = this.getLimeConcentrationForLimeTreatment(phBeforeTreatment);
+    return new MassValue("g", limeConcentration.getValue("mg/l") * waterVolume.getValue("l") / 1000);
+  }
+
+  /**
+   * Returns required concentration of calcium oxide or "lime" to treat the water
+   * 
+   * @param phBeforeTreatment pH before treatment
+   * @returns required concentration of calcium oxide or "lime" to treat the water
+   */
+  public getLimeConcentrationForLimeTreatment(phBeforeTreatment: PhValue): MassConcentrationValue {
+    const startingAlkalinity = this.getStartingAlkalinity();
+    const carbonicAcidPKa1 = 6.40;
+    const carbonicAcidPKa2 = 10.30
+    const r1 = Math.pow(10, carbonicAcidPKa1 - phBeforeTreatment.getValue("pH"));
+    const r2 = Math.pow(10, carbonicAcidPKa2 - phBeforeTreatment.getValue("pH"));
+    const HCO3 = r2 * startingAlkalinity / (2 + r2);
+    const H2CO3_CO2 = r1 * HCO3;
+    const CO3 = HCO3 + 2 * H2CO3_CO2;
+    const limeNeededForThisAmountOfOH = CO3 / 2;
+
+    return new MassConcentrationValue("mg/l", limeNeededForThisAmountOfOH * molarMass.calciumOxide, NaN, NaN);
   }
 }
