@@ -76,4 +76,18 @@ describe("Water Profile Calculator (pH tests)", () => {
     expect(waterCalculator.getRequiredLacticAcidForPhChange(new PhValue("pH", 2)).getValue("ml", 2)).toEqual(0);
   });
 
+  it("test required phosphoric acid for ph change", () => {
+    const waterCalculator = new WaterCalculator();
+
+    waterCalculator.setStrikeWater(new VolumeValue("l", 100));
+    waterCalculator.setGristWeight(new MassValue("kg", 60));
+    waterCalculator.setBeerColor(new BeerColorValue("SRM", 11));
+    waterCalculator.setMaltRoastedPercent(70);
+    waterCalculator.setGH(new WaterHardnessValue("dH", 4.5));
+    waterCalculator.setKH(new WaterHardnessValue("dH", 1.0));
+    waterCalculator.setWaterTreatment(new BoilingWaterTreatment(new WaterHardnessValue("dH", 2)));
+    expect(waterCalculator.getRequiredPhosporicAcidForPhChange(new PhValue("pH", -0.15)).getValue("ml", 2)).toEqual(408.11);
+    expect(waterCalculator.getRequiredPhosporicAcidForPhChange(new PhValue("pH", -0.29)).getValue("ml", 2)).toEqual(789.01);
+  });
+
 })

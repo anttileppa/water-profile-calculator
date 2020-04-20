@@ -827,6 +827,23 @@ export default class WaterCalculator {
   }
 
   /**
+   * Calculates required amount of phosphoric acid to lower pH by given amount.
+   * 
+   * If pH delta is positive, returned amount will be 0 
+   * 
+   * @param phDelta required delta of pH
+   * @returns required amount of phosphoric acid to lower pH by given amount.
+   */
+  public getRequiredPhosporicAcidForPhChange(phDelta: PhValue): VolumeValue {
+    if (phDelta.getValue("pH") >= 0) {
+      return new VolumeValue("ml", 0);  
+    }
+
+    const phosphoricAcidStrength = 10;
+    return new VolumeValue("μl", phDelta.getValue("pH") * this.getGristWeight().getValue("kg") * consts.MASH_BUFFER_CAPACITY_FOR_ACID_ADDITIONS * consts.PHOSPHORIC_ACID_MOLECULAR_WEIGHT * 100 / -phosphoricAcidStrength / (phosphoricAcidStrength / 85 * (consts.PHOSPHORIC_ACID_DENSITY_85 - 1) + 1));
+  }
+
+  /**
    * Calculates mash pH change from lacic acid
    * 
    * @returns mash pH change from lacic acid
