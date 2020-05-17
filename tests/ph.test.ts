@@ -1,5 +1,5 @@
 import WaterCalculator from "../src/index";
-import { BeerColorValue, WaterHardnessValue, MassValue, VolumeValue, PhValue } from "../src/units";
+import { BeerColorValue, WaterHardnessValue, MassValue, VolumeValue, PhValue, PercentValue } from "../src/units";
 import { BoilingWaterTreatment } from "../src/water-treatment";
 
 describe("Water Profile Calculator (pH tests)", () => {
@@ -7,7 +7,7 @@ describe("Water Profile Calculator (pH tests)", () => {
   it("test distilled water mash pH estimation", () => {
     const waterCalculator = new WaterCalculator();
     waterCalculator.setBeerColor(new BeerColorValue("SRM", 44));
-    waterCalculator.setMaltRoastedPercent(70);
+    waterCalculator.setMaltRoastedPercent(new PercentValue("%", 70));
     expect(waterCalculator.estimateDistilledWaterMashPh().getValue("pH", 2)).toEqual(5.22);
   });
 
@@ -35,7 +35,7 @@ describe("Water Profile Calculator (pH tests)", () => {
     waterCalculator.setStrikeWater(new VolumeValue("l", 100));
     waterCalculator.setGristWeight(new MassValue("kg", 60));
     waterCalculator.setBeerColor(new BeerColorValue("SRM", 11));
-    waterCalculator.setMaltRoastedPercent(70);
+    waterCalculator.setMaltRoastedPercent(new PercentValue("%", 70));
     waterCalculator.setGH(new WaterHardnessValue("dH", 4.5));
     waterCalculator.setKH(new WaterHardnessValue("dH", 1.0));
 
@@ -65,7 +65,7 @@ describe("Water Profile Calculator (pH tests)", () => {
     waterCalculator.setStrikeWater(new VolumeValue("l", 100));
     waterCalculator.setGristWeight(new MassValue("kg", 60));
     waterCalculator.setBeerColor(new BeerColorValue("SRM", 11));
-    waterCalculator.setMaltRoastedPercent(70);
+    waterCalculator.setMaltRoastedPercent(new PercentValue("%", 70));
     waterCalculator.setGH(new WaterHardnessValue("dH", 4.5));
     waterCalculator.setKH(new WaterHardnessValue("dH", 1.0));
     waterCalculator.setWaterTreatment(new BoilingWaterTreatment(new WaterHardnessValue("dH", 2)));
@@ -82,7 +82,7 @@ describe("Water Profile Calculator (pH tests)", () => {
     waterCalculator.setStrikeWater(new VolumeValue("l", 100));
     waterCalculator.setGristWeight(new MassValue("kg", 60));
     waterCalculator.setBeerColor(new BeerColorValue("SRM", 11));
-    waterCalculator.setMaltRoastedPercent(70);
+    waterCalculator.setMaltRoastedPercent(new PercentValue("%", 70));
     waterCalculator.setGH(new WaterHardnessValue("dH", 4.5));
     waterCalculator.setKH(new WaterHardnessValue("dH", 1.0));
     waterCalculator.setWaterTreatment(new BoilingWaterTreatment(new WaterHardnessValue("dH", 2)));

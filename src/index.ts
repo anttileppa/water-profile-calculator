@@ -1,4 +1,4 @@
-import { PhValue, AlkalinityValue, ChlorideValue, SulfateValue, WaterHardnessValue, MagnesiumValue, CalciumValue, SodiumValue, VolumeValue, DensityValue, BeerColorValue, MassValue, BicarbonateValue, MassConcentrationValue } from "./units";
+import { PhValue, AlkalinityValue, ChlorideValue, SulfateValue, WaterHardnessValue, MagnesiumValue, CalciumValue, SodiumValue, VolumeValue, DensityValue, BeerColorValue, MassValue, BicarbonateValue, MassConcentrationValue, PercentValue } from "./units";
 import consts from "./consts";
 import saltIonMap, { SaltIons } from "./salt-ions"; 
 import molarMass from "./molar-mass";
@@ -22,7 +22,7 @@ export interface Ions {
 export default class WaterCalculator {
 
   private assumedMgContributionToTestedGh = consts.ASSUMED_MG_CONTRIBUTION_TO_TESTED_GH;
-  private maltRoastedPercent: number | null = null;
+  private maltRoastedPercent: PercentValue | null = null;
   private gh: WaterHardnessValue | null = null;
   private kh: WaterHardnessValue | null = null;
   private residualAlkalinity: AlkalinityValue | null = null;
@@ -161,7 +161,7 @@ export default class WaterCalculator {
    * 
    * @returns malt roasted percent
    */
-  public setMaltRoastedPercent(maltRoastedPercent: number) {
+  public setMaltRoastedPercent(maltRoastedPercent: PercentValue | null) {
     this.maltRoastedPercent = maltRoastedPercent;
   }
 
@@ -691,7 +691,7 @@ export default class WaterCalculator {
     const sR = 0.06;
     const p = 12;    
     const srm = this.getBeerColor().getValue("SRM");
-    const r = this.getMaltRoastedPercent() / 100;
+    const r = this.getMaltRoastedPercent().getValue("%") / 100;
     return new PhValue("pH", ph0Srm - srm * (sC * (1 - r) + sR * r) / p);
   }
 
