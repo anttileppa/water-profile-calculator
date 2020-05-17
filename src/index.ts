@@ -170,7 +170,7 @@ export default class WaterCalculator {
    * 
    * @returns calcium or null if not set
    */
-  public getCalcium = (): CalciumValue => {
+  public getCalcium = (): CalciumValue | null => {
     return this.calcium;
   }
 
@@ -179,7 +179,7 @@ export default class WaterCalculator {
    * 
    * @param value calcium value
    */
-  public setCalcium = (value: CalciumValue) => {
+  public setCalcium = (value: CalciumValue | null) => {
     this.calcium = value;
   } 
 
@@ -188,7 +188,7 @@ export default class WaterCalculator {
    * 
    * @returns magnesium or null if not set
    */
-  public getMagnesium = (): MagnesiumValue => {
+  public getMagnesium = (): MagnesiumValue | null => {
     return this.magnesium;
   }
 
@@ -197,7 +197,7 @@ export default class WaterCalculator {
    * 
    * @param value magnesium value
    */
-  public setMagnesium = (value: MagnesiumValue) => {
+  public setMagnesium = (value: MagnesiumValue | null) => {
     this.magnesium = value;
   } 
     
@@ -206,7 +206,7 @@ export default class WaterCalculator {
    * 
    * @returns sodium or null if not set
    */
-  public getSodium = (): SodiumValue => {
+  public getSodium = (): SodiumValue | null => {
     return this.sodium;
   }
 
@@ -215,7 +215,7 @@ export default class WaterCalculator {
    * 
    * @param value sodium value
    */
-  public setSodium = (value: SodiumValue) => {
+  public setSodium = (value: SodiumValue | null) => {
     this.sodium = value;
   } 
 
@@ -224,7 +224,7 @@ export default class WaterCalculator {
    * 
    * @returns sulfate or null if not set
    */
-  public getSulfate = (): SulfateValue => {
+  public getSulfate = (): SulfateValue | null => {
     return this.sulfate;
   }
 
@@ -233,7 +233,7 @@ export default class WaterCalculator {
    * 
    * @param value sulfate value
    */
-  public setSulfate = (value: SulfateValue) => {
+  public setSulfate = (value: SulfateValue | null) => {
     this.sulfate = value;
   } 
 
@@ -242,7 +242,7 @@ export default class WaterCalculator {
    * 
    * @returns chloride or null if not set
    */
-  public getChloride = (): ChlorideValue => {
+  public getChloride = (): ChlorideValue | null => {
     return this.chloride;
   }
 
@@ -251,7 +251,7 @@ export default class WaterCalculator {
    * 
    * @param value chloride value
    */
-  public setChloride = (value: ChlorideValue) => {
+  public setChloride = (value: ChlorideValue | null) => {
     this.chloride = value;
   } 
 
@@ -278,7 +278,7 @@ export default class WaterCalculator {
    * 
    * @param value bicarbonate value
    */
-  public setBicarbonate = (value: BicarbonateValue) => {
+  public setBicarbonate = (value: BicarbonateValue | null) => {
     this.bicarbonate = value;
   } 
 
@@ -288,7 +288,7 @@ export default class WaterCalculator {
    * 
    * @returns alkalinity or null if not set
    */
-  public getAlkalinity = (): AlkalinityValue => {
+  public getAlkalinity = (): AlkalinityValue | null => {
     if (this.alkalinity != null) {
       return this.alkalinity;
     }
@@ -305,7 +305,7 @@ export default class WaterCalculator {
    * 
    * @param value alkalinity value
    */
-  public setAlkalinity = (value: AlkalinityValue) => {
+  public setAlkalinity = (value: AlkalinityValue | null) => {
     this.alkalinity = value;
   } 
 
