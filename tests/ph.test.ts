@@ -8,7 +8,7 @@ describe("Water Profile Calculator (pH tests)", () => {
     const waterCalculator = new WaterCalculator();
     waterCalculator.setBeerColor(new BeerColorValue("SRM", 44));
     waterCalculator.setMaltRoastedPercent(new PercentValue("%", 70));
-    expect(waterCalculator.estimateDistilledWaterMashPh().getValue("pH", 2)).toEqual(5.22);
+    expect(waterCalculator.getEstimatedDistilledWaterMashPh().getValue("pH", 2)).toEqual(5.22);
   });
 
   it("test acid pH change", () => {
@@ -39,7 +39,7 @@ describe("Water Profile Calculator (pH tests)", () => {
     waterCalculator.setGH(new WaterHardnessValue("dH", 4.5));
     waterCalculator.setKH(new WaterHardnessValue("dH", 1.0));
 
-    expect(waterCalculator.estimateDistilledWaterMashPh().getValue("pH", 2)).toEqual(5.5);
+    expect(waterCalculator.getEstimatedDistilledWaterMashPh().getValue("pH", 2)).toEqual(5.5);
     expect(waterCalculator.getOverallPhChange().getValue("pH", 2)).toEqual(-0);
 
     waterCalculator.setGypsum(new MassValue("g", 20));

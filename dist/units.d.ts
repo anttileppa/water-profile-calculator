@@ -7,6 +7,7 @@ export declare type MassFractionUnit = "g/g" | "mg/kg";
 export declare type BeerColorUnit = "SRM" | "EBC";
 export declare type PhUnit = "pH";
 export declare type PercentUnit = "%";
+export declare type TimeUnit = "min" | "h" | "s";
 /**
  * Interface for a value
  */
@@ -412,4 +413,21 @@ export declare class PercentValue extends AbstractRatioBasedValue<PercentUnit> {
      * @param unit from unit
      */
     protected getConvertRatio(unit: PercentUnit): number;
+}
+/**
+ * Time value
+ */
+export declare class TimeValue extends AbstractRatioBasedValue<TimeUnit> {
+    /**
+     * Returns value's base unit
+     *
+     * @returns value's base unit
+     */
+    protected getBaseUnit: () => TimeUnit;
+    /**
+     * Returns convert ratio into base unit
+     *
+     * @param unit from unit
+     */
+    protected getConvertRatio(unit: TimeUnit): number;
 }

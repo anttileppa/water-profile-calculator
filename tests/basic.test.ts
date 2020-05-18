@@ -1,5 +1,5 @@
 import WaterCalculator from "../src/index";
-import { BeerColorValue, WaterHardnessValue, MassValue, ChlorideValue, MagnesiumValue, CalciumValue, SodiumValue, SulfateValue, BicarbonateValue, AlkalinityValue, VolumeValue, MassConcentrationValue, PhValue } from "../src/units";
+import { BeerColorValue, WaterHardnessValue, MassValue, ChlorideValue, MagnesiumValue, CalciumValue, SodiumValue, SulfateValue, BicarbonateValue, AlkalinityValue, VolumeValue, MassConcentrationValue, PhValue, TimeValue } from "../src/units";
 import { BoilingWaterTreatment, LimeWaterTreatment } from "../src/water-treatment";
 
 describe("Water Profile Calculator (basic)", () => {
@@ -381,5 +381,13 @@ describe("Water Profile Calculator (basic)", () => {
     waterCalculator.setBicarbonate(new BicarbonateValue("mg/l", 20));
     expect(waterCalculator.getIonBalance()).toEqual(3.9499959060917544);
   });
+
+  it("test time", () => {
+    const time = new TimeValue("min", 60);
+    expect(time.getValue("s")).toBe(3600);
+    expect(time.getValue("min")).toBe(60);
+    expect(time.getValue("h")).toBe(1);
+  });
+
 
 })

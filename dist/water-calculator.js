@@ -517,12 +517,16 @@ var WaterCalculator = /** @class */ (function () {
          *
          * @return Estimated distilled water mash pH at 25 C
          */
-        this.estimateDistilledWaterMashPh = function () {
+        this.getEstimatedDistilledWaterMashPh = function () {
+            var beerColor = _this.getBeerColor();
+            if (!beerColor) {
+                return null;
+            }
             var ph0Srm = 5.6;
             var sC = 0.21;
             var sR = 0.06;
             var p = 12;
-            var srm = _this.getBeerColor().getValue("SRM");
+            var srm = beerColor.getValue("SRM");
             var r = _this.getMaltRoastedPercent().getValue("%") / 100;
             return new units_1.PhValue("pH", ph0Srm - srm * (sC * (1 - r) + sR * r) / p);
         };

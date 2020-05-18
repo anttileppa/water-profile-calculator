@@ -235,13 +235,13 @@ export default class WaterCalculator {
      *
      * @returns beer color or null if not set
      */
-    getBeerColor: () => BeerColorValue;
+    getBeerColor: () => BeerColorValue | null;
     /**
      * Sets beer color
      *
      * @param value beer color value
      */
-    setBeerColor: (value: BeerColorValue) => void;
+    setBeerColor: (value: BeerColorValue | null) => void;
     /**
      * Returns mash thickness
      *
@@ -420,7 +420,7 @@ export default class WaterCalculator {
      *
      * @return Estimated distilled water mash pH at 25 C
      */
-    estimateDistilledWaterMashPh: () => PhValue;
+    getEstimatedDistilledWaterMashPh: () => PhValue | null;
     /**
      * Calculates mash pH change from acid additions
      *

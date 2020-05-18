@@ -367,7 +367,7 @@ export default class WaterCalculator {
    * 
    * @returns beer color or null if not set
    */
-  public getBeerColor = (): BeerColorValue => {
+  public getBeerColor = (): BeerColorValue | null => {
     return this.beerColor;
   }
 
@@ -376,7 +376,7 @@ export default class WaterCalculator {
    * 
    * @param value beer color value
    */
-  public setBeerColor = (value: BeerColorValue) => {
+  public setBeerColor = (value: BeerColorValue | null) => {
     this.beerColor = value;
   }
 
@@ -684,12 +684,17 @@ export default class WaterCalculator {
    * 
    * @return Estimated distilled water mash pH at 25 C
    */
-  public estimateDistilledWaterMashPh = (): PhValue => {
+  public getEstimatedDistilledWaterMashPh = (): PhValue | null => {
+    const beerColor = this.getBeerColor();
+    if (!beerColor) {
+      return null;
+    }
+
     const ph0Srm = 5.6;
     const sC = 0.21;
     const sR = 0.06;
     const p = 12;    
-    const srm = this.getBeerColor().getValue("SRM");
+    const srm = beerColor.getValue("SRM");
     const r = this.getMaltRoastedPercent().getValue("%") / 100;
     return new PhValue("pH", ph0Srm - srm * (sC * (1 - r) + sR * r) / p);
   }
@@ -785,13 +790,15 @@ export default class WaterCalculator {
   public getOverallPhChange = (): PhValue | null => {
     const result = this.getPhChangeFromBaseWater();
 
-    if (this.waterTreatment) {
-      result.addValue(this.waterTreatment?.getPhChange());
-    } else {
-      result.addValue(this.getPhChangeFromSalts());
-    }
+    if (result) {
+      if (this.waterTreatment) {
+        result.addValue(this.waterTreatment?.getPhChange());
+      } else {
+        result.addValue(this.getPhChangeFromSalts());
+      }
 
-    result.addValue(this.getMashPhChangeFromAcidAdditions());
+      result.addValue(this.getMashPhChangeFromAcidAdditions());
+    }
 
     return result;
   }

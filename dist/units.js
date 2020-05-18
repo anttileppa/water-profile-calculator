@@ -13,7 +13,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.PercentValue = exports.PhValue = exports.BicarbonateValue = exports.ChlorideValue = exports.SulfateValue = exports.SodiumValue = exports.MagnesiumValue = exports.CalciumValue = exports.AlkalinityValue = exports.WaterHardnessValue = exports.MassFractionValue = exports.MassConcentrationValue = exports.DensityValue = exports.BeerColorValue = exports.MassValue = exports.VolumeValue = exports.AbstractRatioBasedValue = exports.AbstactValue = void 0;
+exports.TimeValue = exports.PercentValue = exports.PhValue = exports.BicarbonateValue = exports.ChlorideValue = exports.SulfateValue = exports.SodiumValue = exports.MagnesiumValue = exports.CalciumValue = exports.AlkalinityValue = exports.WaterHardnessValue = exports.MassFractionValue = exports.MassConcentrationValue = exports.DensityValue = exports.BeerColorValue = exports.MassValue = exports.VolumeValue = exports.AbstractRatioBasedValue = exports.AbstactValue = void 0;
 /**
  * Abstract base class for all values
  */
@@ -592,4 +592,39 @@ var PercentValue = /** @class */ (function (_super) {
     return PercentValue;
 }(AbstractRatioBasedValue));
 exports.PercentValue = PercentValue;
+/**
+ * Time value
+ */
+var TimeValue = /** @class */ (function (_super) {
+    __extends(TimeValue, _super);
+    function TimeValue() {
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        /**
+         * Returns value's base unit
+         *
+         * @returns value's base unit
+         */
+        _this.getBaseUnit = function () {
+            return "s";
+        };
+        return _this;
+    }
+    /**
+     * Returns convert ratio into base unit
+     *
+     * @param unit from unit
+     */
+    TimeValue.prototype.getConvertRatio = function (unit) {
+        switch (unit) {
+            case "s":
+                return 1;
+            case "min":
+                return 60;
+            case "h":
+                return 60 * 60;
+        }
+    };
+    return TimeValue;
+}(AbstractRatioBasedValue));
+exports.TimeValue = TimeValue;
 //# sourceMappingURL=units.js.map
