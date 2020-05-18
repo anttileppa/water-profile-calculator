@@ -1,8 +1,7 @@
 import { AlkalinityValue, WaterHardnessValue, PhValue, VolumeValue, MassValue, MassConcentrationValue } from "./units";
-import WaterCalculator from ".";
+import WaterCalculator from "./water-calculator";
 import atomicWeight from "./atomic-weight";
 import consts from "./consts";
-import { Ions } from "./";
 import molarMass from "./molar-mass";
 
 /**

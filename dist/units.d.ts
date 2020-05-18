@@ -6,6 +6,7 @@ export declare type MassConcentrationUnit = "mg/l" | "kg/l" | "mEq/l" | "dH";
 export declare type MassFractionUnit = "g/g" | "mg/kg";
 export declare type BeerColorUnit = "SRM" | "EBC";
 export declare type PhUnit = "pH";
+export declare type PercentUnit = "%";
 /**
  * Interface for a value
  */
@@ -394,4 +395,21 @@ export declare class PhValue extends AbstractRatioBasedValue<PhUnit> {
      * @param unit from unit
      */
     protected getConvertRatio(unit: "pH"): number;
+}
+/**
+ * pH value
+ */
+export declare class PercentValue extends AbstractRatioBasedValue<PercentUnit> {
+    /**
+     * Returns value's base unit
+     *
+     * @returns value's base unit
+     */
+    protected getBaseUnit: () => PercentUnit;
+    /**
+     * Returns convert ratio into base unit
+     *
+     * @param unit from unit
+     */
+    protected getConvertRatio(unit: PercentUnit): number;
 }

@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 /**
  * Salt ion concentrations
  */
-const saltIonMap = {
+var saltIonMap = {
     gypsum: {
         calcium: 40.08 / 172.19,
         sulfate: 96.07 / 172.19

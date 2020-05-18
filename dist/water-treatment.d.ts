@@ -1,5 +1,5 @@
 import { AlkalinityValue, WaterHardnessValue, PhValue, VolumeValue, MassValue, MassConcentrationValue } from "./units";
-import WaterCalculator from ".";
+import WaterCalculator from "./water-calculator";
 /**
  * Interface describing a water treatment method
  */
