@@ -383,10 +383,15 @@ describe("Water Profile Calculator (basic)", () => {
   });
 
   it("test time", () => {
-    const time = new TimeValue("min", 60);
-    expect(time.getValue("s")).toBe(3600);
-    expect(time.getValue("min")).toBe(60);
-    expect(time.getValue("h")).toBe(1);
+    const day = new TimeValue("d", 1);
+    const hour = new TimeValue("min", 60);
+    expect(hour.getValue("s")).toBe(3600);
+    expect(hour.getValue("min")).toBe(60);
+    expect(hour.getValue("h")).toBe(1);
+
+    expect(day.getValue("h")).toBe(24);
+    expect(day.getValue("min")).toBe(1440);
+    expect(day.getValue("d")).toBe(1);
   });
 
 

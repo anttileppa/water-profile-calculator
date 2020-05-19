@@ -7,7 +7,7 @@ export type MassFractionUnit = "g/g" | "mg/kg";
 export type BeerColorUnit = "SRM" | "EBC";
 export type PhUnit = "pH";
 export type PercentUnit = "%";
-export type TimeUnit = "min" | "h" | "s";
+export type TimeUnit =  "d" | "h" | "min" | "s";
 
 /**
  * Interface for a value
@@ -668,6 +668,8 @@ export class TimeValue extends AbstractRatioBasedValue<TimeUnit> {
         return 60;
       case "h":
         return 60 * 60;
+      case "d":
+        return 60 * 60 * 24;
     }
   }
 
