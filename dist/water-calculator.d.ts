@@ -438,7 +438,7 @@ export default class WaterCalculator {
      *
      * @param waterTreatment water treatment method
      */
-    setWaterTreatment(waterTreatment: WaterTreatment): void;
+    setWaterTreatment(waterTreatment: WaterTreatment | null): void;
     /**
      * Returns used water treatment method instance
      *

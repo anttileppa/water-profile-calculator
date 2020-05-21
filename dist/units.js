@@ -622,6 +622,8 @@ var TimeValue = /** @class */ (function (_super) {
                 return 60;
             case "h":
                 return 60 * 60;
+            case "d":
+                return 60 * 60 * 24;
         }
     };
     return TimeValue;

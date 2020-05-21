@@ -7,7 +7,7 @@ export declare type MassFractionUnit = "g/g" | "mg/kg";
 export declare type BeerColorUnit = "SRM" | "EBC";
 export declare type PhUnit = "pH";
 export declare type PercentUnit = "%";
-export declare type TimeUnit = "min" | "h" | "s";
+export declare type TimeUnit = "d" | "h" | "min" | "s";
 /**
  * Interface for a value
  */

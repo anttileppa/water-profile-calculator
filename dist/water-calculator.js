@@ -599,13 +599,15 @@ var WaterCalculator = /** @class */ (function () {
         this.getOverallPhChange = function () {
             var _a;
             var result = _this.getPhChangeFromBaseWater();
-            if (_this.waterTreatment) {
-                result.addValue((_a = _this.waterTreatment) === null || _a === void 0 ? void 0 : _a.getPhChange());
+            if (result) {
+                if (_this.waterTreatment) {
+                    result.addValue((_a = _this.waterTreatment) === null || _a === void 0 ? void 0 : _a.getPhChange());
+                }
+                else {
+                    result.addValue(_this.getPhChangeFromSalts());
+                }
+                result.addValue(_this.getMashPhChangeFromAcidAdditions());
             }
-            else {
-                result.addValue(_this.getPhChangeFromSalts());
-            }
-            result.addValue(_this.getMashPhChangeFromAcidAdditions());
             return result;
         };
         /**
@@ -757,7 +759,9 @@ var WaterCalculator = /** @class */ (function () {
      */
     WaterCalculator.prototype.setWaterTreatment = function (waterTreatment) {
         this.waterTreatment = waterTreatment;
-        this.waterTreatment.init(this);
+        if (this.waterTreatment) {
+            this.waterTreatment.init(this);
+        }
     };
     /**
      * Calculates required amount of lactic acid to lower pH by given amount.

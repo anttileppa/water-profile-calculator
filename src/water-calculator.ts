@@ -737,9 +737,11 @@ export default class WaterCalculator {
    * 
    * @param waterTreatment water treatment method
    */
-  public setWaterTreatment(waterTreatment: WaterTreatment) {
+  public setWaterTreatment(waterTreatment: WaterTreatment | null) {
     this.waterTreatment = waterTreatment;
-    this.waterTreatment.init(this);
+    if (this.waterTreatment) {
+      this.waterTreatment.init(this);
+    }
   }
 
   /**
