@@ -1,7 +1,7 @@
 {
   "name": "water-profile-calculator",
   "description": "Water Profile Calculator",
-  "version": "1.0.18",
+  "version": "1.0.21",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "author": {

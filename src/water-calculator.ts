@@ -552,8 +552,9 @@ export default class WaterCalculator {
    * @param strength returned lactic acid strength as percents. Defaults to 88 %
    * @returns lactic acid or null if not set
    */
-  public getLacticAcid = (strength?: number): VolumeValue => {
-    return this.convertVolumeToStrength(this.lacticAcid, 88, strength || 88);
+  public getLacticAcid = (strength?: number | PercentValue): VolumeValue => {
+    const strengthPercent = strength instanceof PercentValue ? strength.getValue("%") : strength || 88;
+    return this.convertVolumeToStrength(this.lacticAcid, 88, strengthPercent);
   }
 
   /**
@@ -562,8 +563,9 @@ export default class WaterCalculator {
    * @param value lactic acid value
    * @param strength lactic acid strength as percents. Defaults to 88 %
    */
-  public setLacticAcid = (value: VolumeValue | null, strength?: number) => {
-    this.lacticAcid = this.convertVolumeToStrength(value, strength || 88, 88);
+  public setLacticAcid = (value: VolumeValue | null, strength?: number | PercentValue) => {
+    const strengthPercent = strength instanceof PercentValue ? strength.getValue("%") : strength || 88;
+    this.lacticAcid = this.convertVolumeToStrength(value, strengthPercent, 88);
   }
 
   /**
@@ -572,8 +574,9 @@ export default class WaterCalculator {
    * @param strength returned phosphoric acid strength as percents. Defaults to 10 %
    * @returns phosphoric acid or null if not set
    */
-  public getPhosphoricAcid = (strength?: number): VolumeValue => {
-    return this.convertVolumeToStrength(this.phosphoricAcid, 10, strength ||10);
+  public getPhosphoricAcid = (strength?: number | PercentValue): VolumeValue => {
+    const strengthPercent = strength instanceof PercentValue ? strength.getValue("%") : strength || 10;
+    return this.convertVolumeToStrength(this.phosphoricAcid, 10, strengthPercent);
   }
 
   /**
@@ -582,8 +585,9 @@ export default class WaterCalculator {
    * @param value phosphoric acid value
    * @param strength phosphoric acid strength as percents. Defaults to 10 %
    */
-  public setPhosphoricAcid = (value: VolumeValue | null, strength?: number) => {
-    this.phosphoricAcid = this.convertVolumeToStrength(value, strength || 10, 10);
+  public setPhosphoricAcid = (value: VolumeValue | null, strength?: number | PercentValue) => {
+    const strengthPercent = strength instanceof PercentValue ? strength.getValue("%") : strength || 10;
+    this.phosphoricAcid = this.convertVolumeToStrength(value, strengthPercent, 10);
   }
 
   /**
@@ -592,8 +596,9 @@ export default class WaterCalculator {
    * @param strength returned acid malt strength as percents. Defaults to 3 %
    * @returns acid malt or null if not set
    */
-  public getAcidMalt = (strength?: number): MassValue => {
-    return this.convertMassToStrength(this.acidMalt, 3, strength || 3);
+  public getAcidMalt = (strength?: number | PercentValue): MassValue => {
+    const strengthPercent = strength instanceof PercentValue ? strength.getValue("%") : strength || 3;
+    return this.convertMassToStrength(this.acidMalt, 3, strengthPercent);
   }
 
   /**
@@ -602,8 +607,9 @@ export default class WaterCalculator {
    * @param value acid malt value
    * @param strength acid malt strength as percents. Defaults to 3 %
    */
-  public setAcidMalt = (value: MassValue| null, strength?: number) => {
-    this.acidMalt = this.convertMassToStrength(value, strength || 3, 3);
+  public setAcidMalt = (value: MassValue | null, strength?: number | PercentValue) => {
+    const strengthPercent = strength instanceof PercentValue ? strength.getValue("%") : strength || 3;
+    this.acidMalt = this.convertMassToStrength(value, strengthPercent, 3);
   }
   
   /**

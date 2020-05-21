@@ -465,7 +465,8 @@ var WaterCalculator = /** @class */ (function () {
          * @returns lactic acid or null if not set
          */
         this.getLacticAcid = function (strength) {
-            return _this.convertVolumeToStrength(_this.lacticAcid, 88, strength || 88);
+            var strengthPercent = strength instanceof units_1.PercentValue ? strength.getValue("%") : strength || 88;
+            return _this.convertVolumeToStrength(_this.lacticAcid, 88, strengthPercent);
         };
         /**
          * Sets lactic acid
@@ -474,7 +475,8 @@ var WaterCalculator = /** @class */ (function () {
          * @param strength lactic acid strength as percents. Defaults to 88 %
          */
         this.setLacticAcid = function (value, strength) {
-            _this.lacticAcid = _this.convertVolumeToStrength(value, strength || 88, 88);
+            var strengthPercent = strength instanceof units_1.PercentValue ? strength.getValue("%") : strength || 88;
+            _this.lacticAcid = _this.convertVolumeToStrength(value, strengthPercent, 88);
         };
         /**
          * Returns phosphoric acid
@@ -483,7 +485,8 @@ var WaterCalculator = /** @class */ (function () {
          * @returns phosphoric acid or null if not set
          */
         this.getPhosphoricAcid = function (strength) {
-            return _this.convertVolumeToStrength(_this.phosphoricAcid, 10, strength || 10);
+            var strengthPercent = strength instanceof units_1.PercentValue ? strength.getValue("%") : strength || 10;
+            return _this.convertVolumeToStrength(_this.phosphoricAcid, 10, strengthPercent);
         };
         /**
          * Sets phosphoric acid
@@ -492,7 +495,8 @@ var WaterCalculator = /** @class */ (function () {
          * @param strength phosphoric acid strength as percents. Defaults to 10 %
          */
         this.setPhosphoricAcid = function (value, strength) {
-            _this.phosphoricAcid = _this.convertVolumeToStrength(value, strength || 10, 10);
+            var strengthPercent = strength instanceof units_1.PercentValue ? strength.getValue("%") : strength || 10;
+            _this.phosphoricAcid = _this.convertVolumeToStrength(value, strengthPercent, 10);
         };
         /**
          * Returns acid malt
@@ -501,7 +505,8 @@ var WaterCalculator = /** @class */ (function () {
          * @returns acid malt or null if not set
          */
         this.getAcidMalt = function (strength) {
-            return _this.convertMassToStrength(_this.acidMalt, 3, strength || 3);
+            var strengthPercent = strength instanceof units_1.PercentValue ? strength.getValue("%") : strength || 3;
+            return _this.convertMassToStrength(_this.acidMalt, 3, strengthPercent);
         };
         /**
          * Sets acid malt
@@ -510,7 +515,8 @@ var WaterCalculator = /** @class */ (function () {
          * @param strength acid malt strength as percents. Defaults to 3 %
          */
         this.setAcidMalt = function (value, strength) {
-            _this.acidMalt = _this.convertMassToStrength(value, strength || 3, 3);
+            var strengthPercent = strength instanceof units_1.PercentValue ? strength.getValue("%") : strength || 3;
+            _this.acidMalt = _this.convertMassToStrength(value, strengthPercent, 3);
         };
         /**
          * Estimates distilled water mash pH at 25 C / 77 F using beer color and roasted percent

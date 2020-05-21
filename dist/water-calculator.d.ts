@@ -356,42 +356,42 @@ export default class WaterCalculator {
      * @param strength returned lactic acid strength as percents. Defaults to 88 %
      * @returns lactic acid or null if not set
      */
-    getLacticAcid: (strength?: number) => VolumeValue;
+    getLacticAcid: (strength?: number | PercentValue) => VolumeValue;
     /**
      * Sets lactic acid
      *
      * @param value lactic acid value
      * @param strength lactic acid strength as percents. Defaults to 88 %
      */
-    setLacticAcid: (value: VolumeValue | null, strength?: number) => void;
+    setLacticAcid: (value: VolumeValue | null, strength?: number | PercentValue) => void;
     /**
      * Returns phosphoric acid
      *
      * @param strength returned phosphoric acid strength as percents. Defaults to 10 %
      * @returns phosphoric acid or null if not set
      */
-    getPhosphoricAcid: (strength?: number) => VolumeValue;
+    getPhosphoricAcid: (strength?: number | PercentValue) => VolumeValue;
     /**
      * Sets phosphoric acid
      *
      * @param value phosphoric acid value
      * @param strength phosphoric acid strength as percents. Defaults to 10 %
      */
-    setPhosphoricAcid: (value: VolumeValue | null, strength?: number) => void;
+    setPhosphoricAcid: (value: VolumeValue | null, strength?: number | PercentValue) => void;
     /**
      * Returns acid malt
      *
      * @param strength returned acid malt strength as percents. Defaults to 3 %
      * @returns acid malt or null if not set
      */
-    getAcidMalt: (strength?: number) => MassValue;
+    getAcidMalt: (strength?: number | PercentValue) => MassValue;
     /**
      * Sets acid malt
      *
      * @param value acid malt value
      * @param strength acid malt strength as percents. Defaults to 3 %
      */
-    setAcidMalt: (value: MassValue | null, strength?: number) => void;
+    setAcidMalt: (value: MassValue | null, strength?: number | PercentValue) => void;
     /**
      * Returns water ion mass concentrations after added salts
      *
