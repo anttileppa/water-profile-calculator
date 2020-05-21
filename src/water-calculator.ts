@@ -720,8 +720,9 @@ export default class WaterCalculator {
    * @returns mash pH change from salt additions
    */
   public getPhChangeFromSalts = (): PhValue | null => {
-    const ionsFromSalts = this.getIonsAfterSalts(this.getStrikeWater());
+    const totalWater = this.getTotalWater();
     const strikeWater = this.getStrikeWater();
+    const ionsFromSalts = this.getIonsAfterSalts(totalWater);
     const gristWeight = this.getGristWeight();
 
     const calcium = ionsFromSalts.calcium.subValue(this.getCalcium());

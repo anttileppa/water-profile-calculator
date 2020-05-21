@@ -90,4 +90,16 @@ describe("Water Profile Calculator (pH tests)", () => {
     expect(waterCalculator.getRequiredPhosporicAcidForPhChange(new PhValue("pH", -0.29)).getValue("ml", 2)).toEqual(789.01);
   });
 
+  it("test pH change from salts", () => {
+    const waterCalculator = new WaterCalculator();
+    waterCalculator.setBeerColor(new BeerColorValue("SRM", 8.83));
+    waterCalculator.setMaltRoastedPercent(new PercentValue("%", 70));
+    waterCalculator.setGristWeight(new MassValue("kg", 5.5));
+    waterCalculator.setStrikeWater(new VolumeValue("l", 8));
+    waterCalculator.setSpargeWater(new VolumeValue("l", 44));
+    waterCalculator.setGH(new WaterHardnessValue("dH", 4.5));
+    waterCalculator.setKH(new WaterHardnessValue("dH", 1));
+    waterCalculator.setGypsum(new MassValue("g", 50));
+    expect(waterCalculator.getPhChangeFromSalts().getValue("pH", 2)).toEqual(-0.09);
+  });
 })
