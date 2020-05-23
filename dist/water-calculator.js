@@ -550,8 +550,9 @@ var WaterCalculator = /** @class */ (function () {
          * @returns mash pH change from salt additions
          */
         this.getPhChangeFromSalts = function () {
-            var ionsFromSalts = _this.getIonsAfterSalts(_this.getStrikeWater());
+            var totalWater = _this.getTotalWater();
             var strikeWater = _this.getStrikeWater();
+            var ionsFromSalts = _this.getIonsAfterSalts(totalWater);
             var gristWeight = _this.getGristWeight();
             var calcium = ionsFromSalts.calcium.subValue(_this.getCalcium());
             var magnesium = ionsFromSalts.magnesium.subValue(_this.getMagnesium());

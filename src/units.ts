@@ -93,7 +93,11 @@ export abstract class AbstactValue<U> implements Value<U> {
    * @param digits digits
    * @returns rounded value
    */
-  protected roundTo(value: number, digits?: number) {
+  protected roundTo(value: number | null, digits?: number) {
+    if (value === null) {
+      return null;
+    }
+
     if (digits === undefined) {
       return value; 
     }
