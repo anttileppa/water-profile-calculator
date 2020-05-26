@@ -33,21 +33,21 @@ describe("Water Profile Calculator (water treatment)", () => {
     const salts: Salt[] = ["gypsum", "epsom", "tableSalt", "calciumChloride", "magnesiumChloride", "bakingSoda"];
     const optimizedSalts = waterCalculator.optimizeSalts(targetProfile, targetResidualAlkalinity, salts);
 
-    expect(optimizedSalts.strikeAdditions.gypsum.getValue("g", 2)).toEqual(0.46);
-    expect(optimizedSalts.strikeAdditions.epsom.getValue("g", 2)).toEqual(0);
-    expect(optimizedSalts.strikeAdditions.tableSalt.getValue("g", 2)).toEqual(0);
-    expect(optimizedSalts.strikeAdditions.bakingSoda.getValue("g", 2)).toEqual(0);
-    expect(optimizedSalts.strikeAdditions.calciumChloride.getValue("g", 2)).toEqual(0.33);
-    expect(optimizedSalts.strikeAdditions.magnesiumChloride.getValue("g", 2)).toEqual(0);
-    expect(optimizedSalts.strikeAdditions.chalkDissolved.getValue("g", 2)).toEqual(0);
+    expect(optimizedSalts.strikeAdditions.gypsum.getValue("g/gal", 2)).toEqual(0.46);
+    expect(optimizedSalts.strikeAdditions.epsom.getValue("g/gal", 2)).toEqual(0);
+    expect(optimizedSalts.strikeAdditions.tableSalt.getValue("g/gal", 2)).toEqual(0);
+    expect(optimizedSalts.strikeAdditions.bakingSoda.getValue("g/gal", 2)).toEqual(0);
+    expect(optimizedSalts.strikeAdditions.calciumChloride.getValue("g/gal", 2)).toEqual(0.33);
+    expect(optimizedSalts.strikeAdditions.magnesiumChloride.getValue("g/gal", 2)).toEqual(0);
+    expect(optimizedSalts.strikeAdditions.chalkDissolved.getValue("g/gal", 2)).toEqual(0);
 
-    expect(optimizedSalts.spargeAdditions.gypsum.getValue("g", 2)).toEqual(0.56);
-    expect(optimizedSalts.spargeAdditions.epsom.getValue("g", 2)).toEqual(0);
-    expect(optimizedSalts.spargeAdditions.tableSalt.getValue("g", 2)).toEqual(0);
-    expect(optimizedSalts.spargeAdditions.bakingSoda.getValue("g", 2)).toEqual(0);
-    expect(optimizedSalts.spargeAdditions.calciumChloride.getValue("g", 2)).toEqual(0.3);
-    expect(optimizedSalts.spargeAdditions.magnesiumChloride.getValue("g", 2)).toEqual(0.26);
-    expect(optimizedSalts.spargeAdditions.chalkDissolved.getValue("g", 2)).toEqual(0);
+    expect(optimizedSalts.spargeAdditions.gypsum.getValue("g/gal", 2)).toEqual(0.56);
+    expect(optimizedSalts.spargeAdditions.epsom.getValue("g/gal", 2)).toEqual(0);
+    expect(optimizedSalts.spargeAdditions.tableSalt.getValue("g/gal", 2)).toEqual(0);
+    expect(optimizedSalts.spargeAdditions.bakingSoda.getValue("g/gal", 2)).toEqual(0);
+    expect(optimizedSalts.spargeAdditions.calciumChloride.getValue("g/gal", 2)).toEqual(0.3);
+    expect(optimizedSalts.spargeAdditions.magnesiumChloride.getValue("g/gal", 2)).toEqual(0.26);
+    expect(optimizedSalts.spargeAdditions.chalkDissolved.getValue("g/gal", 2)).toEqual(0);
 
   });
 
@@ -80,21 +80,21 @@ describe("Water Profile Calculator (water treatment)", () => {
 
     const optimizedSalts = waterCalculator.optimizeSalts(targetProfile, targetResidualAlkalinity, salts);
 
-    expect(optimizedSalts.strikeAdditions.gypsum.getValue("g", 2)).toEqual(1.01);
-    expect(optimizedSalts.strikeAdditions.epsom.getValue("g", 2)).toEqual(0);
-    expect(optimizedSalts.strikeAdditions.tableSalt.getValue("g", 2)).toEqual(0);
-    expect(optimizedSalts.strikeAdditions.bakingSoda.getValue("g", 2)).toEqual(0);
-    expect(optimizedSalts.strikeAdditions.calciumChloride.getValue("g", 2)).toEqual(0.63);
-    expect(optimizedSalts.strikeAdditions.magnesiumChloride.getValue("g", 2)).toEqual(0.26);
-    expect(optimizedSalts.strikeAdditions.chalkDissolved.getValue("g", 2)).toEqual(0.24);
+    expect(optimizedSalts.strikeAdditions.gypsum.getValue("g/gal", 2)).toEqual(1.01);
+    expect(optimizedSalts.strikeAdditions.epsom.getValue("g/gal", 2)).toEqual(0);
+    expect(optimizedSalts.strikeAdditions.tableSalt.getValue("g/gal", 2)).toEqual(0);
+    expect(optimizedSalts.strikeAdditions.bakingSoda.getValue("g/gal", 2)).toEqual(0);
+    expect(optimizedSalts.strikeAdditions.calciumChloride.getValue("g/gal", 2)).toEqual(0.63);
+    expect(optimizedSalts.strikeAdditions.magnesiumChloride.getValue("g/gal", 2)).toEqual(0.26);
+    expect(optimizedSalts.strikeAdditions.chalkDissolved.getValue("g/gal", 2)).toEqual(0.24);
     
-    expect(optimizedSalts.spargeAdditions.gypsum.getValue("g", 2)).toEqual(0);
-    expect(optimizedSalts.spargeAdditions.epsom.getValue("g", 2)).toEqual(0);
-    expect(optimizedSalts.spargeAdditions.tableSalt.getValue("g", 2)).toEqual(0);
-    expect(optimizedSalts.spargeAdditions.bakingSoda.getValue("g", 2)).toEqual(0);
-    expect(optimizedSalts.spargeAdditions.calciumChloride.getValue("g", 2)).toEqual(0);
-    expect(optimizedSalts.spargeAdditions.magnesiumChloride.getValue("g", 2)).toEqual(0);
-    expect(optimizedSalts.spargeAdditions.chalkDissolved.getValue("g", 2)).toEqual(0);
+    expect(optimizedSalts.spargeAdditions.gypsum.getValue("g/gal", 2)).toEqual(0);
+    expect(optimizedSalts.spargeAdditions.epsom.getValue("g/gal", 2)).toEqual(0);
+    expect(optimizedSalts.spargeAdditions.tableSalt.getValue("g/gal", 2)).toEqual(0);
+    expect(optimizedSalts.spargeAdditions.bakingSoda.getValue("g/gal", 2)).toEqual(0);
+    expect(optimizedSalts.spargeAdditions.calciumChloride.getValue("g/gal", 2)).toEqual(0);
+    expect(optimizedSalts.spargeAdditions.magnesiumChloride.getValue("g/gal", 2)).toEqual(0);
+    expect(optimizedSalts.spargeAdditions.chalkDissolved.getValue("g/gal", 2)).toEqual(0);
   });
 
 
@@ -127,21 +127,21 @@ describe("Water Profile Calculator (water treatment)", () => {
     
     const optimizedSalts = waterCalculator.optimizeSalts(targetProfile, targetResidualAlkalinity, salts);
 
-    expect(optimizedSalts.strikeAdditions.gypsum.getValue("g", 2)).toEqual(0);
-    expect(optimizedSalts.strikeAdditions.epsom.getValue("g", 2)).toEqual(0);
-    expect(optimizedSalts.strikeAdditions.tableSalt.getValue("g", 2)).toEqual(0);
-    expect(optimizedSalts.strikeAdditions.bakingSoda.getValue("g", 2)).toEqual(0.02);
-    expect(optimizedSalts.strikeAdditions.calciumChloride.getValue("g", 2)).toEqual(0);
-    expect(optimizedSalts.strikeAdditions.magnesiumChloride.getValue("g", 2)).toEqual(0);
-    expect(optimizedSalts.strikeAdditions.chalkDissolved.getValue("g", 2)).toEqual(0);
+    expect(optimizedSalts.strikeAdditions.gypsum.getValue("g/gal", 2)).toEqual(0);
+    expect(optimizedSalts.strikeAdditions.epsom.getValue("g/gal", 2)).toEqual(0);
+    expect(optimizedSalts.strikeAdditions.tableSalt.getValue("g/gal", 2)).toEqual(0);
+    expect(optimizedSalts.strikeAdditions.bakingSoda.getValue("g/gal", 2)).toEqual(0.02);
+    expect(optimizedSalts.strikeAdditions.calciumChloride.getValue("g/gal", 2)).toEqual(0);
+    expect(optimizedSalts.strikeAdditions.magnesiumChloride.getValue("g/gal", 2)).toEqual(0);
+    expect(optimizedSalts.strikeAdditions.chalkDissolved.getValue("g/gal", 2)).toEqual(0);
 
-    expect(optimizedSalts.spargeAdditions.gypsum.getValue("g", 2)).toEqual(1.01);
-    expect(optimizedSalts.spargeAdditions.epsom.getValue("g", 2)).toEqual(0);
-    expect(optimizedSalts.spargeAdditions.tableSalt.getValue("g", 2)).toEqual(0);
-    expect(optimizedSalts.spargeAdditions.bakingSoda.getValue("g", 2)).toEqual(0);
-    expect(optimizedSalts.spargeAdditions.calciumChloride.getValue("g", 2)).toEqual(0.63);
-    expect(optimizedSalts.spargeAdditions.magnesiumChloride.getValue("g", 2)).toEqual(0.26);
-    expect(optimizedSalts.spargeAdditions.chalkDissolved.getValue("g", 2)).toEqual(0);
+    expect(optimizedSalts.spargeAdditions.gypsum.getValue("g/gal", 2)).toEqual(1.01);
+    expect(optimizedSalts.spargeAdditions.epsom.getValue("g/gal", 2)).toEqual(0);
+    expect(optimizedSalts.spargeAdditions.tableSalt.getValue("g/gal", 2)).toEqual(0);
+    expect(optimizedSalts.spargeAdditions.bakingSoda.getValue("g/gal", 2)).toEqual(0);
+    expect(optimizedSalts.spargeAdditions.calciumChloride.getValue("g/gal", 2)).toEqual(0.63);
+    expect(optimizedSalts.spargeAdditions.magnesiumChloride.getValue("g/gal", 2)).toEqual(0.26);
+    expect(optimizedSalts.spargeAdditions.chalkDissolved.getValue("g/gal", 2)).toEqual(0);
 
   });
   

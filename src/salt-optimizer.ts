@@ -1,6 +1,6 @@
 import numeric from "numeric";
 import { WaterProfile } from "./water-profile";
-import { VolumeValue, MassValue, AlkalinityValue } from "./units";
+import { VolumeValue, MassValue, AlkalinityValue, MassConcentrationValue } from "./units";
 import { saltIonMap, Ion, ionList } from "./salt-ions";
 import { Salt, saltList } from "./salts";
 
@@ -25,17 +25,17 @@ export interface Salts {
 }
 
 export interface OutputAdditions {
-  bakingSoda?: MassValue;
-  calciumChloride?: MassValue;
-  epsom?: MassValue;
-  gypsum?: MassValue;
-  lactic?: MassValue;
-  magnesiumChloride?: MassValue;
-  phosphoric?: MassValue;
-  sauermalz?: MassValue;
-  tableSalt?: MassValue
-  chalkUndissolved?: MassValue,
-  chalkDissolved?: MassValue
+  bakingSoda?: MassConcentrationValue;
+  calciumChloride?: MassConcentrationValue;
+  epsom?: MassConcentrationValue;
+  gypsum?: MassConcentrationValue;
+  lactic?: MassConcentrationValue;
+  magnesiumChloride?: MassConcentrationValue;
+  phosphoric?: MassConcentrationValue;
+  sauermalz?: MassConcentrationValue;
+  tableSalt?: MassConcentrationValue
+  chalkUndissolved?: MassConcentrationValue,
+  chalkDissolved?: MassConcentrationValue
 }
 
 export interface Output {
@@ -574,8 +574,8 @@ export default class SaltOptimizer {
     
     saltList.forEach((salt) => {
       const spargeSalt = "sparge_" + salt;
-      result.strikeAdditions[salt] = new MassValue("g", this.getValue(mproblem, solution, salt) || 0);
-      result.spargeAdditions[salt] = new MassValue("g", this.getValue(mproblem, solution, spargeSalt) || 0);
+      result.strikeAdditions[salt] = new MassConcentrationValue("g/gal", this.getValue(mproblem, solution, salt) || 0, NaN, NaN);
+      result.spargeAdditions[salt] = new MassConcentrationValue("g/gal", this.getValue(mproblem, solution, spargeSalt) || 0, NaN, NaN);
     });
 
     ionList.forEach(ion => {
