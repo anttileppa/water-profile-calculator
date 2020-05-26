@@ -249,6 +249,11 @@ export default class SaltOptimizer {
     return objective;
   }
 
+  /**
+   * Returns whether sparge water volume is given or not
+   * 
+   * @returns whether sparge water volume is given or not
+   */
   private hasSparge = () => {
     return this.spargeVolume && this.spargeVolume.getValue("l") > 0;
   }
