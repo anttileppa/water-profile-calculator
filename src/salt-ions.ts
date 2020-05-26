@@ -1,13 +1,15 @@
+import { CalciumValue, SulfateValue, MagnesiumValue, SodiumValue, ChlorideValue, BicarbonateValue } from "./units";
+
 /**
  * Interface that describes salt ion concentrations
  */
 export interface SaltIons {
-  calcium?: number,
-  sulfate?: number,
-  magnesium?: number,
-  sodium?: number,
-  chloride?: number,
-  bicarbonate?: number
+  calcium?: CalciumValue,
+  sulfate?: SulfateValue,
+  magnesium?: MagnesiumValue,
+  sodium?: SodiumValue,
+  chloride?: ChlorideValue,
+  bicarbonate?: BicarbonateValue
 }
 
 /**
@@ -29,36 +31,36 @@ interface SaltIonMap {
  */
 const saltIonMap: SaltIonMap = {
   gypsum: {
-    calcium: 40.08/172.19,
-    sulfate: 96.07/172.19
+    calcium: new CalciumValue("mg/l", 40.08/172.19),
+    sulfate: new SulfateValue("mg/l", 96.07/172.19)
   },
   epsom: {
-      magnesium: 24.3/246.51,
-      sulfate: 96.07/246.51
+    magnesium: new MagnesiumValue("mg/l", 24.3/246.51),
+    sulfate: new SulfateValue("mg/l", 96.07/246.51)
   },
   tableSalt: {
-      sodium: 23/58.44,
-      chloride: 35.45/58.44
+    sodium: new SodiumValue("mg/l", 23/58.44),
+    chloride: new ChlorideValue("mg/l", 35.45/58.44)
   },
   calciumChloride: {
-    calcium: 40.08/147.02,
-    chloride: 70.9/147.02
+    calcium: new CalciumValue("mg/l", 40.08/147.02),
+    chloride: new ChlorideValue("mg/l", 70.9/147.02)
   },
   magnesiumChloride: {
-      magnesium: 24.3/203.32,
-      chloride: 70.9/203.32
+    magnesium: new MagnesiumValue("mg/l", 24.3/203.32),
+    chloride: new ChlorideValue("mg/l", 70.9/203.32)
   },
   bakingSoda: {
-    sodium: 23/84,
-    bicarbonate: 61/84,
+    sodium: new SodiumValue("mg/l", 23/84),
+    bicarbonate: new BicarbonateValue("mg/l", 61/84),
   },
   chalkUndissolved: {
-    calcium: (40.08/100.09) / 2,
-    bicarbonate: (61 / 100.09)
+    calcium: new CalciumValue("mg/l", (40.08/100.09) / 2),
+    bicarbonate: new BicarbonateValue("mg/l", (61 / 100.09))
   },
   chalkDissolved: {
-    calcium: 40.08/100.09,
-    bicarbonate: (61/100.09)*2
+    calcium: new CalciumValue("mg/l", 40.08/100.09),
+    bicarbonate: new BicarbonateValue("mg/l", (61/100.09)*2)
   }
 }
 

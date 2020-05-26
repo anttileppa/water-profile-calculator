@@ -1,19 +1,9 @@
-import { PhValue, AlkalinityValue, ChlorideValue, SulfateValue, WaterHardnessValue, MagnesiumValue, CalciumValue, SodiumValue, VolumeValue, DensityValue, BeerColorValue, MassValue, BicarbonateValue, MassConcentrationValue, PercentValue } from "./units";
+import { PhValue, AlkalinityValue, ChlorideValue, SulfateValue, WaterHardnessValue, MagnesiumValue, CalciumValue, SodiumValue, VolumeValue, DensityValue, BeerColorValue, MassValue, BicarbonateValue, PercentValue } from "./units";
 import consts from "./consts";
 import saltIonMap, { SaltIons } from "./salt-ions"; 
 import { WaterTreatment } from "./water-treatment"; 
-
-/**
- * Interface that contains values for water ion mass concentrations
- */
-export interface Ions {
-  calcium: CalciumValue,
-  magnesium: MagnesiumValue,
-  sodium: SodiumValue,
-  sulfate: SulfateValue,
-  chloride: ChlorideValue,
-  bicarbonate: BicarbonateValue
-}
+import { WaterProfile } from "./water-profile";
+import SaltOptimizer, { SaltOptimizerParams } from "./salt-optimizer";
 
 /**
  * Water profile calculator
@@ -25,17 +15,12 @@ export default class WaterCalculator {
   private gh: WaterHardnessValue | null = null;
   private kh: WaterHardnessValue | null = null;
   private residualAlkalinity: AlkalinityValue | null = null;
-  private calcium: CalciumValue = null;
-  private magnesium: MagnesiumValue | null = null;
-  private sodium: SodiumValue | null = null;
-  private sulfate: SulfateValue | null = null;
-  private chloride: ChlorideValue | null = null;
-  private bicarbonate: BicarbonateValue | null = null;
   private alkalinity: AlkalinityValue | null = null;
   private strikeWater: VolumeValue = new VolumeValue("l", 0);
   private spargeWater: VolumeValue = new VolumeValue("l", 0);
   private gristWeight: MassValue = new MassValue("kg", 0);
   private beerColor: BeerColorValue | null = null;
+  
   private gypsum: MassValue | null = null;
   private epsom: MassValue | null = null;
   private tableSalt: MassValue | null = null;
@@ -44,11 +29,20 @@ export default class WaterCalculator {
   private bakingSoda: MassValue | null = null;
   private chalkUndissolved: MassValue | null = null;
   private chalkDissolved: MassValue | null = null;
+
   private lacticAcid: VolumeValue | null = null;
   private phosphoricAcid: VolumeValue | null = null;
   private acidMalt: MassValue | null = null;
   private waterTreatment: WaterTreatment | null = null;
-
+  private waterProfile: WaterProfile = {
+    calcium: null,
+    magnesium: null,
+    sodium: null,
+    sulfate: null,
+    chloride: null,
+    bicarbonate: null
+  };
+  
   /**
    * Returns GH
    * 
@@ -165,12 +159,47 @@ export default class WaterCalculator {
   }
 
   /**
+   * Sets the water profile
+   * 
+   * @param waterProfile water profile
+   */
+  public setWaterProfile = (waterProfile: WaterProfile) => {
+    this.waterProfile = waterProfile;
+  }
+
+  /**
+   * Returns the water profile
+   * 
+   * @returns water profile
+   */
+  public getWaterProfile = () => {
+    return this.waterProfile;
+  }
+
+  /**
+   * Calculates salts to change water profile as close as possible to target water profile
+   * 
+   * @param targetWaterProfile target water profile
+   * @param params optimization parameters
+   * @returns optimize result
+   */
+  public optimizeSalts(targetWaterProfile: WaterProfile, params: SaltOptimizerParams) {
+    const saltOptimizer = new SaltOptimizer(this.getWaterProfile(), 
+      targetWaterProfile, 
+      this.getStrikeWater(),
+      this.getSpargeWater(),
+      params);
+      
+    return saltOptimizer.optimizeSalts();
+  }
+
+  /**
    * Returns calcium
    * 
    * @returns calcium or null if not set
    */
   public getCalcium = (): CalciumValue | null => {
-    return this.calcium;
+    return this.waterProfile.calcium;
   }
 
   /**
@@ -179,7 +208,7 @@ export default class WaterCalculator {
    * @param value calcium value
    */
   public setCalcium = (value: CalciumValue | null) => {
-    this.calcium = value;
+    this.waterProfile.calcium = value;
   } 
 
   /**
@@ -188,7 +217,7 @@ export default class WaterCalculator {
    * @returns magnesium or null if not set
    */
   public getMagnesium = (): MagnesiumValue | null => {
-    return this.magnesium;
+    return this.waterProfile.magnesium;
   }
 
   /**
@@ -197,7 +226,7 @@ export default class WaterCalculator {
    * @param value magnesium value
    */
   public setMagnesium = (value: MagnesiumValue | null) => {
-    this.magnesium = value;
+    this.waterProfile.magnesium = value;
   } 
     
   /**
@@ -206,7 +235,7 @@ export default class WaterCalculator {
    * @returns sodium or null if not set
    */
   public getSodium = (): SodiumValue | null => {
-    return this.sodium;
+    return this.waterProfile.sodium;
   }
 
   /**
@@ -215,7 +244,7 @@ export default class WaterCalculator {
    * @param value sodium value
    */
   public setSodium = (value: SodiumValue | null) => {
-    this.sodium = value;
+    this.waterProfile.sodium = value;
   } 
 
   /**
@@ -224,7 +253,7 @@ export default class WaterCalculator {
    * @returns sulfate or null if not set
    */
   public getSulfate = (): SulfateValue | null => {
-    return this.sulfate;
+    return this.waterProfile.sulfate;
   }
 
   /**
@@ -233,7 +262,7 @@ export default class WaterCalculator {
    * @param value sulfate value
    */
   public setSulfate = (value: SulfateValue | null) => {
-    this.sulfate = value;
+    this.waterProfile.sulfate = value;
   } 
 
   /**
@@ -242,7 +271,7 @@ export default class WaterCalculator {
    * @returns chloride or null if not set
    */
   public getChloride = (): ChlorideValue | null => {
-    return this.chloride;
+    return this.waterProfile.chloride;
   }
 
   /**
@@ -251,7 +280,7 @@ export default class WaterCalculator {
    * @param value chloride value
    */
   public setChloride = (value: ChlorideValue | null) => {
-    this.chloride = value;
+    this.waterProfile.chloride = value;
   } 
 
   /**
@@ -260,8 +289,8 @@ export default class WaterCalculator {
    * @returns bicarbonate or null if not set
    */
   public getBicarbonate = (): BicarbonateValue | null => {
-    if (this.bicarbonate) {
-      return this.bicarbonate;
+    if (this.waterProfile.bicarbonate) {
+      return this.waterProfile.bicarbonate;
     }
 
     const alkalinity = this.getAlkalinity();
@@ -278,7 +307,7 @@ export default class WaterCalculator {
    * @param value bicarbonate value
    */
   public setBicarbonate = (value: BicarbonateValue | null) => {
-    this.bicarbonate = value;
+    this.waterProfile.bicarbonate = value;
   } 
 
   /**
@@ -292,8 +321,8 @@ export default class WaterCalculator {
       return this.alkalinity;
     }
 
-    if (this.bicarbonate != null) {
-      return new AlkalinityValue("mg/l", this.bicarbonate.getValue("mg/l") * 50 / 61);
+    if (this.waterProfile.bicarbonate != null) {
+      return new AlkalinityValue("mg/l", this.waterProfile.bicarbonate.getValue("mg/l") * 50 / 61);
     }
 
     return null;
@@ -618,7 +647,7 @@ export default class WaterCalculator {
    * @param waterVolume volume of water the ions are beign observed
    * @returns water ion mass concentrations after added salts
    */
-  public getIonsAfterSalts(waterVolume: VolumeValue): Ions  {
+  public getIonsAfterSalts(waterVolume: VolumeValue): WaterProfile {
     const result = this.getIonSaltChanges(waterVolume);
     
     result.calcium.add("mg/l", (this.getCalcium()?.getValue("mg/l")) || 0);
@@ -637,8 +666,8 @@ export default class WaterCalculator {
    * @param waterVolume volume of water the changes are observed
    * @returns water ion mass concentration changes caused by added salts
    */
-  public getIonSaltChanges(waterVolume: VolumeValue): Ions {
-    const result: Ions = {
+  public getIonSaltChanges(waterVolume: VolumeValue): WaterProfile {
+    const result: WaterProfile = {
       calcium: new CalciumValue("mg/l", 0),
       chloride: new ChlorideValue("mg/l", 0),
       magnesium: new MagnesiumValue("mg/l", 0),
@@ -949,15 +978,15 @@ export default class WaterCalculator {
    * @param salt amount of salt
    * @param saltIons salt ion properties
    */
-  private addSaltIonChanges(result: Ions, waterVolume: VolumeValue, salt: MassValue | undefined, saltIons: SaltIons) {
+  private addSaltIonChanges(result: WaterProfile, waterVolume: VolumeValue, salt: MassValue | undefined, saltIons: SaltIons) {
     if (salt) {
       const saltConcentration = salt.getMassConcentration(waterVolume).getValue("mg/l");
-      result.calcium.add("mg/l", saltConcentration * (saltIons.calcium || 0));
-      result.chloride.add("mg/l", saltConcentration * (saltIons.chloride || 0));
-      result.magnesium.add("mg/l", saltConcentration * (saltIons.magnesium || 0));
-      result.sodium.add("mg/l", saltConcentration * (saltIons.sodium || 0));
-      result.sulfate.add("mg/l", saltConcentration * (saltIons.sulfate || 0));
-      result.bicarbonate.add("mg/l", saltConcentration * (saltIons.bicarbonate || 0));
+      result.calcium.add("mg/l", saltConcentration * (saltIons.calcium.getValue("mg/l") || 0));
+      result.chloride.add("mg/l", saltConcentration * (saltIons.chloride.getValue("mg/l") || 0));
+      result.magnesium.add("mg/l", saltConcentration * (saltIons.magnesium.getValue("mg/l") || 0));
+      result.sodium.add("mg/l", saltConcentration * (saltIons.sodium.getValue("mg/l") || 0));
+      result.sulfate.add("mg/l", saltConcentration * (saltIons.sulfate.getValue("mg/l") || 0));
+      result.bicarbonate.add("mg/l", saltConcentration * (saltIons.bicarbonate.getValue("mg/l") || 0));
     }
   }
 
