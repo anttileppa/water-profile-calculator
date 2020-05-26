@@ -24,10 +24,6 @@ export interface Salts {
   chalkUndissolved?: number;
 }
 
-export interface Input {
-  maxSalts: Salts;
-}
-
 export interface OutputAdditions {
   bakingSoda?: MassValue;
   calciumChloride?: MassValue;
@@ -155,18 +151,6 @@ interface Objective {
   sparge_chalkUndissolved?: number
 }
 
-export interface SaltOptimizerParams {
-  salts: {
-    gypsum: boolean,
-    epsom: boolean,
-    tableSalt: boolean,
-    calciumChloride: boolean,
-    magnesiumChloride: boolean,
-    bakingSoda: boolean,
-    chalkDissolved: boolean
-  }
-}
-
 /**
  * Automatically determine salt additions for brewing water.
  * 
@@ -179,17 +163,17 @@ export default class SaltOptimizer {
   private initialWaterProfile: WaterProfile;
   private targetWaterProfile: WaterProfile;
   private targetResidualAlkalinity: AlkalinityValue;
-  private params: SaltOptimizerParams;
+  private salts: Salt[];
   private strikeVolume: VolumeValue;
   private spargeVolume: VolumeValue;
 
-  constructor(initialWaterProfile: WaterProfile, targetWaterProfile: WaterProfile, targetResidualAlkalinity: AlkalinityValue, strikeVolume: VolumeValue, spargeVolume: VolumeValue, params: SaltOptimizerParams) {
+  constructor(initialWaterProfile: WaterProfile, targetWaterProfile: WaterProfile, targetResidualAlkalinity: AlkalinityValue, strikeVolume: VolumeValue, spargeVolume: VolumeValue, salts: Salt[]) {
     this.initialWaterProfile = initialWaterProfile;
     this.targetWaterProfile = targetWaterProfile;
     this.targetResidualAlkalinity = targetResidualAlkalinity;
     this.strikeVolume = strikeVolume;
     this.spargeVolume = spargeVolume;
-    this.params = params;
+    this.salts = salts;
   }
 
   /**
@@ -199,41 +183,7 @@ export default class SaltOptimizer {
    * @return output
    */
   public optimizeSalts(): Output {
-    const maxSalts: Salts = {};
-
-    if (this.params.salts.bakingSoda) {
-      maxSalts.bakingSoda = 1000.0;
-    }
-
-    if (this.params.salts.calciumChloride) {
-      maxSalts.calciumChloride = 1000.0;
-    }
-
-    if (this.params.salts.gypsum) {
-      maxSalts.gypsum = 1000.0;
-    }
-
-    if (this.params.salts.epsom) {
-      maxSalts.epsom = 1000.0;
-    }
-
-    if (this.params.salts.tableSalt) {
-      maxSalts.tableSalt = 1000.0;
-    }
-
-    if (this.params.salts.magnesiumChloride) {
-      maxSalts.magnesiumChloride = 1000.0;
-    }
-
-    if (this.params.salts.chalkDissolved) {
-      maxSalts.chalkDissolved = 1000.0;
-    }
-
-    const input: Input = {
-      maxSalts: maxSalts,
-    };
-
-    const problem = this.setupProblem(input); 
+    const problem = this.setupProblem(); 
     const problemMatrix = this.convertProblemToMatrix(problem);
     const result = numeric.solveLP(problemMatrix.objective, 
       problemMatrix.i_constraints,
@@ -244,26 +194,25 @@ export default class SaltOptimizer {
 
     const solution: Solution = numeric.trunc(result.solution, 1e-4);
 
-    return this.convertSolutionToJson(input, problemMatrix, solution);
+    return this.convertSolutionToJson(problemMatrix, solution);
   }
   
   /**
    * Sets up the problem using values from input 
    * 
-   * @param input input
    * @returns problem
    */
-  private setupProblem(input: Input): Problem {
+  private setupProblem(): Problem {
     const problem: Problem = {
       i_constraints: [], 
       e_constraints: [],
-      objective: this.problemObjective(input)
+      objective: this.problemObjective()
     };
 
     problem.i_constraints = problem.i_constraints.concat(this.absConstraints());
-    problem.i_constraints = problem.i_constraints.concat(this.setupLimitConstraints(input));
-    problem.e_constraints = problem.e_constraints.concat(this.setupIonEConstraints(input));
-    problem.e_constraints = problem.e_constraints.concat(this.setupResidualAlkalinityConstraints(input));
+    problem.i_constraints = problem.i_constraints.concat(this.setupLimitConstraints());
+    problem.e_constraints = problem.e_constraints.concat(this.setupIonEConstraints());
+    problem.e_constraints = problem.e_constraints.concat(this.setupResidualAlkalinityConstraints());
     
     return problem;
   }
@@ -271,12 +220,9 @@ export default class SaltOptimizer {
   /**
    * Sets up problem objective from input
    * 
-   * @param input input
    * @returns problem objective
    */
-  private problemObjective(input: Input): Objective {
-    // Check that these "any" params are properly used. 
-
+  private problemObjective(): Objective {
     const objective: Objective = {
       abse_residualAlkalinity: 1000.0,
       abse_bicarbonate: parameters.ions.bicarbonate,
@@ -293,12 +239,12 @@ export default class SaltOptimizer {
     // the coefficients that use the variables are at least
     // 14.
 
-    for (let salt in input.maxSalts) {
+    this.salts.forEach((salt) => {
       (objective as any)[salt] = 1.0;
       if (this.hasSparge() && !this.isAlkalineMineral(salt as Salt)){
           (objective as any)["sparge_" + salt] = 1.0;
       }
-    }
+    });
     
     return objective;
   }
@@ -351,15 +297,13 @@ export default class SaltOptimizer {
   
   /**
    * Sets up limit constraints
-   * 
-   * @param input input
    */
-  private setupLimitConstraints(input: Input): IConstraint[] {
-    const constraints = [];
+  private setupLimitConstraints(): IConstraint[] {
+    const constraints: IConstraint[] = [];
 
-    for (let salt in input.maxSalts) {
+    this.salts.forEach((salt) => {
       constraints.push(this.nonNegative(salt));
-      const cons: any = {"rhs": (input.maxSalts as any)[salt], "lhs": {}};
+      const cons: any = {"rhs": 1000, "lhs": {}};
       cons.lhs[salt] = 1.0;
 
       if (this.hasSparge() && !this.isAlkalineMineral(salt as Salt)) {
@@ -368,7 +312,7 @@ export default class SaltOptimizer {
       }
 
       constraints.push(cons);
-    };
+    });
     
     return constraints;
   }
@@ -408,10 +352,9 @@ export default class SaltOptimizer {
   /**
    * Sets up ion constraint
    * 
-   * @param input input
    * @returns constaints
    */
-  private setupIonEConstraints(input: Input): EConstraint[] {
+  private setupIonEConstraints(): EConstraint[] {
     const constraints: EConstraint[] = []
     const ionMap = this.getIonSaltMap();
     const strikeLiters = this.strikeVolume.getValue("l") || 0;
@@ -428,14 +371,14 @@ export default class SaltOptimizer {
       const sparge_cons = {"rhs": -initialIons, "lhs": {}};
       (sparge_cons as any).lhs["sparge_" + ion] = -1.0;
 
-      for (let salt in input.maxSalts) {
+      this.salts.forEach((salt) => {
         if (salt in ionMap[ion]) {
           (cons1.lhs as any)[salt] = ionMap[ion][salt];
           if (this.hasSparge() && !this.isAlkalineMineral(salt as Salt)) {
             (sparge_cons.lhs as any)["sparge_" + salt] = ionMap[ion][salt];
           }
         }
-      }
+      });
 
       constraints.push(cons1);
 
@@ -460,10 +403,9 @@ export default class SaltOptimizer {
   /**
    * Sets up residual alkalinity constraints
    * 
-   * @param input input
    * @returns constaints
    */
-  private setupResidualAlkalinityConstraints(input: Input) {
+  private setupResidualAlkalinityConstraints() {
     const constraints = []
     const cons1 = {"rhs": 0.0, "lhs": {}};
     (cons1.lhs as any)["residualAlkalinity"] = -1;
@@ -610,12 +552,11 @@ export default class SaltOptimizer {
   /**
    * Converts solution to JSON format
    * 
-   * @param input input
    * @param mproblem matrix problem
    * @param solution solution
    * @returns output
    */
-  private convertSolutionToJson(input: Input, mproblem: MatrixProblem, solution: Solution): Output {
+  private convertSolutionToJson(mproblem: MatrixProblem, solution: Solution): Output {
     const result: Output = {
       "strikeAdditions": {},
       "spargeAdditions": {},

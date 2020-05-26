@@ -3,7 +3,8 @@ import consts from "./consts";
 import { saltIonMap, SaltIons } from "./salt-ions"; 
 import { WaterTreatment } from "./water-treatment"; 
 import { WaterProfile } from "./water-profile";
-import SaltOptimizer, { SaltOptimizerParams } from "./salt-optimizer";
+import SaltOptimizer from "./salt-optimizer";
+import { Salt } from "./salts";
 
 /**
  * Water profile calculator
@@ -181,16 +182,16 @@ export default class WaterCalculator {
    * 
    * @param targetWaterProfile target water profile
    * @param targetResidualAlkalinity target residual alkalinity
-   * @param params optimization parameters
+   * @param salts used salts
    * @returns optimize result
    */
-  public optimizeSalts(targetWaterProfile: WaterProfile, targetResidualAlkalinity: AlkalinityValue, params: SaltOptimizerParams) {
+  public optimizeSalts(targetWaterProfile: WaterProfile, targetResidualAlkalinity: AlkalinityValue, salts: Salt[]) {
     const saltOptimizer = new SaltOptimizer(this.getWaterProfile(), 
       targetWaterProfile, 
       targetResidualAlkalinity,
       this.getStrikeWater(),
       this.getSpargeWater(),
-      params);
+      salts);
       
     return saltOptimizer.optimizeSalts();
   }

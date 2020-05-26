@@ -1,6 +1,7 @@
 import WaterCalculator from "../src/index";
 import { WaterHardnessValue, MassValue, ChlorideValue, MagnesiumValue, CalciumValue, SodiumValue, SulfateValue, BicarbonateValue, AlkalinityValue, VolumeValue, MassConcentrationValue, PhValue } from "../src/units";
 import { BoilingWaterTreatment, LimeWaterTreatment } from "../src/water-treatment";
+import { Salt } from "../src/salts";
 
 describe("Water Profile Calculator (water treatment)", () => {
   
@@ -29,17 +30,8 @@ describe("Water Profile Calculator (water treatment)", () => {
     };
 
     const targetResidualAlkalinity = new AlkalinityValue("mg/l", 0);
-    const optimizedSalts = waterCalculator.optimizeSalts(targetProfile, targetResidualAlkalinity, { 
-      salts: {
-        gypsum: true,
-        epsom: true,
-        tableSalt: true,
-        calciumChloride: true,
-        magnesiumChloride: true,
-        bakingSoda: true,
-        chalkDissolved: false
-      }
-    });
+    const salts: Salt[] = ["gypsum", "epsom", "tableSalt", "calciumChloride", "magnesiumChloride", "bakingSoda"];
+    const optimizedSalts = waterCalculator.optimizeSalts(targetProfile, targetResidualAlkalinity, salts);
 
     expect(optimizedSalts.strikeAdditions.gypsum.getValue("g", 2)).toEqual(0.46);
     expect(optimizedSalts.strikeAdditions.epsom.getValue("g", 2)).toEqual(0);
@@ -84,17 +76,9 @@ describe("Water Profile Calculator (water treatment)", () => {
     };
 
     const targetResidualAlkalinity = new AlkalinityValue("mg/l", 0);
-    const optimizedSalts = waterCalculator.optimizeSalts(targetProfile, targetResidualAlkalinity, { 
-      salts: {
-        gypsum: true,
-        epsom: true,
-        tableSalt: true,
-        calciumChloride: true,
-        magnesiumChloride: true,
-        bakingSoda: true,
-        chalkDissolved: true
-      }
-    });
+    const salts: Salt[] = ["gypsum", "epsom", "tableSalt", "calciumChloride", "magnesiumChloride", "bakingSoda", "chalkDissolved"];
+
+    const optimizedSalts = waterCalculator.optimizeSalts(targetProfile, targetResidualAlkalinity, salts);
 
     expect(optimizedSalts.strikeAdditions.gypsum.getValue("g", 2)).toEqual(1.01);
     expect(optimizedSalts.strikeAdditions.epsom.getValue("g", 2)).toEqual(0);
@@ -139,17 +123,9 @@ describe("Water Profile Calculator (water treatment)", () => {
     };
 
     const targetResidualAlkalinity = new AlkalinityValue("mg/l", 40);
-    const optimizedSalts = waterCalculator.optimizeSalts(targetProfile, targetResidualAlkalinity, { 
-      salts: {
-        gypsum: true,
-        epsom: true,
-        tableSalt: true,
-        calciumChloride: true,
-        magnesiumChloride: true,
-        bakingSoda: true,
-        chalkDissolved: false
-      }
-    });
+    const salts: Salt[] = ["gypsum", "epsom", "tableSalt", "calciumChloride", "magnesiumChloride", "bakingSoda"];
+    
+    const optimizedSalts = waterCalculator.optimizeSalts(targetProfile, targetResidualAlkalinity, salts);
 
     expect(optimizedSalts.strikeAdditions.gypsum.getValue("g", 2)).toEqual(0);
     expect(optimizedSalts.strikeAdditions.epsom.getValue("g", 2)).toEqual(0);
