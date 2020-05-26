@@ -29,7 +29,7 @@ interface SaltIonMap {
 /**
  * Salt ion concentrations
  */
-const saltIonMap: SaltIonMap = {
+export const saltIonMap: SaltIonMap = {
   gypsum: {
     calcium: new CalciumValue("mg/l", 40.08/172.19),
     sulfate: new SulfateValue("mg/l", 96.07/172.19)
@@ -64,4 +64,6 @@ const saltIonMap: SaltIonMap = {
   }
 }
 
-export default saltIonMap;
+export type Ion = "calcium" | "magnesium"| "sodium" | "sulfate" | "chloride" | "bicarbonate";
+
+export const ionList: Ion[] = ["calcium", "magnesium", "sodium", "sulfate", "chloride", "bicarbonate"];

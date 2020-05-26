@@ -1,10 +1,8 @@
 import numeric from "numeric";
 import { WaterProfile } from "./water-profile";
-import { VolumeValue, MassValue } from "./units";
-import saltIonMap from "./salt-ions";
+import { VolumeValue, MassValue, AlkalinityValue } from "./units";
+import { saltIonMap, Ion, ionList } from "./salt-ions";
 import { Salt, saltList } from "./salts";
-
-export type Ion = "calcium" | "magnesium"| "sodium" | "sulfate" | "chloride" | "bicarbonate";
 
 export interface Ions {
   calcium?: number,
@@ -27,9 +25,6 @@ export interface Salts {
 }
 
 export interface Input {
-  targetProfile: Ions;
-  targetResidualAlkalinity: number;
-  initialProfile: Ions;
   maxSalts: Salts;
 }
 
@@ -183,13 +178,15 @@ export default class SaltOptimizer {
 
   private initialWaterProfile: WaterProfile;
   private targetWaterProfile: WaterProfile;
+  private targetResidualAlkalinity: AlkalinityValue;
   private params: SaltOptimizerParams;
   private strikeVolume: VolumeValue;
   private spargeVolume: VolumeValue;
 
-  constructor(initialWaterProfile: WaterProfile, targetWaterProfile: WaterProfile, strikeVolume: VolumeValue, spargeVolume: VolumeValue, params: SaltOptimizerParams) {
+  constructor(initialWaterProfile: WaterProfile, targetWaterProfile: WaterProfile, targetResidualAlkalinity: AlkalinityValue, strikeVolume: VolumeValue, spargeVolume: VolumeValue, params: SaltOptimizerParams) {
     this.initialWaterProfile = initialWaterProfile;
     this.targetWaterProfile = targetWaterProfile;
+    this.targetResidualAlkalinity = targetResidualAlkalinity;
     this.strikeVolume = strikeVolume;
     this.spargeVolume = spargeVolume;
     this.params = params;
@@ -233,24 +230,7 @@ export default class SaltOptimizer {
     }
 
     const input: Input = {
-      initialProfile: {
-        bicarbonate: this.initialWaterProfile.bicarbonate.getValue("mg/l"),
-        calcium: this.initialWaterProfile.calcium.getValue("mg/l"),
-        chloride: this.initialWaterProfile.chloride.getValue("mg/l"),
-        magnesium: this.initialWaterProfile.magnesium.getValue("mg/l"),
-        sodium: this.initialWaterProfile.sodium.getValue("mg/l"),
-        sulfate: this.initialWaterProfile.sulfate.getValue("mg/l"),
-      },
-      targetProfile: {
-        bicarbonate: this.targetWaterProfile.bicarbonate.getValue("mg/l"),
-        calcium: this.targetWaterProfile.calcium.getValue("mg/l"),
-        chloride: this.targetWaterProfile.chloride.getValue("mg/l"),
-        magnesium: this.targetWaterProfile.magnesium.getValue("mg/l"),
-        sodium: this.targetWaterProfile.sodium.getValue("mg/l"),
-        sulfate: this.targetWaterProfile.sulfate.getValue("mg/l"),
-      },
       maxSalts: maxSalts,
-      targetResidualAlkalinity: 0
     };
 
     const problem = this.setupProblem(input); 
@@ -280,7 +260,7 @@ export default class SaltOptimizer {
       objective: this.problemObjective(input)
     };
 
-    problem.i_constraints = problem.i_constraints.concat(this.absConstraints(input.targetProfile));
+    problem.i_constraints = problem.i_constraints.concat(this.absConstraints());
     problem.i_constraints = problem.i_constraints.concat(this.setupLimitConstraints(input));
     problem.e_constraints = problem.e_constraints.concat(this.setupIonEConstraints(input));
     problem.e_constraints = problem.e_constraints.concat(this.setupResidualAlkalinityConstraints(input));
@@ -330,16 +310,17 @@ export default class SaltOptimizer {
   /**
    * Sets up absolute input constraints
    * 
-   * @param targetProfile target profile
    * @returns list of input constraints
    */
-  private absConstraints(targetProfile: Ions): IConstraint[] {
+  private absConstraints(): IConstraint[] {
     let constraints: IConstraint[] = [];
     constraints = constraints.concat(this.absConstraint('residualAlkalinity'));
 
-    for (let ion in targetProfile) {
-      constraints = constraints.concat(this.absConstraint(ion as Ion));
-    }
+    ionList.forEach((ion) => {
+      if (this.targetWaterProfile[ion].getValue("mg/l") > 0) {
+        constraints = constraints.concat(this.absConstraint(ion));
+      }
+    });
 
     return constraints;
   }
@@ -431,24 +412,27 @@ export default class SaltOptimizer {
    * @returns constaints
    */
   private setupIonEConstraints(input: Input): EConstraint[] {
-    const constraints = []
-    const ion_map = this.getIonSaltMap();
+    const constraints: EConstraint[] = []
+    const ionMap = this.getIonSaltMap();
     const strikeLiters = this.strikeVolume.getValue("l") || 0;
     const spargeLiters = this.spargeVolume.getValue("l") || 0;
     const totalLiters = strikeLiters + spargeLiters;
-    
-    for (let ion in input.targetProfile) {
-      const cons1 = {"rhs": -(input.initialProfile as any)[ion], "lhs": {}};
+
+    ionList.forEach(ion => {
+      const initialIons = this.initialWaterProfile[ion].getValue("mg/l");
+      const targetIons = this.targetWaterProfile[ion].getValue("mg/l");
+
+      const cons1 = {"rhs": -initialIons, "lhs": {}};
       (cons1 as any).lhs["mash_" + ion] = -1.0;
 
-      const sparge_cons = {"rhs": -(input.initialProfile as any)[ion], "lhs": {}};
+      const sparge_cons = {"rhs": -initialIons, "lhs": {}};
       (sparge_cons as any).lhs["sparge_" + ion] = -1.0;
 
       for (let salt in input.maxSalts) {
-        if (salt in ion_map[ion]) {
-          (cons1.lhs as any)[salt] = ion_map[ion][salt];
+        if (salt in ionMap[ion]) {
+          (cons1.lhs as any)[salt] = ionMap[ion][salt];
           if (this.hasSparge() && !this.isAlkalineMineral(salt as Salt)) {
-            (sparge_cons.lhs as any)["sparge_" + salt] = ion_map[ion][salt];
+            (sparge_cons.lhs as any)["sparge_" + salt] = ionMap[ion][salt];
           }
         }
       }
@@ -459,7 +443,7 @@ export default class SaltOptimizer {
         constraints.push(sparge_cons);
       }
 
-      const cons2 = {"rhs": (input.targetProfile as any)[ion], "lhs": {}};
+      const cons2 = {"rhs": targetIons, "lhs": {}};
       (cons2.lhs as any)["mash_" + ion] = strikeLiters / totalLiters;
       (cons2.lhs as any)["e_" + ion] = 1.0;
       
@@ -468,7 +452,7 @@ export default class SaltOptimizer {
       }
 
       constraints.push(cons2);
-    }
+    });
 
     return constraints;
   }
@@ -488,7 +472,7 @@ export default class SaltOptimizer {
     }
     constraints.push(cons1);
 
-    const cons2 = {"rhs": input.targetResidualAlkalinity, "lhs": {}};
+    const cons2 = {"rhs": this.targetResidualAlkalinity.getValue("mg/l"), "lhs": {}};
     (cons2.lhs as any)["residualAlkalinity"] = 1.0;
     (cons2.lhs as any)["e_residualAlkalinity"] = 1.0;
     constraints.push(cons2);
@@ -648,20 +632,19 @@ export default class SaltOptimizer {
       result.spargeAdditions[salt] = new MassValue("g", this.getValue(mproblem, solution, spargeSalt) || 0);
     });
 
-    // Extract ion errors
-    for (let key in input.targetProfile) {
-      const ion: Ion = key as Ion;
+    ionList.forEach(ion => {
+      const initialIons = this.initialWaterProfile[ion].getValue("mg/l");
+      const targetIons = this.targetWaterProfile[ion].getValue("mg/l");
       const iname = "e_" + ion;
       const inr = mproblem.variables.name_number[iname];
       result.ionErrors[ion] = (solution as any)[inr];
-      result.ions[ion] = (input.targetProfile as any)[ion] - (solution as any)[inr];
-      result.ionsAdded[ion] = (input.targetProfile as any)[ion] - (solution as any)[inr] - (input.initialProfile as any)[ion];
-    }
+      result.ions[ion] = targetIons - (solution as any)[inr];
+      result.ionsAdded[ion] = targetIons - (solution as any)[inr] - initialIons;
+    });
 
-    // Extract residual alkalinity
     const ra_nr = (mproblem.variables.name_number as any)["residualAlkalinity"];
     result.residualAlkalinity = (solution as any)[ra_nr];
-    const era_nr =mproblem.variables.name_number["e_residualAlkalinity"];
+    const era_nr = mproblem.variables.name_number["e_residualAlkalinity"];
     result.residualAlkalinityError = (solution as any)[era_nr];
 
     return result;
