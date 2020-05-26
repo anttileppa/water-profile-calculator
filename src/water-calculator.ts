@@ -981,12 +981,12 @@ export default class WaterCalculator {
   private addSaltIonChanges(result: WaterProfile, waterVolume: VolumeValue, salt: MassValue | undefined, saltIons: SaltIons) {
     if (salt) {
       const saltConcentration = salt.getMassConcentration(waterVolume).getValue("mg/l");
-      result.calcium.add("mg/l", saltConcentration * (saltIons.calcium.getValue("mg/l") || 0));
-      result.chloride.add("mg/l", saltConcentration * (saltIons.chloride.getValue("mg/l") || 0));
-      result.magnesium.add("mg/l", saltConcentration * (saltIons.magnesium.getValue("mg/l") || 0));
-      result.sodium.add("mg/l", saltConcentration * (saltIons.sodium.getValue("mg/l") || 0));
-      result.sulfate.add("mg/l", saltConcentration * (saltIons.sulfate.getValue("mg/l") || 0));
-      result.bicarbonate.add("mg/l", saltConcentration * (saltIons.bicarbonate.getValue("mg/l") || 0));
+      result.calcium.add("mg/l", saltConcentration * (saltIons.calcium?.getValue("mg/l") || 0));
+      result.chloride.add("mg/l", saltConcentration * (saltIons.chloride?.getValue("mg/l") || 0));
+      result.magnesium.add("mg/l", saltConcentration * (saltIons.magnesium?.getValue("mg/l") || 0));
+      result.sodium.add("mg/l", saltConcentration * (saltIons.sodium?.getValue("mg/l") || 0));
+      result.sulfate.add("mg/l", saltConcentration * (saltIons.sulfate?.getValue("mg/l") || 0));
+      result.bicarbonate.add("mg/l", saltConcentration * (saltIons.bicarbonate?.getValue("mg/l") || 0));
     }
   }
 
