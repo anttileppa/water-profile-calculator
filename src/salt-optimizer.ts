@@ -194,7 +194,7 @@ export default class SaltOptimizer {
 
     const solution: Solution = numeric.trunc(result.solution, 1e-4);
 
-    return this.convertSolutionToJson(problemMatrix, solution);
+    return this.convertSolutionToOuput(problemMatrix, solution);
   }
   
   /**
@@ -561,7 +561,7 @@ export default class SaltOptimizer {
    * @param solution solution
    * @returns output
    */
-  private convertSolutionToJson(mproblem: MatrixProblem, solution: Solution): Output {
+  private convertSolutionToOuput(mproblem: MatrixProblem, solution: Solution): Output {
     const result: Output = {
       "strikeAdditions": {},
       "spargeAdditions": {},
