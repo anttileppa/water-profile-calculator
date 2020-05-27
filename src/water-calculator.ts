@@ -1,6 +1,6 @@
 import { PhValue, AlkalinityValue, ChlorideValue, SulfateValue, WaterHardnessValue, MagnesiumValue, CalciumValue, SodiumValue, VolumeValue, DensityValue, BeerColorValue, MassValue, BicarbonateValue, PercentValue } from "./units";
 import consts from "./consts";
-import { saltIonMap, SaltIons } from "./salt-ions"; 
+import { saltIonMap, SaltIons } from "./ions"; 
 import { WaterTreatment } from "./water-treatment"; 
 import { WaterProfile } from "./water-profile";
 import SaltOptimizer from "./salt-optimizer";

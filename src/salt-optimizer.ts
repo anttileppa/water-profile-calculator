@@ -1,7 +1,7 @@
 import numeric from "numeric";
 import { WaterProfile } from "./water-profile";
-import { VolumeValue, MassValue, AlkalinityValue, MassConcentrationValue } from "./units";
-import { saltIonMap, Ion, ionList } from "./salt-ions";
+import { VolumeValue, AlkalinityValue, MassConcentrationValue } from "./units";
+import { saltIonMap, Ion, ionList } from "./ions";
 import { Salt, saltList } from "./salts";
 
 export interface Ions {

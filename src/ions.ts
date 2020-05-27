@@ -64,6 +64,12 @@ export const saltIonMap: SaltIonMap = {
   }
 }
 
+/**
+ * Type for ion names
+ */
 export type Ion = "calcium" | "magnesium"| "sodium" | "sulfate" | "chloride" | "bicarbonate";
 
+/**
+ * List of ion names
+ */
 export const ionList: Ion[] = ["calcium", "magnesium", "sodium", "sulfate", "chloride", "bicarbonate"];
