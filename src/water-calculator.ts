@@ -4,7 +4,7 @@ import { saltIonMap, SaltIons } from "./ions";
 import { WaterTreatment } from "./water-treatment"; 
 import { WaterProfile } from "./water-profile";
 import SaltOptimizer from "./salt-optimizer";
-import { Salt } from "./salts";
+import { Salt, Salts } from "./salts";
 
 /**
  * Water profile calculator
@@ -22,19 +22,11 @@ export default class WaterCalculator {
   private gristWeight: MassValue = new MassValue("kg", 0);
   private beerColor: BeerColorValue | null = null;
   
-  private gypsum: MassValue | null = null;
-  private epsom: MassValue | null = null;
-  private tableSalt: MassValue | null = null;
-  private calciumChloride: MassValue | null = null;
-  private magnesiumChloride: MassValue | null = null;
-  private bakingSoda: MassValue | null = null;
-  private chalkUndissolved: MassValue | null = null;
-  private chalkDissolved: MassValue | null = null;
-
   private lacticAcid: VolumeValue | null = null;
   private phosphoricAcid: VolumeValue | null = null;
   private acidMalt: MassValue | null = null;
   private waterTreatment: WaterTreatment | null = null;
+
   private waterProfile: WaterProfile = {
     calcium: null,
     magnesium: null,
@@ -42,6 +34,17 @@ export default class WaterCalculator {
     sulfate: null,
     chloride: null,
     bicarbonate: null
+  };
+
+  private salts: Salts = {
+    bakingSoda: null,
+    calciumChloride: null,
+    chalkDissolved: null,
+    chalkUndissolved: null,
+    epsom: null,
+    gypsum: null,
+    magnesiumChloride: null,
+    tableSalt: null
   };
   
   /**
@@ -435,12 +438,30 @@ export default class WaterCalculator {
   }
 
   /**
+   * Sets salts
+   * 
+   * @param salts
+   */
+  public setSalts = (salts: Salts) => {
+    this.salts = salts;
+  }
+
+  /**
+   * Returns salts
+   * 
+   * @returns salts
+   */
+  public getSalts = () => {
+    return this.salts;
+  }
+
+  /**
    * Returns gypsum
    * 
    * @returns gypsum or null if not set
    */
-  public getGypsum = (): MassValue => {
-    return this.gypsum;
+  public getGypsum = (): MassValue | null => {
+    return this.salts.gypsum;
   }
 
   /**
@@ -448,8 +469,8 @@ export default class WaterCalculator {
    * 
    * @param value gypsum value
    */
-  public setGypsum = (value: MassValue) => {
-    this.gypsum = value;
+  public setGypsum = (value: MassValue | null) => {
+    this.salts.gypsum = value;
   }
 
   /**
@@ -457,8 +478,8 @@ export default class WaterCalculator {
    * 
    * @returns epsom or null if not set
    */
-  public getEpsom = (): MassValue => {
-    return this.epsom;
+  public getEpsom = (): MassValue | null => {
+    return this.salts.epsom;
   }
 
   /**
@@ -466,8 +487,8 @@ export default class WaterCalculator {
    * 
    * @param value epsom value
    */
-  public setEpsom = (value: MassValue) => {
-    this.epsom = value;
+  public setEpsom = (value: MassValue | null) => {
+    this.salts.epsom = value;
   } 
 
   /**
@@ -475,8 +496,8 @@ export default class WaterCalculator {
    * 
    * @returns tablesalt or null if not set
    */
-  public getTableSalt = (): MassValue => {
-    return this.tableSalt;
+  public getTableSalt = (): MassValue | null => {
+    return this.salts.tableSalt;
   }
 
   /**
@@ -484,8 +505,8 @@ export default class WaterCalculator {
    * 
    * @param value tablesalt value
    */
-  public setTableSalt = (value: MassValue) => {
-    this.tableSalt = value;
+  public setTableSalt = (value: MassValue | null) => {
+    this.salts.tableSalt = value;
   } 
 
   /**
@@ -493,8 +514,8 @@ export default class WaterCalculator {
    * 
    * @returns bakingsoda or null if not set
    */
-  public getBakingSoda = (): MassValue => {
-    return this.bakingSoda;
+  public getBakingSoda = (): MassValue | null => {
+    return this.salts.bakingSoda;
   }
 
   /**
@@ -502,8 +523,8 @@ export default class WaterCalculator {
    * 
    * @param value bakingsoda value
    */
-  public setBakingSoda = (value: MassValue) => {
-    this.bakingSoda = value;
+  public setBakingSoda = (value: MassValue | null) => {
+    this.salts.bakingSoda = value;
   } 
 
   /**
@@ -511,8 +532,8 @@ export default class WaterCalculator {
    * 
    * @returns magnesiumchloride or null if not set
    */
-  public getMagnesiumChloride = (): MassValue => {
-    return this.magnesiumChloride;
+  public getMagnesiumChloride = (): MassValue | null => {
+    return this.salts.magnesiumChloride;
   }
 
   /**
@@ -520,8 +541,8 @@ export default class WaterCalculator {
    * 
    * @param value magnesiumchloride value
    */
-  public setMagnesiumChloride = (value: MassValue) => {
-    this.magnesiumChloride = value;
+  public setMagnesiumChloride = (value: MassValue | null) => {
+    this.salts.magnesiumChloride = value;
   } 
 
   /**
@@ -529,8 +550,8 @@ export default class WaterCalculator {
    * 
    * @returns calciumchloride or null if not set
    */
-  public getCalciumChloride = (): MassValue => {
-    return this.calciumChloride;
+  public getCalciumChloride = (): MassValue | null => {
+    return this.salts.calciumChloride;
   }
 
   /**
@@ -538,8 +559,8 @@ export default class WaterCalculator {
    * 
    * @param value calciumchloride value
    */
-  public setCalciumChloride = (value: MassValue) => {
-    this.calciumChloride = value;
+  public setCalciumChloride = (value: MassValue | null) => {
+    this.salts.calciumChloride = value;
   } 
 
   /**
@@ -547,8 +568,8 @@ export default class WaterCalculator {
    * 
    * @returns undissolved chalk or null if not set
    */
-  public getChalkUndissolved = (): MassValue => {
-    return this.chalkUndissolved;
+  public getChalkUndissolved = (): MassValue | null => {
+    return this.salts.chalkUndissolved;
   }
 
   /**
@@ -556,8 +577,8 @@ export default class WaterCalculator {
    * 
    * @param value undissolved chalk value
    */
-  public setChalkUndissolved = (value: MassValue) => {
-    this.chalkUndissolved = value;
+  public setChalkUndissolved = (value: MassValue | null) => {
+    this.salts.chalkUndissolved = value;
   } 
 
   /**
@@ -565,8 +586,8 @@ export default class WaterCalculator {
    * 
    * @returns dissolved chalk or null if not set
    */
-  public getChalkDissolved = (): MassValue => {
-    return this.chalkDissolved;
+  public getChalkDissolved = (): MassValue | null => {
+    return this.salts.chalkDissolved;
   }
 
   /**
@@ -574,8 +595,8 @@ export default class WaterCalculator {
    * 
    * @param value dissolved chalk value
    */
-  public setChalkDissolved = (value: MassValue) => {
-    this.chalkDissolved = value;
+  public setChalkDissolved = (value: MassValue | null) => {
+    this.salts.chalkDissolved = value;
   } 
 
   /**
@@ -680,14 +701,14 @@ export default class WaterCalculator {
     };
 
     if (waterVolume && waterVolume.getValue("l") > 0) {
-      this.addSaltIonChanges(result, waterVolume, this.gypsum, saltIonMap.gypsum);
-      this.addSaltIonChanges(result, waterVolume, this.epsom, saltIonMap.epsom);
-      this.addSaltIonChanges(result, waterVolume, this.tableSalt, saltIonMap.tableSalt);
-      this.addSaltIonChanges(result, waterVolume, this.calciumChloride, saltIonMap.calciumChloride);
-      this.addSaltIonChanges(result, waterVolume, this.magnesiumChloride, saltIonMap.magnesiumChloride);
-      this.addSaltIonChanges(result, waterVolume, this.bakingSoda, saltIonMap.bakingSoda);
-      this.addSaltIonChanges(result, waterVolume, this.chalkUndissolved, saltIonMap.chalkUndissolved);
-      this.addSaltIonChanges(result, waterVolume, this.chalkDissolved, saltIonMap.chalkDissolved);
+      this.addSaltIonChanges(result, waterVolume, this.salts.gypsum, saltIonMap.gypsum);
+      this.addSaltIonChanges(result, waterVolume, this.salts.epsom, saltIonMap.epsom);
+      this.addSaltIonChanges(result, waterVolume, this.salts.tableSalt, saltIonMap.tableSalt);
+      this.addSaltIonChanges(result, waterVolume, this.salts.calciumChloride, saltIonMap.calciumChloride);
+      this.addSaltIonChanges(result, waterVolume, this.salts.magnesiumChloride, saltIonMap.magnesiumChloride);
+      this.addSaltIonChanges(result, waterVolume, this.salts.bakingSoda, saltIonMap.bakingSoda);
+      this.addSaltIonChanges(result, waterVolume, this.salts.chalkUndissolved, saltIonMap.chalkUndissolved);
+      this.addSaltIonChanges(result, waterVolume, this.salts.chalkDissolved, saltIonMap.chalkDissolved);
     }
 
     return result;
