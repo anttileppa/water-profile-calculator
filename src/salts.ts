@@ -14,6 +14,12 @@ export interface Salts {
   chalkDissolved: MassValue | null,
 }
 
+/**
+ * Type for salt names
+ */
 export type Salt = "gypsum" | "epsom" | "tableSalt" | "bakingSoda" | "calciumChloride" | "magnesiumChloride" | "chalkUndissolved" | "chalkDissolved";
 
+/**
+ * List of salts
+ */
 export const saltList: Salt[] = ["gypsum" , "epsom" , "tableSalt" , "bakingSoda", "calciumChloride", "magnesiumChloride", "chalkUndissolved", "chalkDissolved"];
