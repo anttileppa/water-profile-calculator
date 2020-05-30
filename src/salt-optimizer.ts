@@ -4,26 +4,6 @@ import { VolumeValue, AlkalinityValue, MassConcentrationValue } from "./units";
 import { saltIonMap, Ion, ionList } from "./ions";
 import { Salt, saltList } from "./salts";
 
-export interface Ions {
-  calcium?: number,
-  magnesium?: number,
-  sodium?: number,
-  sulfate?: number,
-  chloride?: number,
-  bicarbonate?: number
-}
-
-export interface Salts {
-  gypsum?: number;
-  epsom?: number;
-  tableSalt?: number;
-  bakingSoda?: number;
-  calciumChloride?: number;
-  magnesiumChloride?: number;
-  chalkDissolved?: number;
-  chalkUndissolved?: number;
-}
-
 export interface OutputAdditions {
   bakingSoda?: MassConcentrationValue;
   calciumChloride?: MassConcentrationValue;
@@ -47,6 +27,15 @@ export interface Output {
   residualAlkalinity: number;
   residualAlkalinityError: number
 };
+
+interface Ions {
+  calcium?: number,
+  magnesium?: number,
+  sodium?: number,
+  sulfate?: number,
+  chloride?: number,
+  bicarbonate?: number
+}
 
 type Solution = number[];
 
@@ -154,7 +143,7 @@ interface Objective {
 /**
  * Automatically determine salt additions for brewing water.
  * 
- * Initial version of this code is from GitHub project:
+ * This class is based on following GitHub project:
  * 
  * https://github.com/jcipar/brewing-salts/
  */
@@ -218,7 +207,7 @@ export default class SaltOptimizer {
   }
   
   /**
-   * Sets up problem objective from input
+   * Sets up problem objective
    * 
    * @returns problem objective
    */
@@ -259,45 +248,35 @@ export default class SaltOptimizer {
   }
   
   /**
-   * Sets up absolute input constraints
+   * Sets up constaints
    * 
-   * @returns list of input constraints
+   * @returns list of input constaints
    */
   private absConstraints(): IConstraint[] {
-    let constraints: IConstraint[] = [];
-    constraints = constraints.concat(this.absConstraint('residualAlkalinity'));
+    const result: IConstraint[] = [
+      this.absConstraint("residualAlkalinity", -1.0),
+      this.absConstraint("residualAlkalinity", 1.0)
+    ];
 
-    ionList.forEach((ion) => {
-      if (this.targetWaterProfile[ion].getValue("mg/l") > 0) {
-        constraints = constraints.concat(this.absConstraint(ion));
-      }
-    });
-
-    return constraints;
-  }
-  
-  /**
-   * Sets up an absolute constraint
-   * 
-   * @param ion ion
-   * @returns constaints
-   */
-  private absConstraint(ion: Ion | "residualAlkalinity"): IConstraint[] {
-    const constraints: IConstraint[] = [];
-    const vna = "abse_" + ion;
-    const vne = "e_" + ion;
-
-    const constraint1: IConstraint = {"rhs": 0.0, "lhs": { }};
-    (constraint1.lhs as any)[vna] = -1.0;
-    (constraint1.lhs as any)[vne] = 1.0;
-    constraints.push(constraint1);
-
-    const constraint2: IConstraint = {"rhs": 0.0, "lhs": { }};
-    (constraint2.lhs as any)[vna] = -1.0;
-    (constraint2.lhs as any)[vne] = -1.0;
-    constraints.push(constraint2);
+    const ions = ionList.filter(ion => this.targetWaterProfile[ion].getValue("mg/l") > 0);
     
-    return constraints;
+    return result.concat(ions.map(ion => this.absConstraint(ion, -1.0))).concat(ions.map(ion => this.absConstraint(ion, 1.0)));    
+  }
+
+  /**
+   * Sets up a constaint
+   * 
+   * @returns constaint
+   */
+  private absConstraint(name: string, vne: number): IConstraint {
+    const lhs: any = {};
+    lhs[`abse_${name}`] = -1.0;
+    lhs[`e_${name}`] = vne;
+
+    return {
+      "rhs": 0.0, 
+      "lhs": lhs
+    };
   }
   
   /**
