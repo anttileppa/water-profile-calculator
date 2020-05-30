@@ -1,9 +1,12 @@
 import numeric from "numeric";
 import { WaterProfile } from "./water-profile";
-import { VolumeValue, AlkalinityValue, MassConcentrationValue } from "./units";
+import { VolumeValue, AlkalinityValue, MassConcentrationValue, CalciumValue, MagnesiumValue, SodiumValue, SulfateValue, ChlorideValue, BicarbonateValue } from "./units";
 import { saltIonMap, Ion, ionList } from "./ions";
 import { Salt, saltList } from "./salts";
 
+/**
+ * Interface that describes output salt additions object
+ */
 export interface OutputAdditions {
   bakingSoda?: MassConcentrationValue;
   calciumChloride?: MassConcentrationValue;
@@ -18,24 +21,15 @@ export interface OutputAdditions {
   chalkDissolved?: MassConcentrationValue
 }
 
+/**
+ * Interface that describes optimizer output
+ */
 export interface Output {
   strikeAdditions: OutputAdditions;
   spargeAdditions: OutputAdditions;
-  ions: Ions;
-  ionsAdded: Ions;
-  ionErrors: Ions;
   residualAlkalinity: number;
   residualAlkalinityError: number
 };
-
-interface Ions {
-  calcium?: number,
-  magnesium?: number,
-  sodium?: number,
-  sulfate?: number,
-  chloride?: number,
-  bicarbonate?: number
-}
 
 type Solution = number[];
 
@@ -544,9 +538,6 @@ export default class SaltOptimizer {
     const result: Output = {
       "strikeAdditions": {},
       "spargeAdditions": {},
-      "ions" : {},
-      "ionsAdded": {},
-      "ionErrors": {},
       residualAlkalinity: 0,
       residualAlkalinityError: 0
     };
@@ -556,17 +547,7 @@ export default class SaltOptimizer {
       result.strikeAdditions[salt] = new MassConcentrationValue("g/gal", this.getValue(mproblem, solution, salt) || 0, NaN, NaN);
       result.spargeAdditions[salt] = new MassConcentrationValue("g/gal", this.getValue(mproblem, solution, spargeSalt) || 0, NaN, NaN);
     });
-
-    ionList.forEach(ion => {
-      const initialIons = this.initialWaterProfile[ion].getValue("mg/l");
-      const targetIons = this.targetWaterProfile[ion].getValue("mg/l");
-      const iname = "e_" + ion;
-      const inr = mproblem.variables.name_number[iname];
-      result.ionErrors[ion] = (solution as any)[inr];
-      result.ions[ion] = targetIons - (solution as any)[inr];
-      result.ionsAdded[ion] = targetIons - (solution as any)[inr] - initialIons;
-    });
-
+    
     const ra_nr = (mproblem.variables.name_number as any)["residualAlkalinity"];
     result.residualAlkalinity = (solution as any)[ra_nr];
     const era_nr = mproblem.variables.name_number["e_residualAlkalinity"];
