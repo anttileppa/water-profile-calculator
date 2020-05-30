@@ -257,7 +257,7 @@ export default class SaltOptimizer {
       this.absConstraint("residualAlkalinity", 1.0)
     ];
 
-    const ions = ionList.filter(ion => this.targetWaterProfile[ion].getValue("mg/l") > 0);
+    const ions = ionList.filter(ion => this.targetWaterProfile[ion]?.getValue("mg/l") || 0 > 0);
     
     return result.concat(ions.map(ion => this.absConstraint(ion, -1.0))).concat(ions.map(ion => this.absConstraint(ion, 1.0)));    
   }
@@ -345,8 +345,8 @@ export default class SaltOptimizer {
     const totalLiters = strikeLiters + spargeLiters;
 
     ionList.forEach(ion => {
-      const initialIons = this.initialWaterProfile[ion].getValue("mg/l");
-      const targetIons = this.targetWaterProfile[ion].getValue("mg/l");
+      const initialIons = this.initialWaterProfile[ion]?.getValue("mg/l") || 0;
+      const targetIons = this.targetWaterProfile[ion]?.getValue("mg/l") || 0;
 
       const cons1 = {"rhs": -initialIons, "lhs": {}};
       (cons1 as any).lhs["mash_" + ion] = -1.0;
