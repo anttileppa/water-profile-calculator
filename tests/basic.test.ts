@@ -26,6 +26,11 @@ describe("Water Profile Calculator (basic)", () => {
     expect(mass.getMassConcentration(water).getValue("kg/l", 2)).toEqual(0.25);
   });
 
+  it("test mass in mass concentration", () => {
+    const massConcentration = new MassConcentrationValue("kg/l", 0.25, NaN, NaN); 
+    expect(massConcentration.getMass(new VolumeValue("l", 100)).getValue("kg", 2)).toEqual(25);
+  });
+
   it("test mass concentration in mass", () => {
     const mass1 = new MassValue("g", 25);
     const mass2 = new MassValue("kg", 1);

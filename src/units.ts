@@ -389,6 +389,16 @@ export class MassConcentrationValue extends AbstractRatioBasedValue<MassConcentr
   }
 
   /**
+   * Returns mass in given volume
+   * 
+   * @param volume volume
+   * @returns mass in given volume
+   */
+  public getMass = (volume: VolumeValue) => {
+    return new MassValue("mg", this.getValue("mg/l") * volume.getValue("l"));
+  }
+
+  /**
    * Returns value's base unit
    * 
    * @returns value's base unit
