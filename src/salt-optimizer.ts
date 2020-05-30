@@ -31,43 +31,36 @@ export interface Output {
   residualAlkalinityError: number
 };
 
+/**
+ * Type for problem solution
+ */
 type Solution = number[];
 
-interface Parameters {
-  ions: { [key in Ion]: number },
-  max_ions: { [key in Ion]: number },
-  residualAlkalinity_contributions: {
-    bicarbonate: number
-    calcium: number,
-    magnesium: number
-  }
+/**
+ * Map of ion relative importance
+ */
+const ionRelativeImportances = {
+  calcium: 1.0,
+  magnesium: 10.0,
+  sodium: 10.0,
+  sulfate: 100.0,
+  chloride: 100.0,
+  bicarbonate: 1.0
 }
 
-const parameters: Parameters = {
-  ions: {  // Map ion->relative_importance
-      calcium: 1.0,
-      magnesium: 10.0,
-      sodium: 10.0,
-      sulfate: 100.0,
-      chloride: 100.0,
-      bicarbonate: 1.0,
-  },
-  max_ions: {
-      calcium: 150.0,
-      magnesium: 30.0,
-      sodium: 150.0,
-      sulfate: 150.0,
-      chloride: 250.0,
-      bicarbonate: 250.0,
-  },
-  residualAlkalinity_contributions: {
-      bicarbonate: 0.8197,
-      calcium: -0.7143,
-      magnesium: -0.5882,
-  }
-}
+/**
+ * Residual alkalinity contributors
+ */
+const residualAlkalinityContributions = {
+  bicarbonate: 0.8197,
+  calcium: -0.7143,
+  magnesium: -0.5882,
+};
 
-interface IConstraint {
+/**
+ * Interface describing problem constaint
+ */
+interface Constraint {
   rhs: number,
   lhs: {
     abse_calcium?: number;
@@ -87,16 +80,18 @@ interface IConstraint {
   }
 }
 
-interface EConstraint {
-
-}
-
+/**
+ * Interface describing problem
+ */
 interface Problem {
   objective: Objective
-  i_constraints: IConstraint[],
-  e_constraints: EConstraint[]
+  i_constraints: Constraint[],
+  e_constraints: Constraint[]
 }
 
+/**
+ * Interface describing problem in matrix form
+ */
 interface MatrixProblem {
   variables: any,
   objective: any,
@@ -106,6 +101,9 @@ interface MatrixProblem {
   e_limits: any
 }
 
+/**
+ * Interface describing objective
+ */
 interface Objective {
   abse_residualAlkalinity: number,
   abse_calcium: number,
@@ -150,6 +148,16 @@ export default class SaltOptimizer {
   private strikeVolume: VolumeValue;
   private spargeVolume: VolumeValue;
 
+  /**
+   * Constuctor
+   * 
+   * @param initialWaterProfile initial water profile
+   * @param targetWaterProfile  target water profile
+   * @param targetResidualAlkalinity target residual alkalinity
+   * @param strikeVolume strike water volume
+   * @param spargeVolume sparge water volume
+   * @param salts used salts
+   */
   constructor(initialWaterProfile: WaterProfile, targetWaterProfile: WaterProfile, targetResidualAlkalinity: AlkalinityValue, strikeVolume: VolumeValue, spargeVolume: VolumeValue, salts: Salt[]) {
     this.initialWaterProfile = initialWaterProfile;
     this.targetWaterProfile = targetWaterProfile;
@@ -175,7 +183,7 @@ export default class SaltOptimizer {
       problemMatrix.e_limits
     );
 
-    const solution: Solution = numeric.trunc(result.solution, 1e-4);
+    const solution = numeric.trunc(result.solution, 1e-4);
 
     return this.convertSolutionToOuput(problemMatrix, solution);
   }
@@ -208,12 +216,12 @@ export default class SaltOptimizer {
   private problemObjective(): Objective {
     const objective: Objective = {
       abse_residualAlkalinity: 1000.0,
-      abse_bicarbonate: parameters.ions.bicarbonate,
-      abse_calcium: parameters.ions.calcium,
-      abse_magnesium: parameters.ions.magnesium,
-      abse_sodium: parameters.ions.sodium,
-      abse_sulfate: parameters.ions.sulfate,
-      abse_chloride: parameters.ions.chloride,
+      abse_bicarbonate: ionRelativeImportances.bicarbonate,
+      abse_calcium: ionRelativeImportances.calcium,
+      abse_magnesium: ionRelativeImportances.magnesium,
+      abse_sodium: ionRelativeImportances.sodium,
+      abse_sulfate: ionRelativeImportances.sulfate,
+      abse_chloride: ionRelativeImportances.chloride,
     };
     
     // L1 regularizer to encourage sparse solutions.
@@ -246,8 +254,8 @@ export default class SaltOptimizer {
    * 
    * @returns list of input constaints
    */
-  private absConstraints(): IConstraint[] {
-    const result: IConstraint[] = [
+  private absConstraints(): Constraint[] {
+    const result: Constraint[] = [
       this.absConstraint("residualAlkalinity", -1.0),
       this.absConstraint("residualAlkalinity", 1.0)
     ];
@@ -262,7 +270,7 @@ export default class SaltOptimizer {
    * 
    * @returns constaint
    */
-  private absConstraint(name: string, vne: number): IConstraint {
+  private absConstraint(name: string, vne: number): Constraint {
     const lhs: any = {};
     lhs[`abse_${name}`] = -1.0;
     lhs[`e_${name}`] = vne;
@@ -276,8 +284,8 @@ export default class SaltOptimizer {
   /**
    * Sets up limit constraints
    */
-  private setupLimitConstraints(): IConstraint[] {
-    const constraints: IConstraint[] = [];
+  private setupLimitConstraints(): Constraint[] {
+    const constraints: Constraint[] = [];
 
     this.salts.forEach((salt) => {
       constraints.push(this.nonNegative(salt));
@@ -301,7 +309,7 @@ export default class SaltOptimizer {
    * @param variable variable
    * @returns constraint 
    */
-  private nonNegative(variable: string): IConstraint {
+  private nonNegative(variable: string): Constraint {
     const cons = {"rhs": 0.0, "lhs": {}};
     (cons.lhs as any)[variable] = -1.0;
     return cons;
@@ -332,8 +340,8 @@ export default class SaltOptimizer {
    * 
    * @returns constaints
    */
-  private setupIonEConstraints(): EConstraint[] {
-    const constraints: EConstraint[] = []
+  private setupIonEConstraints(): Constraint[] {
+    const constraints: Constraint[] = []
     const ionMap = this.getIonSaltMap();
     const strikeLiters = this.strikeVolume.getValue("l") || 0;
     const spargeLiters = this.spargeVolume.getValue("l") || 0;
@@ -385,11 +393,14 @@ export default class SaltOptimizer {
    */
   private setupResidualAlkalinityConstraints() {
     const constraints = []
-    const cons1 = {"rhs": 0.0, "lhs": {}};
-    (cons1.lhs as any)["residualAlkalinity"] = -1;
-    for (let ion in parameters.residualAlkalinity_contributions) {
-        (cons1.lhs as any)["mash_" + ion] = (parameters.residualAlkalinity_contributions as any)[ion];
-    }
+    
+    const cons1 = {"rhs": 0.0, "lhs": {
+      residualAlkalinity: -1,
+      mash_bicarbonate: residualAlkalinityContributions.bicarbonate,
+      mash_calcium: residualAlkalinityContributions.calcium,
+      mash_magnesium: residualAlkalinityContributions.magnesium
+    }};
+
     constraints.push(cons1);
 
     const cons2 = {"rhs": this.targetResidualAlkalinity.getValue("mg/l"), "lhs": {}};
