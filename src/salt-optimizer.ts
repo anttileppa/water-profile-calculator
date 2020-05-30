@@ -12,10 +12,7 @@ export interface OutputAdditions {
   calciumChloride?: MassConcentrationValue;
   epsom?: MassConcentrationValue;
   gypsum?: MassConcentrationValue;
-  lactic?: MassConcentrationValue;
   magnesiumChloride?: MassConcentrationValue;
-  phosphoric?: MassConcentrationValue;
-  sauermalz?: MassConcentrationValue;
   tableSalt?: MassConcentrationValue
   chalkUndissolved?: MassConcentrationValue,
   chalkDissolved?: MassConcentrationValue
