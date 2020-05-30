@@ -2,7 +2,7 @@ export type WaterHardnessUnit = "dH" | "ppmCaCO3";
 export type VolumeUnit = "μl" | "ml" | "l" | "gal" | "qt";
 export type MassUnit = "mg" | "g" | "kg" | "lb";
 export type DensityUnit = "l/kg" | "qt/lb";
-export type MassConcentrationUnit = "mg/l" | "kg/l" | "mEq/l" | "dH"; 
+export type MassConcentrationUnit = "mg/l" | "kg/l" | "mEq/l" | "dH" | "g/l" | "g/gal"; 
 export type MassFractionUnit = "g/g" | "mg/kg";
 export type BeerColorUnit = "SRM" | "EBC";
 export type PhUnit = "pH";
@@ -93,7 +93,11 @@ export abstract class AbstactValue<U> implements Value<U> {
    * @param digits digits
    * @returns rounded value
    */
-  protected roundTo(value: number, digits?: number) {
+  protected roundTo(value: number | null, digits?: number) {
+    if (value === null) {
+      return null;
+    }
+
     if (digits === undefined) {
       return value; 
     }
@@ -408,6 +412,10 @@ export class MassConcentrationValue extends AbstractRatioBasedValue<MassConcentr
         return this.equivalentWeight;
       case "dH":
         return this.dhRatio;
+      case "g/gal":
+        return 0.00378541;
+      case "g/l":
+        return 0.001;
     }
   }
 }
