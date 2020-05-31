@@ -423,9 +423,9 @@ export class MassConcentrationValue extends AbstractRatioBasedValue<MassConcentr
       case "dH":
         return this.dhRatio;
       case "g/gal":
-        return 0.00378541;
+        return 264.172052358148;
       case "g/l":
-        return 0.001;
+        return 1000;
     }
   }
 }
