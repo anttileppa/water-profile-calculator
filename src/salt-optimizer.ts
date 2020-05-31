@@ -325,7 +325,7 @@ export default class SaltOptimizer {
 
       Object.keys(ions).forEach((ion: Ion) => {
         if (! (ion in im)) { im[ion] = {}; }
-        im[ion][salt] = ions[ion].getValue("g/gal");
+        im[ion][salt] = ions[ion].getValue("mg/l");
       });
     });
 
@@ -552,8 +552,8 @@ export default class SaltOptimizer {
     
     saltList.forEach((salt) => {
       const spargeSalt = "sparge_" + salt;
-      result.strikeAdditions[salt] = new MassConcentrationValue("g/gal", this.getValue(mproblem, solution, salt) || 0, NaN, NaN);
-      result.spargeAdditions[salt] = new MassConcentrationValue("g/gal", this.getValue(mproblem, solution, spargeSalt) || 0, NaN, NaN);
+      result.strikeAdditions[salt] = new MassConcentrationValue("mg/l", this.getValue(mproblem, solution, salt) || 0, NaN, NaN);
+      result.spargeAdditions[salt] = new MassConcentrationValue("mg/l", this.getValue(mproblem, solution, spargeSalt) || 0, NaN, NaN);
     });
     
     const ra_nr = (mproblem.variables.name_number as any)["residualAlkalinity"];

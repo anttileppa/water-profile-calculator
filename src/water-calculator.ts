@@ -1,6 +1,6 @@
 import { PhValue, AlkalinityValue, ChlorideValue, SulfateValue, WaterHardnessValue, MagnesiumValue, CalciumValue, SodiumValue, VolumeValue, DensityValue, BeerColorValue, MassValue, BicarbonateValue, PercentValue } from "./units";
 import consts from "./consts";
-import { saltIonMap, SaltIons } from "./ions"; 
+import { saltIonMap, SaltIons, ionList } from "./ions"; 
 import { WaterTreatment } from "./water-treatment"; 
 import { WaterProfile } from "./water-profile";
 import SaltOptimizer from "./salt-optimizer";
@@ -197,6 +197,31 @@ export default class WaterCalculator {
       salts);
       
     return saltOptimizer.optimizeSalts();
+  }
+
+  /**
+   * Calculates difference between current water profile and target water profile
+   * 
+   * @param targetWaterProfile target water profile
+   * @returns difference between water profiles
+   */
+  public getWaterProfileDifference = (targetWaterProfile: WaterProfile): WaterProfile => {
+    const initialWaterProfile = this.getWaterProfile();
+
+    const result: WaterProfile = {
+      bicarbonate: new BicarbonateValue("mg/l", targetWaterProfile.bicarbonate.getValue("mg/l")),
+      calcium: new CalciumValue("mg/l", targetWaterProfile.calcium.getValue("mg/l")),
+      chloride: new ChlorideValue("mg/l", targetWaterProfile.chloride.getValue("mg/l")),
+      magnesium: new MagnesiumValue("mg/l", targetWaterProfile.magnesium.getValue("mg/l")),
+      sodium: new SodiumValue("mg/l", targetWaterProfile.sodium.getValue("mg/l")),
+      sulfate: new SulfateValue("mg/l", targetWaterProfile.sulfate.getValue("mg/l")),
+    }
+
+    ionList.forEach(ion => {
+      result[ion].subValue(initialWaterProfile[ion]);
+    });
+    
+    return result;
   }
 
   /**

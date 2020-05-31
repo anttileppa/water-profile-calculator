@@ -37,7 +37,7 @@ describe("Water Profile Calculator (units)", () => {
     expect(day.getValue("d")).toBe(1);
   });
 
-  it("testg/gal to mg/l", () => {
+  it("test g/gal to mg/l", () => {
     const mgl = new MassConcentrationValue("g/gal", 0.94, NaN, NaN); 
     expect(mgl.getValue("mg/l", 2)).toEqual(248.32);
   });
@@ -47,6 +47,7 @@ describe("Water Profile Calculator (units)", () => {
     expect(mgl.getValue("g/gal", 2)).toEqual(2);
     const ggal = new MassConcentrationValue("g/gal", 1056.69, NaN, NaN); 
     expect(ggal.getValue("mg/l", 2)).toEqual(279147.97);
+    expect(new MassConcentrationValue("mg/l", 266.8138, NaN, NaN).getValue("g/gal", 2)).toEqual(1.01);
   });
 
   it("test mg/l to g/l", () => {
