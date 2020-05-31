@@ -2,28 +2,14 @@ import numeric from "numeric";
 import { WaterProfile } from "./water-profile";
 import { VolumeValue, AlkalinityValue, MassConcentrationValue, CalciumValue, MagnesiumValue, SodiumValue, SulfateValue, ChlorideValue, BicarbonateValue } from "./units";
 import { saltIonMap, Ion, ionList } from "./ions";
-import { Salt, saltList } from "./salts";
-
-/**
- * Interface that describes output salt additions object
- */
-export interface OutputAdditions {
-  bakingSoda?: MassConcentrationValue;
-  calciumChloride?: MassConcentrationValue;
-  epsom?: MassConcentrationValue;
-  gypsum?: MassConcentrationValue;
-  magnesiumChloride?: MassConcentrationValue;
-  tableSalt?: MassConcentrationValue
-  chalkUndissolved?: MassConcentrationValue,
-  chalkDissolved?: MassConcentrationValue
-}
+import { Salt, saltList, SaltConcentrations } from "./salts";
 
 /**
  * Interface that describes optimizer output
  */
 export interface Output {
-  strikeAdditions: OutputAdditions;
-  spargeAdditions: OutputAdditions;
+  strikeAdditions: SaltConcentrations;
+  spargeAdditions: SaltConcentrations;
   residualAlkalinity: number;
   residualAlkalinityError: number
 };

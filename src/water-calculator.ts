@@ -4,7 +4,7 @@ import { saltIonMap, SaltIons, ionList } from "./ions";
 import { WaterTreatment } from "./water-treatment"; 
 import { WaterProfile } from "./water-profile";
 import SaltOptimizer from "./salt-optimizer";
-import { Salt, Salts } from "./salts";
+import { Salt, Salts, SaltConcentrations, saltList } from "./salts";
 
 /**
  * Water profile calculator
@@ -200,25 +200,24 @@ export default class WaterCalculator {
   }
 
   /**
-   * Calculates difference between current water profile and target water profile
+   * Calculates difference between two water profiles
    * 
-   * @param targetWaterProfile target water profile
+   * @param waterProfile1 water profile 
+   * @param waterProfile2 water profile that is compared agains waterProfile1
    * @returns difference between water profiles
    */
-  public getWaterProfileDifference = (targetWaterProfile: WaterProfile): WaterProfile => {
-    const initialWaterProfile = this.getWaterProfile();
-
+  public getWaterProfileDifference = (waterProfile1: WaterProfile, waterProfile2: WaterProfile): WaterProfile => {
     const result: WaterProfile = {
-      bicarbonate: new BicarbonateValue("mg/l", targetWaterProfile.bicarbonate.getValue("mg/l")),
-      calcium: new CalciumValue("mg/l", targetWaterProfile.calcium.getValue("mg/l")),
-      chloride: new ChlorideValue("mg/l", targetWaterProfile.chloride.getValue("mg/l")),
-      magnesium: new MagnesiumValue("mg/l", targetWaterProfile.magnesium.getValue("mg/l")),
-      sodium: new SodiumValue("mg/l", targetWaterProfile.sodium.getValue("mg/l")),
-      sulfate: new SulfateValue("mg/l", targetWaterProfile.sulfate.getValue("mg/l")),
+      bicarbonate: new BicarbonateValue("mg/l", waterProfile2.bicarbonate.getValue("mg/l")),
+      calcium: new CalciumValue("mg/l", waterProfile2.calcium.getValue("mg/l")),
+      chloride: new ChlorideValue("mg/l", waterProfile2.chloride.getValue("mg/l")),
+      magnesium: new MagnesiumValue("mg/l", waterProfile2.magnesium.getValue("mg/l")),
+      sodium: new SodiumValue("mg/l", waterProfile2.sodium.getValue("mg/l")),
+      sulfate: new SulfateValue("mg/l", waterProfile2.sulfate.getValue("mg/l")),
     }
 
     ionList.forEach(ion => {
-      result[ion].subValue(initialWaterProfile[ion]);
+      result[ion].subValue(waterProfile1[ion]);
     });
     
     return result;
@@ -460,6 +459,22 @@ export default class WaterCalculator {
     const strikeLiters = this.strikeWater != null ? this.strikeWater.getValue("l") : 0;
     const spargeLiters = this.spargeWater != null ? this.spargeWater.getValue("l") : 0;
     return new VolumeValue("l", spargeLiters + strikeLiters);
+  }
+
+  /**
+   * Sets salts from salt concentrations
+   * 
+   * @param saltConcentrations salt concentrations
+   */
+  public setSaltConcentrations = (saltConcentrations: SaltConcentrations) => {
+    const strikeWater = this.getStrikeWater();
+    const salts: Partial<Salts> = {};
+
+    saltList.forEach(salt => {
+      salts[salt] = saltConcentrations[salt]?.getMass(strikeWater)
+    });
+
+    this.setSalts(salts as Salts);
   }
 
   /**

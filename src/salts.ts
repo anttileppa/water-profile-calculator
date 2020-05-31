@@ -1,4 +1,4 @@
-import { MassValue } from "./units";
+import { MassValue, MassConcentrationValue } from "./units";
 
 /**
  * Interface that contains salt additives
@@ -12,6 +12,20 @@ export interface Salts {
   bakingSoda: MassValue | null,
   chalkUndissolved: MassValue | null,
   chalkDissolved: MassValue | null,
+}
+
+/**
+ * Interface that contains salt additives as mass concentration values
+ */
+export interface SaltConcentrations {
+  bakingSoda?: MassConcentrationValue;
+  calciumChloride?: MassConcentrationValue;
+  epsom?: MassConcentrationValue;
+  gypsum?: MassConcentrationValue;
+  magnesiumChloride?: MassConcentrationValue;
+  tableSalt?: MassConcentrationValue
+  chalkUndissolved?: MassConcentrationValue,
+  chalkDissolved?: MassConcentrationValue
 }
 
 /**
