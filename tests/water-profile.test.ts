@@ -10,7 +10,7 @@ describe("Water Profile Calculator (water treatment)", () => {
     waterCalculator.setStrikeWater(new VolumeValue("gal", 5));
     waterCalculator.setSpargeWater(new VolumeValue("gal", 5));
     
-    waterCalculator.setWaterProfile({
+    waterCalculator.setInitialWaterProfile({
       calcium: new CalciumValue("mg/l", 4.0),
       magnesium: new MagnesiumValue("mg/l", 0.9),
       sodium: new SodiumValue("mg/l", 32.6),
@@ -55,7 +55,7 @@ describe("Water Profile Calculator (water treatment)", () => {
     waterCalculator.setStrikeWater(new VolumeValue("gal", 5));
     waterCalculator.setSpargeWater(new VolumeValue("gal", 5));
     
-    waterCalculator.setWaterProfile({
+    waterCalculator.setInitialWaterProfile({
       calcium: new CalciumValue("mg/l", 4.0),
       magnesium: new MagnesiumValue("mg/l", 0.9),
       sodium: new SodiumValue("mg/l", 32.6),
@@ -99,7 +99,7 @@ describe("Water Profile Calculator (water treatment)", () => {
   it("test water profile difference - zero difference", () => {
     const waterCalculator = new WaterCalculator();
 
-    waterCalculator.setWaterProfile({
+    waterCalculator.setInitialWaterProfile({
       calcium: new CalciumValue("mg/l", 10),
       magnesium: new MagnesiumValue("mg/l", 20),
       sodium: new SodiumValue("mg/l", 30),
@@ -117,7 +117,7 @@ describe("Water Profile Calculator (water treatment)", () => {
       bicarbonate: new BicarbonateValue("mg/l", 60)
     };
 
-    const profileDifference = waterCalculator.getWaterProfileDifference(targetProfile);
+    const profileDifference = waterCalculator.getWaterProfileDifference(waterCalculator.getInitialWaterProfile(), targetProfile);
     expect(profileDifference.calcium.getValue("mg/l", 2)).toEqual(0);
     expect(profileDifference.magnesium.getValue("mg/l", 2)).toEqual(0);
     expect(profileDifference.sodium.getValue("mg/l", 2)).toEqual(0);
@@ -129,7 +129,7 @@ describe("Water Profile Calculator (water treatment)", () => {
   it("test water profile difference - negative difference", () => {
     const waterCalculator = new WaterCalculator();
 
-    waterCalculator.setWaterProfile({
+    waterCalculator.setInitialWaterProfile({
       calcium: new CalciumValue("mg/l", 10),
       magnesium: new MagnesiumValue("mg/l", 20),
       sodium: new SodiumValue("mg/l", 30),
@@ -147,7 +147,7 @@ describe("Water Profile Calculator (water treatment)", () => {
       bicarbonate: new BicarbonateValue("mg/l", 30)
     };
 
-    const profileDifference = waterCalculator.getWaterProfileDifference(targetProfile);
+    const profileDifference = waterCalculator.getWaterProfileDifference(waterCalculator.getInitialWaterProfile(), targetProfile);
     expect(profileDifference.calcium.getValue("mg/l", 2)).toEqual(-5);
     expect(profileDifference.magnesium.getValue("mg/l", 2)).toEqual(-10);
     expect(profileDifference.sodium.getValue("mg/l", 2)).toEqual(-15);
@@ -159,7 +159,7 @@ describe("Water Profile Calculator (water treatment)", () => {
   it("test water profile difference - positive difference", () => {
     const waterCalculator = new WaterCalculator();
 
-    waterCalculator.setWaterProfile({
+    waterCalculator.setInitialWaterProfile({
       calcium: new CalciumValue("mg/l", 10),
       magnesium: new MagnesiumValue("mg/l", 20),
       sodium: new SodiumValue("mg/l", 30),
@@ -177,7 +177,7 @@ describe("Water Profile Calculator (water treatment)", () => {
       bicarbonate: new BicarbonateValue("mg/l", 90)
     };
 
-    const profileDifference = waterCalculator.getWaterProfileDifference(targetProfile);
+    const profileDifference = waterCalculator.getWaterProfileDifference(waterCalculator.getInitialWaterProfile(), targetProfile);
     expect(profileDifference.calcium.getValue("mg/l", 2)).toEqual(5);
     expect(profileDifference.magnesium.getValue("mg/l", 2)).toEqual(10);
     expect(profileDifference.sodium.getValue("mg/l", 2)).toEqual(15);

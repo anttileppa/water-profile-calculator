@@ -27,7 +27,7 @@ export default class WaterCalculator {
   private acidMalt: MassValue | null = null;
   private waterTreatment: WaterTreatment | null = null;
 
-  private waterProfile: WaterProfile = {
+  private initialWaterProfile: WaterProfile = {
     calcium: null,
     magnesium: null,
     sodium: null,
@@ -167,8 +167,8 @@ export default class WaterCalculator {
    * 
    * @param waterProfile water profile
    */
-  public setWaterProfile = (waterProfile: WaterProfile) => {
-    this.waterProfile = waterProfile;
+  public setInitialWaterProfile = (waterProfile: WaterProfile) => {
+    this.initialWaterProfile = waterProfile;
   }
 
   /**
@@ -176,8 +176,8 @@ export default class WaterCalculator {
    * 
    * @returns water profile
    */
-  public getWaterProfile = () => {
-    return this.waterProfile;
+  public getInitialWaterProfile = () => {
+    return this.initialWaterProfile;
   }
 
   /**
@@ -189,7 +189,7 @@ export default class WaterCalculator {
    * @returns optimize result
    */
   public optimizeSalts(targetWaterProfile: WaterProfile, targetResidualAlkalinity: AlkalinityValue, salts: Salt[]) {
-    const saltOptimizer = new SaltOptimizer(this.getWaterProfile(), 
+    const saltOptimizer = new SaltOptimizer(this.getInitialWaterProfile(), 
       targetWaterProfile, 
       targetResidualAlkalinity,
       this.getStrikeWater(),
@@ -229,7 +229,7 @@ export default class WaterCalculator {
    * @returns calcium or null if not set
    */
   public getCalcium = (): CalciumValue | null => {
-    return this.waterProfile.calcium;
+    return this.initialWaterProfile.calcium;
   }
 
   /**
@@ -238,7 +238,7 @@ export default class WaterCalculator {
    * @param value calcium value
    */
   public setCalcium = (value: CalciumValue | null) => {
-    this.waterProfile.calcium = value;
+    this.initialWaterProfile.calcium = value;
   } 
 
   /**
@@ -247,7 +247,7 @@ export default class WaterCalculator {
    * @returns magnesium or null if not set
    */
   public getMagnesium = (): MagnesiumValue | null => {
-    return this.waterProfile.magnesium;
+    return this.initialWaterProfile.magnesium;
   }
 
   /**
@@ -256,7 +256,7 @@ export default class WaterCalculator {
    * @param value magnesium value
    */
   public setMagnesium = (value: MagnesiumValue | null) => {
-    this.waterProfile.magnesium = value;
+    this.initialWaterProfile.magnesium = value;
   } 
     
   /**
@@ -265,7 +265,7 @@ export default class WaterCalculator {
    * @returns sodium or null if not set
    */
   public getSodium = (): SodiumValue | null => {
-    return this.waterProfile.sodium;
+    return this.initialWaterProfile.sodium;
   }
 
   /**
@@ -274,7 +274,7 @@ export default class WaterCalculator {
    * @param value sodium value
    */
   public setSodium = (value: SodiumValue | null) => {
-    this.waterProfile.sodium = value;
+    this.initialWaterProfile.sodium = value;
   } 
 
   /**
@@ -283,7 +283,7 @@ export default class WaterCalculator {
    * @returns sulfate or null if not set
    */
   public getSulfate = (): SulfateValue | null => {
-    return this.waterProfile.sulfate;
+    return this.initialWaterProfile.sulfate;
   }
 
   /**
@@ -292,7 +292,7 @@ export default class WaterCalculator {
    * @param value sulfate value
    */
   public setSulfate = (value: SulfateValue | null) => {
-    this.waterProfile.sulfate = value;
+    this.initialWaterProfile.sulfate = value;
   } 
 
   /**
@@ -301,7 +301,7 @@ export default class WaterCalculator {
    * @returns chloride or null if not set
    */
   public getChloride = (): ChlorideValue | null => {
-    return this.waterProfile.chloride;
+    return this.initialWaterProfile.chloride;
   }
 
   /**
@@ -310,7 +310,7 @@ export default class WaterCalculator {
    * @param value chloride value
    */
   public setChloride = (value: ChlorideValue | null) => {
-    this.waterProfile.chloride = value;
+    this.initialWaterProfile.chloride = value;
   } 
 
   /**
@@ -319,8 +319,8 @@ export default class WaterCalculator {
    * @returns bicarbonate or null if not set
    */
   public getBicarbonate = (): BicarbonateValue | null => {
-    if (this.waterProfile.bicarbonate) {
-      return this.waterProfile.bicarbonate;
+    if (this.initialWaterProfile.bicarbonate) {
+      return this.initialWaterProfile.bicarbonate;
     }
 
     const alkalinity = this.getAlkalinity();
@@ -337,7 +337,7 @@ export default class WaterCalculator {
    * @param value bicarbonate value
    */
   public setBicarbonate = (value: BicarbonateValue | null) => {
-    this.waterProfile.bicarbonate = value;
+    this.initialWaterProfile.bicarbonate = value;
   } 
 
   /**
@@ -351,8 +351,8 @@ export default class WaterCalculator {
       return this.alkalinity;
     }
 
-    if (this.waterProfile.bicarbonate != null) {
-      return new AlkalinityValue("mg/l", this.waterProfile.bicarbonate.getValue("mg/l") * 50 / 61);
+    if (this.initialWaterProfile.bicarbonate != null) {
+      return new AlkalinityValue("mg/l", this.initialWaterProfile.bicarbonate.getValue("mg/l") * 50 / 61);
     }
 
     return null;
