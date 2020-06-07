@@ -1,4 +1,4 @@
-import { MassValue, BicarbonateValue, VolumeValue, MassConcentrationValue, TimeValue } from "../src/units";
+import { MassValue, BicarbonateValue, VolumeValue, MassConcentrationValue, TimeValue, BitternessValue } from "../src/units";
 
 describe("Water Profile Calculator (units)", () => {
 
@@ -23,6 +23,10 @@ describe("Water Profile Calculator (units)", () => {
 
   it("test bicarbonate mEq/l", () => {
     expect(new BicarbonateValue("mg/l", 52).getValue("mEq/l", 2)).toEqual(0.85);
+  });
+
+  it("test bitterness IBU", () => {
+    expect(new BitternessValue("IBU", 50).getValue("IBU", 2)).toEqual(50);
   });
 
   it("test time", () => {

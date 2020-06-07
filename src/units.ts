@@ -5,6 +5,7 @@ export type DensityUnit = "l/kg" | "qt/lb";
 export type MassConcentrationUnit = "mg/l" | "kg/l" | "mEq/l" | "dH" | "g/l" | "g/gal"; 
 export type MassFractionUnit = "g/g" | "mg/kg";
 export type BeerColorUnit = "SRM" | "EBC";
+export type BitternessUnit = "IBU";
 export type PhUnit = "pH";
 export type PercentUnit = "%";
 export type TimeUnit =  "d" | "h" | "min" | "s";
@@ -333,6 +334,33 @@ export class BeerColorValue extends AbstractRatioBasedValue<BeerColorUnit> {
         return 1;
       case "EBC":
         return 0.5076142131979695;
+    }
+  }
+}
+
+/**
+ * Bitterness value
+ */
+export class BitternessValue extends AbstractRatioBasedValue<BitternessUnit> {
+
+  /**
+   * Returns value's base unit
+   * 
+   * @returns value's base unit
+   */
+  protected getBaseUnit = (): BitternessUnit => {
+    return "IBU";
+  }
+
+  /**
+   * Returns convert ratio into base unit
+   * 
+   * @param unit from unit
+   */
+  protected getConvertRatio(unit: BitternessUnit): number {
+    switch (unit) {
+      case "IBU":
+        return 1;
     }
   }
 }
