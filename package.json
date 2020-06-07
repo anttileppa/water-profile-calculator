@@ -16,18 +16,17 @@
     "docs-md": "typedoc --plugin typedoc-plugin-markdown --out docs/md src"
   },
   "dependencies": {
-    "numeric": "^1.2.6"
+    "javascript-lp-solver": "^0.4.24"
   },
   "devDependencies": {
     "@types/jest": "^25.2.2",
     "@types/node": "^14.0.1",
-    "@types/numeric": "^1.2.1",
     "jest": "^26.0.1",
     "ts-jest": "^26.0.0",
     "ts-node": "^8.10.1",
     "tslint": "^6.1.2",
     "typedoc": "^0.17.7",
     "typedoc-plugin-markdown": "^2.2.17",
-    "typescript": "^3.9.2"
+    "typescript": "^3.9.5"
   }
 }
