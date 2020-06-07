@@ -77,13 +77,17 @@ abstract class AbstractWaterTreatment implements WaterTreatment {
   }
 
   /**
-   * Returns pH change of treatment
+   * Returns pH change of treatment. If water is going to be used in sparge, method returns 0
    * 
    * @returns pH change of treatment
    */
   public getPhChange(): PhValue {
+    if (this.waterCalculator.getUsage() == "sparge") {
+      return new PhValue("pH", 0);
+    }
+
     const residualAlkalinity = this.getResidualAlkalinity();
-    const residualAlkalinityInWater = residualAlkalinity * this.waterCalculator.getStrikeWater().getValue("l");
+    const residualAlkalinityInWater = residualAlkalinity * this.waterCalculator.getWaterVolume().getValue("l");
     return new PhValue("pH", residualAlkalinityInWater / this.waterCalculator.getGristWeight().getValue("kg") / consts.MASH_BUFFER_CAPACITY_FOR_WATER_RESIDUAL_ALKALINITY);
   }
 
@@ -93,7 +97,7 @@ abstract class AbstractWaterTreatment implements WaterTreatment {
    * @returns starting calcium
    */
   protected getStartingCalcium() {
-    return this.getIonsAfterSalts().calcium.getValue("mg/l");
+    return this.getResultWaterProfile().calcium.getValue("mg/l");
   }
 
   /**
@@ -102,7 +106,7 @@ abstract class AbstractWaterTreatment implements WaterTreatment {
    * @returns starting magnesium
    */
   protected getStartingMagnesium() {
-    return this.getIonsAfterSalts().magnesium.getValue("mg/l");
+    return this.getResultWaterProfile().magnesium.getValue("mg/l");
   }
 
   /**
@@ -111,7 +115,7 @@ abstract class AbstractWaterTreatment implements WaterTreatment {
    * @returns starting alkalinity
    */
   protected getStartingAlkalinity() {
-    return this.getIonsAfterSalts().bicarbonate.getValue("mEq/l");
+    return this.getResultWaterProfile().bicarbonate.getValue("mEq/l");
   }
 
   /**
@@ -142,21 +146,12 @@ abstract class AbstractWaterTreatment implements WaterTreatment {
   }
 
   /**
-   * Returns volume of treated water
-   * 
-   * @returns volume of treated water
-   */
-  private getTreatedWater() {
-    return this.waterCalculator.getTotalWater();
-  }
-
-  /**
    * Returns ions after applied salts for treated volume of water
    * 
    * @returns ions after applied salts for treated volume of water
    */
-  private getIonsAfterSalts() {
-    return this.waterCalculator.getIonsAfterSalts(this.getTreatedWater());
+  private getResultWaterProfile() {
+    return this.waterCalculator.getResultWaterProfile();
   }
 
 }

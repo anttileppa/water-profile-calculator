@@ -15,7 +15,7 @@ describe("Water Profile Calculator (pH tests)", () => {
     const waterCalculator = new WaterCalculator();
 
     waterCalculator.setGristWeight(new MassValue("kg", 60));
-    waterCalculator.setStrikeWater(new VolumeValue("l", 100));
+    waterCalculator.setWaterVolume(new VolumeValue("l", 100));
     waterCalculator.setLacticAcid(new VolumeValue("ml", 100));
     waterCalculator.setPhosphoricAcid(new VolumeValue("ml", 50), 10);
     waterCalculator.setAcidMalt(new MassValue("g", 200));
@@ -32,7 +32,7 @@ describe("Water Profile Calculator (pH tests)", () => {
   it("test water ph change", () => {
     const waterCalculator = new WaterCalculator();
 
-    waterCalculator.setStrikeWater(new VolumeValue("l", 100));
+    waterCalculator.setWaterVolume(new VolumeValue("l", 100));
     waterCalculator.setGristWeight(new MassValue("kg", 60));
     waterCalculator.setBeerColor(new BeerColorValue("SRM", 11));
     waterCalculator.setMaltRoastedPercent(new PercentValue("%", 70));
@@ -62,7 +62,7 @@ describe("Water Profile Calculator (pH tests)", () => {
   it("test required lactic acid for ph change", () => {
     const waterCalculator = new WaterCalculator();
 
-    waterCalculator.setStrikeWater(new VolumeValue("l", 100));
+    waterCalculator.setWaterVolume(new VolumeValue("l", 100));
     waterCalculator.setGristWeight(new MassValue("kg", 60));
     waterCalculator.setBeerColor(new BeerColorValue("SRM", 11));
     waterCalculator.setMaltRoastedPercent(new PercentValue("%", 70));
@@ -79,7 +79,7 @@ describe("Water Profile Calculator (pH tests)", () => {
   it("test required phosphoric acid for ph change", () => {
     const waterCalculator = new WaterCalculator();
 
-    waterCalculator.setStrikeWater(new VolumeValue("l", 100));
+    waterCalculator.setWaterVolume(new VolumeValue("l", 100));
     waterCalculator.setGristWeight(new MassValue("kg", 60));
     waterCalculator.setBeerColor(new BeerColorValue("SRM", 11));
     waterCalculator.setMaltRoastedPercent(new PercentValue("%", 70));
@@ -95,11 +95,10 @@ describe("Water Profile Calculator (pH tests)", () => {
     waterCalculator.setBeerColor(new BeerColorValue("SRM", 8.83));
     waterCalculator.setMaltRoastedPercent(new PercentValue("%", 70));
     waterCalculator.setGristWeight(new MassValue("kg", 5.5));
-    waterCalculator.setStrikeWater(new VolumeValue("l", 8));
-    waterCalculator.setSpargeWater(new VolumeValue("l", 44));
+    waterCalculator.setWaterVolume(new VolumeValue("l", 44));
     waterCalculator.setGH(new WaterHardnessValue("dH", 4.5));
     waterCalculator.setKH(new WaterHardnessValue("dH", 1));
     waterCalculator.setGypsum(new MassValue("g", 50));
-    expect(waterCalculator.getPhChangeFromSalts().getValue("pH", 2)).toEqual(-0.09);
+    expect(waterCalculator.getPhChangeFromSalts().getValue("pH", 2)).toEqual(-0.6);
   });
 })

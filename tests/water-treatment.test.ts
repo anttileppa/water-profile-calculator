@@ -7,7 +7,7 @@ describe("Water Profile Calculator (water treatment)", () => {
   it("test water post boil pH", () => {
     const waterCalculator = new WaterCalculator();
 
-    waterCalculator.setStrikeWater(new VolumeValue("l", 100));
+    waterCalculator.setWaterVolume(new VolumeValue("l", 100));
     waterCalculator.setGristWeight(new MassValue("kg", 60));
     waterCalculator.setGypsum(new MassValue("g", 20));
     waterCalculator.setCalciumChloride(new MassValue("g", 20));
@@ -25,7 +25,7 @@ describe("Water Profile Calculator (water treatment)", () => {
   it("test water post lime treatment pH", () => {
     const waterCalculator = new WaterCalculator();
 
-    waterCalculator.setStrikeWater(new VolumeValue("l", 100));
+    waterCalculator.setWaterVolume(new VolumeValue("l", 100));
     waterCalculator.setGristWeight(new MassValue("kg", 60));
     waterCalculator.setGypsum(new MassValue("g", 20));
     waterCalculator.setCalciumChloride(new MassValue("g", 20));
@@ -49,7 +49,7 @@ describe("Water Profile Calculator (water treatment)", () => {
     const limeTreatment = new LimeWaterTreatment();
 
     waterCalculator.setWaterTreatment(limeTreatment);
-    waterCalculator.setStrikeWater(new VolumeValue("l", 100));
+    waterCalculator.setWaterVolume(new VolumeValue("l", 100));
     waterCalculator.setGristWeight(new MassValue("kg", 60));
     waterCalculator.setGypsum(new MassValue("g", 20));
     waterCalculator.setCalciumChloride(new MassValue("g", 20));
@@ -61,7 +61,7 @@ describe("Water Profile Calculator (water treatment)", () => {
     waterCalculator.setBicarbonate(new BicarbonateValue("mg/l", 300));
     
     expect(limeTreatment.getLimeConcentrationForLimeTreatment(new PhValue("pH", 8)).getValue("mg/l", 2)).toEqual(189.47);
-    expect(limeTreatment.getLimeNeededForLimeTreatment(waterCalculator.getStrikeWater(), new PhValue("pH", 8)).getValue("g", 2)).toEqual(18.95);
+    expect(limeTreatment.getLimeNeededForLimeTreatment(waterCalculator.getWaterVolume(), new PhValue("pH", 8)).getValue("g", 2)).toEqual(18.95);
   });
 
 })

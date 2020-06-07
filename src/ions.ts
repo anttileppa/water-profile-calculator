@@ -65,6 +65,35 @@ export const saltIonMap: SaltIonMap = {
 }
 
 /**
+ * Ion level type
+ */
+export type IonLevel = "recommended" | "toolow" | "toohigh" | "harmful";
+
+/**
+ * Interface for describing recommended ion levels
+ */
+export interface RecommendedIonLevels {
+  calcium: IonLevel,
+  sulfate: IonLevel,
+  magnesium: IonLevel,
+  sodium: IonLevel,
+  chloride: IonLevel,
+  bicarbonate: IonLevel
+}
+
+/**
+ * Interface for describing recommended ion concentrations
+ */
+export interface RecommendedIonConcentrations {
+  calcium: { min: CalciumValue, max: CalciumValue },
+  sulfate: { min: SulfateValue, max: SulfateValue, harmful: SulfateValue },
+  magnesium: { min: MagnesiumValue, max: MagnesiumValue, harmful: MagnesiumValue },
+  sodium: { min: SodiumValue, max: SodiumValue, harmful: SodiumValue },
+  chloride: { min: ChlorideValue, max: ChlorideValue },
+  bicarbonate: { min: BicarbonateValue, max: BicarbonateValue },
+}
+
+/**
  * Type for ion names
  */
 export type Ion = "calcium" | "magnesium"| "sodium" | "sulfate" | "chloride" | "bicarbonate";

@@ -1,27 +1,32 @@
-import { PhValue, AlkalinityValue, ChlorideValue, SulfateValue, WaterHardnessValue, MagnesiumValue, CalciumValue, SodiumValue, VolumeValue, DensityValue, BeerColorValue, MassValue, BicarbonateValue, PercentValue } from "./units";
+import { PhValue, AlkalinityValue, ChlorideValue, SulfateValue, WaterHardnessValue, MagnesiumValue, CalciumValue, SodiumValue, VolumeValue, DensityValue, BeerColorValue, MassValue, BicarbonateValue, PercentValue, BitternessValue } from "./units";
 import consts from "./consts";
-import { saltIonMap, SaltIons, ionList } from "./ions"; 
+import { saltIonMap, SaltIons, ionList, RecommendedIonLevels, RecommendedIonConcentrations  } from "./ions"; 
 import { WaterTreatment } from "./water-treatment"; 
 import { WaterProfile } from "./water-profile";
 import SaltOptimizer from "./salt-optimizer";
 import { Salt, Salts, SaltConcentrations, saltList } from "./salts";
 
 /**
+ * Type for water usage
+ */
+export type WaterUsage = "strike" | "sparge";
+
+/**
  * Water profile calculator
  */
 export default class WaterCalculator {
 
+  private usage: WaterUsage = "strike";
   private assumedMgContributionToTestedGh = consts.ASSUMED_MG_CONTRIBUTION_TO_TESTED_GH;
   private maltRoastedPercent: PercentValue | null = null;
   private gh: WaterHardnessValue | null = null;
   private kh: WaterHardnessValue | null = null;
   private residualAlkalinity: AlkalinityValue | null = null;
   private alkalinity: AlkalinityValue | null = null;
-  private strikeWater: VolumeValue = new VolumeValue("l", 0);
-  private spargeWater: VolumeValue = new VolumeValue("l", 0);
+  private waterVolume: VolumeValue = new VolumeValue("l", 0);
   private gristWeight: MassValue = new MassValue("kg", 0);
-  private beerColor: BeerColorValue | null = null;
-  
+  private beerColor: BeerColorValue | null = null;  
+  private bitterness: BitternessValue | null = null;
   private lacticAcid: VolumeValue | null = null;
   private phosphoricAcid: VolumeValue | null = null;
   private acidMalt: MassValue | null = null;
@@ -46,6 +51,24 @@ export default class WaterCalculator {
     magnesiumChloride: null,
     tableSalt: null
   };
+
+  /**
+   * Sets water usage
+   * 
+   * @param usage usage
+   */
+  public setUsage = (usage: WaterUsage) => {
+    this.usage = usage;
+  }
+
+  /**
+   * Returns water usage
+   * 
+   * @returns water usage
+   */
+  public getUsage = (): WaterUsage => {
+    return this.usage;
+  }
   
   /**
    * Returns GH
@@ -184,18 +207,11 @@ export default class WaterCalculator {
    * Calculates salts to change water profile as close as possible to target water profile
    * 
    * @param targetWaterProfile target water profile
-   * @param targetResidualAlkalinity target residual alkalinity
    * @param salts used salts
    * @returns optimize result
    */
-  public optimizeSalts(targetWaterProfile: WaterProfile, targetResidualAlkalinity: AlkalinityValue, salts: Salt[]) {
-    const saltOptimizer = new SaltOptimizer(this.getInitialWaterProfile(), 
-      targetWaterProfile, 
-      targetResidualAlkalinity,
-      this.getStrikeWater(),
-      this.getSpargeWater(),
-      salts);
-      
+  public optimizeSalts(targetWaterProfile: WaterProfile, salts: Salt[]) {
+    const saltOptimizer = new SaltOptimizer(this, targetWaterProfile, salts);      
     return saltOptimizer.optimizeSalts();
   }
 
@@ -223,6 +239,103 @@ export default class WaterCalculator {
     return result;
   }
 
+  /**
+   * Calculates water total error in mg/l between given water profile and current resulting water profile.
+   * 
+   * Method can be used for comparing different profiles but the value it self does not mean really anything
+   * 
+   * @param targetWaterProfile target water profile
+   * @returns water total error in mg/l between given water profile and current resulting water profile.
+   */
+  public getWaterProfileTotalError = (targetWaterProfile: WaterProfile) => {
+    const profileDifference = this.getWaterProfileDifference(this.getResultWaterProfile(), targetWaterProfile);
+    return ionList.map(ion => profileDifference[ion]?.getValue("mg/l") || 0).reduce((a, b) => a + Math.abs(b));
+  }
+
+  /**
+   * Returns whether given profile is in recommended levels water in calculator
+   * 
+   * @returns whether given profile is in recommended levels water in calculator
+   */
+  public getRecommendedIonLevels  = (waterProfile: WaterProfile): RecommendedIonLevels => {
+    const result: Partial<RecommendedIonLevels> = {};
+    const recommendedIonConcentrations  = this.getRecommendedIonConcentrations();
+
+    ionList.forEach(ion => {
+      const value = waterProfile[ion].getValue("mg/l");
+      const harmful = (recommendedIonConcentrations[ion] as any)["harmful"]?.getValue("mg/l");
+      const min = recommendedIonConcentrations[ion].min.getValue("mg/l");
+      const max = recommendedIonConcentrations[ion].max.getValue("mg/l");
+      
+      if (harmful && value > harmful) {
+        result[ion] = "harmful";
+      } else if (value > max) {
+        result[ion] = "toohigh";
+      } else if (value < min) {
+        result[ion] = "toolow";
+      } else {
+        result[ion] = "recommended";
+      }
+    });
+
+    return result as RecommendedIonLevels;
+  }
+
+  /**
+   * Returns recommended ion concentrations for water in calculator
+   * 
+   * @returns recommended ion concentrations for water in calculator
+   */
+  public getRecommendedIonConcentrations  = (): RecommendedIonConcentrations  => {
+    const result = {
+      calcium: {
+        min: new CalciumValue("mg/l", 50),
+        max: new CalciumValue("mg/l", 150)
+      },
+      magnesium: {
+        min: new MagnesiumValue("mg/l", 10),
+        max: new MagnesiumValue("mg/l", 30),
+        harmful: new MagnesiumValue("mg/l", 125)
+      },
+      bicarbonate: {
+        min: new BicarbonateValue("mg/l", 0),
+        max: new BicarbonateValue("mg/l", 50)
+      },
+      sulfate: {
+        min: new SulfateValue("mg/l", 50),
+        max: new SulfateValue("mg/l", 150),
+        harmful: new SulfateValue("mg/l", 750)
+      },
+      sodium: {
+        min: new SodiumValue("mg/l", 0),
+        max: new SodiumValue("mg/l", 150),
+        harmful: new SulfateValue("mg/l", 0)
+      },
+      chloride: {
+        min: new ChlorideValue("mg/l", 0),
+        max: new ChlorideValue("mg/l", 250)
+      }
+    };
+
+    const srm = this.getBeerColor()?.getValue("SRM") || 0;
+    const ibu = this.getBitterness()?.getValue("IBU") || 0;
+    
+    if (srm >= 9) {
+      result.bicarbonate.min.setValue("mg/l", 50);
+      result.bicarbonate.max.setValue("mg/l", 150);
+    } else if (srm >= 20) {
+      result.bicarbonate.min.setValue("mg/l", 150);
+      result.bicarbonate.max.setValue("mg/l", 250);
+    }
+
+    if (ibu >= 40) {
+      result.sulfate.min.setValue("mg/l", 150);
+      result.sulfate.max.setValue("mg/l", 350);
+    }
+
+    return result;    
+  }
+  
   /**
    * Returns calcium
    * 
@@ -368,40 +481,22 @@ export default class WaterCalculator {
   } 
 
   /**
-   * Returns strike water
+   * Returns water volume
    * 
-   * @returns strike water or null if not set
+   * @returns water volume or null if not set
    */
-  public getStrikeWater = (): VolumeValue => {
-    return this.strikeWater;
+  public getWaterVolume = (): VolumeValue => {
+    return this.waterVolume;
   }
 
   /**
-   * Sets strike water
+   * Sets water volume
    * 
-   * @param value strike water value
+   * @param value water value
    */
-  public setStrikeWater = (value: VolumeValue) => {
-    this.strikeWater = value;
+  public setWaterVolume = (value: VolumeValue) => {
+    this.waterVolume = value;
   } 
-
-  /**
-   * Returns sparge water
-   * 
-   * @returns sparge water or null if not set
-   */
-  public getSpargeWater = (): VolumeValue => {
-    return this.spargeWater;
-  }
-
-  /**
-   * Sets sparge water
-   * 
-   * @param value sparge water value
-   */
-  public setSpargeWater = (value: VolumeValue) => {
-    this.spargeWater = value;
-  }
 
   /**
    * Returns grist weight
@@ -440,38 +535,49 @@ export default class WaterCalculator {
   }
 
   /**
-   * Returns mash thickness
+   * Returns bitterness
+   * 
+   * @returns bitterness or null if not set
+   */
+  public getBitterness = (): BitternessValue | null => {
+    return this.bitterness;
+  }
+
+  /**
+   * Sets bitterness
+   * 
+   * @param value bitterness value
+   */
+  public setBitterness = (value: BitternessValue | null) => {
+    this.bitterness = value;
+  }
+
+  /**
+   * Returns mash thickness. Method should be used only when calculating strike water
    * 
    * @returns mash thickness
    */
   public getMashThickness = () => {
-    const strikeLiters = this.getStrikeWater().getValue("l");
+    if (this.getUsage() == "sparge") {
+      return null;
+    }
+
+    const waterVolume = this.getWaterVolume().getValue("l");
     const gristWeight = this.getGristWeight().getValue("kg");
-    return new DensityValue("l/kg", gristWeight == 0 || gristWeight == 0 ? 0 : strikeLiters / gristWeight);
+    return new DensityValue("l/kg", gristWeight == 0 || gristWeight == 0 ? 0 : waterVolume / gristWeight);
   }
   
-  /**
-   * Returns total water
-   * 
-   * @returns total water
-   */
-  public getTotalWater = () => {
-    const strikeLiters = this.strikeWater != null ? this.strikeWater.getValue("l") : 0;
-    const spargeLiters = this.spargeWater != null ? this.spargeWater.getValue("l") : 0;
-    return new VolumeValue("l", spargeLiters + strikeLiters);
-  }
-
   /**
    * Sets salts from salt concentrations
    * 
    * @param saltConcentrations salt concentrations
    */
   public setSaltConcentrations = (saltConcentrations: SaltConcentrations) => {
-    const strikeWater = this.getStrikeWater();
+    const waterVolume = this.getWaterVolume();
     const salts: Partial<Salts> = {};
 
     saltList.forEach(salt => {
-      salts[salt] = saltConcentrations[salt]?.getMass(strikeWater)
+      salts[salt] = saltConcentrations[salt]?.getMass(waterVolume)
     });
 
     this.setSalts(salts as Salts);
@@ -708,11 +814,10 @@ export default class WaterCalculator {
   /**
    * Returns water ion mass concentrations after added salts
    * 
-   * @param waterVolume volume of water the ions are beign observed
    * @returns water ion mass concentrations after added salts
    */
-  public getIonsAfterSalts(waterVolume: VolumeValue): WaterProfile {
-    const result = this.getIonSaltChanges(waterVolume);
+  public getResultWaterProfile(): WaterProfile {
+    const result = this.getWaterProfileChanges();
     
     result.calcium.add("mg/l", (this.getCalcium()?.getValue("mg/l")) || 0);
     result.chloride.add("mg/l", (this.getChloride()?.getValue("mg/l")) || 0);
@@ -727,10 +832,9 @@ export default class WaterCalculator {
   /**
    * Returns water ion mass concentration changes caused by added salts
    * 
-   * @param waterVolume volume of water the changes are observed
    * @returns water ion mass concentration changes caused by added salts
    */
-  public getIonSaltChanges(waterVolume: VolumeValue): WaterProfile {
+  public getWaterProfileChanges(): WaterProfile {
     const result: WaterProfile = {
       calcium: new CalciumValue("mg/l", 0),
       chloride: new ChlorideValue("mg/l", 0),
@@ -740,6 +844,7 @@ export default class WaterCalculator {
       bicarbonate: new BicarbonateValue("mg/l", 0)
     };
 
+    const waterVolume = this.getWaterVolume();
     if (waterVolume && waterVolume.getValue("l") > 0) {
       this.addSaltIonChanges(result, waterVolume, this.salts.gypsum, saltIonMap.gypsum);
       this.addSaltIonChanges(result, waterVolume, this.salts.epsom, saltIonMap.epsom);
@@ -808,28 +913,41 @@ export default class WaterCalculator {
   }
 
   /**
-   * Calculates mash pH change from salt additions
+   * Calculates mash pH change from salt additions. Method returns always zero change when using sparge water
    * 
    * @returns mash pH change from salt additions
    */
   public getPhChangeFromSalts = (): PhValue | null => {
-    const totalWater = this.getTotalWater();
-    const strikeWater = this.getStrikeWater();
-    const ionsFromSalts = this.getIonsAfterSalts(totalWater);
     const gristWeight = this.getGristWeight();
+    const totalResidualAlkalinityFromSalts = this.getTotalResidualAlkalinityFromSalts().getValue("mEq/l");
+    return new PhValue("pH", totalResidualAlkalinityFromSalts / consts.MASH_BUFFER_CAPACITY_FOR_WATER_RESIDUAL_ALKALINITY / gristWeight.getValue("kg"));
+  }
 
-    const calcium = ionsFromSalts.calcium.subValue(this.getCalcium());
-    const magnesium = ionsFromSalts.magnesium.subValue(this.getMagnesium());
-    const bicarbonate = ionsFromSalts.bicarbonate.subValue(this.getBicarbonate());
+  /**
+   * Returns total residual alkalinity from salts. Method returns always zero when using sparge water
+   * 
+   * @returns total residual alkalinity from salts
+   */
+  public getTotalResidualAlkalinityFromSalts = (): AlkalinityValue => {
+    if (this.getUsage() == "sparge") {
+      return new AlkalinityValue("mEq/l", 0);
+    }
+
+    const waterVolume = this.getWaterVolume();
+    const resultWaterProfile = this.getResultWaterProfile();
+
+    const calcium = resultWaterProfile.calcium.subValue(this.getCalcium());
+    const magnesium = resultWaterProfile.magnesium.subValue(this.getMagnesium());
+    const bicarbonate = resultWaterProfile.bicarbonate.subValue(this.getBicarbonate());
 
     const caHardnessFromSalts = (calcium.getValue("mg/l") || 0) / 20;
     const mgHardnessFromSalts = (magnesium.getValue("mg/l") || 0) / 12.15;
     const alkalinityFromSalts = (bicarbonate.getValue("mg/l") || 0) / 61;
 
     const residualAlkalinityFromSalts = alkalinityFromSalts - caHardnessFromSalts / 3.5 - mgHardnessFromSalts / 7
-    const totalResidualAlkalinityFromSalts = residualAlkalinityFromSalts * strikeWater.getValue("l");
+    const totalResidualAlkalinityFromSalts = residualAlkalinityFromSalts * waterVolume.getValue("l");
 
-    return new PhValue("pH", totalResidualAlkalinityFromSalts / consts.MASH_BUFFER_CAPACITY_FOR_WATER_RESIDUAL_ALKALINITY / gristWeight.getValue("kg"));
+    return new AlkalinityValue("mEq/l", totalResidualAlkalinityFromSalts);
   }
 
   /**
@@ -867,12 +985,16 @@ export default class WaterCalculator {
   }
 
   /**
-   * Returns pH change from base water
+   * Returns pH change from base water. Method should be used only for strike water.
    * 
    * @returns pH change from base water
    */
   public getPhChangeFromBaseWater = (): PhValue | null => {
-    const strikeWater = this.getStrikeWater();
+    if (this.getUsage() == "sparge") {
+      return null;
+    }
+
+    const strikeWater = this.getWaterVolume();
     const gristWeight = this.getGristWeight();
     const residualAlkalinity = this.getResidualAlkalinity();
     if (!strikeWater || !gristWeight || !residualAlkalinity) {
@@ -882,7 +1004,6 @@ export default class WaterCalculator {
     const totalResidualAlkalinityInBaseMashWater = (strikeWater.getValue("l") * residualAlkalinity.getValue("mg/l")) / 50;
     return new PhValue("pH", totalResidualAlkalinityInBaseMashWater / gristWeight.getValue("kg") / consts.MASH_BUFFER_CAPACITY_FOR_WATER_RESIDUAL_ALKALINITY);
   }
-
 
   /**
    * Returns pH change after water treatment and salt and acid additions
@@ -905,6 +1026,15 @@ export default class WaterCalculator {
     return result;
   }
 
+  /**
+   * Returns whether salt is an alkaline mineral
+   * 
+   * @param salt salt
+   * @returns whether salt is an alkaline mineral
+   */
+  public isAlkalineMineral(salt: Salt) {
+    return saltIonMap[salt].bicarbonate && saltIonMap[salt].bicarbonate.getValue("mg/l") > 0;
+  }
 
   /**
    * Calculates mash pH change from acid malt

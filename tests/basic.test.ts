@@ -138,24 +138,19 @@ describe("Water Profile Calculator (basic)", () => {
 
   it("test water volumes", () => {
     const waterCalculator = new WaterCalculator();
-    expect(waterCalculator.getStrikeWater().getValue("l", 2)).toEqual(0);
-    expect(waterCalculator.getSpargeWater().getValue("l", 2)).toEqual(0);
-    expect(waterCalculator.getTotalWater().getValue("l", 2)).toEqual(0);
+    expect(waterCalculator.getWaterVolume().getValue("l", 2)).toEqual(0);
+    
+    waterCalculator.setWaterVolume(new VolumeValue("l", 10));
 
-    waterCalculator.setStrikeWater(new VolumeValue("l", 10));
+    expect(waterCalculator.getWaterVolume().getValue("l", 2)).toEqual(10);
+    expect(waterCalculator.getWaterVolume().getValue("qt", 2)).toEqual(10.57);
+    expect(waterCalculator.getWaterVolume().getValue("gal", 2)).toEqual(2.64);
 
-    expect(waterCalculator.getStrikeWater().getValue("l", 2)).toEqual(10);
-    expect(waterCalculator.getStrikeWater().getValue("qt", 2)).toEqual(10.57);
-    expect(waterCalculator.getStrikeWater().getValue("gal", 2)).toEqual(2.64);
-    expect(waterCalculator.getSpargeWater().getValue("l", 2)).toEqual(0);
-    expect(waterCalculator.getTotalWater().getValue("l", 2)).toEqual(10);
+    waterCalculator.setWaterVolume(new VolumeValue("l", 5));
 
-    waterCalculator.setSpargeWater(new VolumeValue("l", 5));
-
-    expect(waterCalculator.getSpargeWater().getValue("l", 2)).toEqual(5);
-    expect(waterCalculator.getSpargeWater().getValue("qt", 2)).toEqual(5.28);
-    expect(waterCalculator.getSpargeWater().getValue("gal", 2)).toEqual(1.32);
-    expect(waterCalculator.getTotalWater().getValue("l", 2)).toEqual(15);
+    expect(waterCalculator.getWaterVolume().getValue("l", 2)).toEqual(5);
+    expect(waterCalculator.getWaterVolume().getValue("qt", 2)).toEqual(5.28);
+    expect(waterCalculator.getWaterVolume().getValue("gal", 2)).toEqual(1.32);
   });
 
   it("test grist weight", () => {
@@ -170,7 +165,7 @@ describe("Water Profile Calculator (basic)", () => {
     const waterCalculator = new WaterCalculator();
     expect(waterCalculator.getMashThickness().getValue("l/kg", 2)).toEqual(0);
 
-    waterCalculator.setStrikeWater(new VolumeValue("l", 200));
+    waterCalculator.setWaterVolume(new VolumeValue("l", 200));
     waterCalculator.setGristWeight(new MassValue("kg", 60));
 
     expect(waterCalculator.getMashThickness().getValue("l/kg", 2)).toEqual(3.33);
@@ -323,7 +318,7 @@ describe("Water Profile Calculator (basic)", () => {
     waterCalculator.setChloride(new ChlorideValue("mg/l", 30));
     waterCalculator.setBicarbonate(new BicarbonateValue("mg/l", 20));
     
-    waterCalculator.setStrikeWater(new VolumeValue("l", 300));
+    waterCalculator.setWaterVolume(new VolumeValue("l", 300));
     waterCalculator.setGypsum(new MassValue("g", 10));
     waterCalculator.setEpsom(new MassValue("g", 20));
     waterCalculator.setTableSalt(new MassValue("g", 30));
@@ -333,7 +328,7 @@ describe("Water Profile Calculator (basic)", () => {
     waterCalculator.setChalkUndissolved(new MassValue("g", 70));
     waterCalculator.setChalkDissolved(new MassValue("g", 80));
 
-    const ionChanges = waterCalculator.getIonSaltChanges(waterCalculator.getStrikeWater());
+    const ionChanges = waterCalculator.getWaterProfileChanges();
 
     expect(ionChanges.calcium.getValue("mg/l", 0)).toEqual(198);
     expect(ionChanges.magnesium.getValue("mg/l", 0)).toEqual(26);
@@ -342,7 +337,7 @@ describe("Water Profile Calculator (basic)", () => {
     expect(ionChanges.chloride.getValue("mg/l", 0)).toEqual(183);
     expect(ionChanges.bicarbonate.getValue("mg/l", 0)).toEqual(612);
 
-    const ionsAfterChange = waterCalculator.getIonsAfterSalts(waterCalculator.getStrikeWater());
+    const ionsAfterChange = waterCalculator.getResultWaterProfile();
 
     expect(ionsAfterChange.calcium.getValue("mg/l", 0)).toEqual(268);
     expect(ionsAfterChange.magnesium.getValue("mg/l", 0)).toEqual(86);
