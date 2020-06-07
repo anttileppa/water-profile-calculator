@@ -27,7 +27,7 @@ Interface that contains salt additives
 
 • **bakingSoda**: *[MassValue](../classes/_units_.massvalue.md) | null*
 
-*Defined in [salts.ts:12](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/salts.ts#L12)*
+*Defined in [salts.ts:12](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/salts.ts#L12)*
 
 ___
 
@@ -35,7 +35,7 @@ ___
 
 • **calciumChloride**: *[MassValue](../classes/_units_.massvalue.md) | null*
 
-*Defined in [salts.ts:10](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/salts.ts#L10)*
+*Defined in [salts.ts:10](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/salts.ts#L10)*
 
 ___
 
@@ -43,7 +43,7 @@ ___
 
 • **chalkDissolved**: *[MassValue](../classes/_units_.massvalue.md) | null*
 
-*Defined in [salts.ts:14](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/salts.ts#L14)*
+*Defined in [salts.ts:14](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/salts.ts#L14)*
 
 ___
 
@@ -51,7 +51,7 @@ ___
 
 • **chalkUndissolved**: *[MassValue](../classes/_units_.massvalue.md) | null*
 
-*Defined in [salts.ts:13](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/salts.ts#L13)*
+*Defined in [salts.ts:13](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/salts.ts#L13)*
 
 ___
 
@@ -59,7 +59,7 @@ ___
 
 • **epsom**: *[MassValue](../classes/_units_.massvalue.md) | null*
 
-*Defined in [salts.ts:8](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/salts.ts#L8)*
+*Defined in [salts.ts:8](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/salts.ts#L8)*
 
 ___
 
@@ -67,7 +67,7 @@ ___
 
 • **gypsum**: *[MassValue](../classes/_units_.massvalue.md) | null*
 
-*Defined in [salts.ts:7](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/salts.ts#L7)*
+*Defined in [salts.ts:7](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/salts.ts#L7)*
 
 ___
 
@@ -75,7 +75,7 @@ ___
 
 • **magnesiumChloride**: *[MassValue](../classes/_units_.massvalue.md) | null*
 
-*Defined in [salts.ts:11](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/salts.ts#L11)*
+*Defined in [salts.ts:11](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/salts.ts#L11)*
 
 ___
 
@@ -83,4 +83,4 @@ ___
 
 • **tableSalt**: *[MassValue](../classes/_units_.massvalue.md) | null*
 
-*Defined in [salts.ts:9](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/salts.ts#L9)*
+*Defined in [salts.ts:9](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/salts.ts#L9)*

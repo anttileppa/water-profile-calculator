@@ -48,7 +48,7 @@ Water treatment implementation using lime to precipitate alkalinity.
 
 \+ **new LimeWaterTreatment**(`postTreatmentGh?`: [WaterHardnessValue](_units_.waterhardnessvalue.md), `postTreatmentKh?`: [WaterHardnessValue](_units_.waterhardnessvalue.md)): *[LimeWaterTreatment](_water_treatment_.limewatertreatment.md)*
 
-*Defined in [water-treatment.ts:231](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-treatment.ts#L231)*
+*Defined in [water-treatment.ts:226](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-treatment.ts#L226)*
 
 Constructor
 
@@ -67,7 +67,7 @@ Name | Type | Description |
 
 • **postTreatmentGh**? : *[WaterHardnessValue](_units_.waterhardnessvalue.md)*
 
-*Defined in [water-treatment.ts:230](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-treatment.ts#L230)*
+*Defined in [water-treatment.ts:225](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-treatment.ts#L225)*
 
 ___
 
@@ -75,7 +75,7 @@ ___
 
 • **postTreatmentKh**? : *[WaterHardnessValue](_units_.waterhardnessvalue.md)*
 
-*Defined in [water-treatment.ts:231](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-treatment.ts#L231)*
+*Defined in [water-treatment.ts:226](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-treatment.ts#L226)*
 
 ## Methods
 
@@ -85,7 +85,7 @@ ___
 
 *Inherited from [AbstractWaterTreatment](_water_treatment_.abstractwatertreatment.md).[getAlkalinityChange](_water_treatment_.abstractwatertreatment.md#protected-getalkalinitychange)*
 
-*Defined in [water-treatment.ts:140](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-treatment.ts#L140)*
+*Defined in [water-treatment.ts:144](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-treatment.ts#L144)*
 
 Returns alkalinity change
 
@@ -101,7 +101,7 @@ ___
 
 *Inherited from [AbstractWaterTreatment](_water_treatment_.abstractwatertreatment.md).[getCalciumHardness](_water_treatment_.abstractwatertreatment.md#protected-getcalciumhardness)*
 
-*Defined in [water-treatment.ts:122](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-treatment.ts#L122)*
+*Defined in [water-treatment.ts:126](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-treatment.ts#L126)*
 
 Returns calcium hardness
 
@@ -117,7 +117,7 @@ ___
 
 *Overrides [AbstractWaterTreatment](_water_treatment_.abstractwatertreatment.md).[getFinalAlkalinity](_water_treatment_.abstractwatertreatment.md#abstract-getfinalalkalinity)*
 
-*Defined in [water-treatment.ts:261](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-treatment.ts#L261)*
+*Defined in [water-treatment.ts:256](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-treatment.ts#L256)*
 
 Returns final alkalinity in mEq/l
 
@@ -133,7 +133,7 @@ ___
 
 *Overrides [AbstractWaterTreatment](_water_treatment_.abstractwatertreatment.md).[getFinalCaHardness](_water_treatment_.abstractwatertreatment.md#abstract-getfinalcahardness)*
 
-*Defined in [water-treatment.ts:250](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-treatment.ts#L250)*
+*Defined in [water-treatment.ts:245](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-treatment.ts#L245)*
 
 Returns final calcium hardness in mEq/l
 
@@ -149,7 +149,7 @@ ___
 
 *Inherited from [AbstractWaterTreatment](_water_treatment_.abstractwatertreatment.md).[getFinalMgHardness](_water_treatment_.abstractwatertreatment.md#getfinalmghardness)*
 
-*Defined in [water-treatment.ts:56](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-treatment.ts#L56)*
+*Defined in [water-treatment.ts:56](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-treatment.ts#L56)*
 
 Returns final magnesium hardness in mEq/l
 
@@ -163,7 +163,7 @@ ___
 
 ▸ **getLimeConcentrationForLimeTreatment**(`phBeforeTreatment`: [PhValue](_units_.phvalue.md)): *[MassConcentrationValue](_units_.massconcentrationvalue.md)*
 
-*Defined in [water-treatment.ts:284](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-treatment.ts#L284)*
+*Defined in [water-treatment.ts:279](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-treatment.ts#L279)*
 
 Returns required concentration of calcium oxide or "lime" to treat the water
 
@@ -183,7 +183,7 @@ ___
 
 ▸ **getLimeNeededForLimeTreatment**(`waterVolume`: [VolumeValue](_units_.volumevalue.md), `phBeforeTreatment`: [PhValue](_units_.phvalue.md)): *[MassValue](_units_.massvalue.md)*
 
-*Defined in [water-treatment.ts:273](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-treatment.ts#L273)*
+*Defined in [water-treatment.ts:268](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-treatment.ts#L268)*
 
 Returns required amount of calcium oxide or "lime" to treat the water
 
@@ -206,7 +206,7 @@ ___
 
 *Inherited from [AbstractWaterTreatment](_water_treatment_.abstractwatertreatment.md).[getMagnesiumHardness](_water_treatment_.abstractwatertreatment.md#protected-getmagnesiumhardness)*
 
-*Defined in [water-treatment.ts:131](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-treatment.ts#L131)*
+*Defined in [water-treatment.ts:135](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-treatment.ts#L135)*
 
 Returns magnesium hardness
 
@@ -224,9 +224,9 @@ ___
 
 *Inherited from [AbstractWaterTreatment](_water_treatment_.abstractwatertreatment.md).[getPhChange](_water_treatment_.abstractwatertreatment.md#getphchange)*
 
-*Defined in [water-treatment.ts:84](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-treatment.ts#L84)*
+*Defined in [water-treatment.ts:84](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-treatment.ts#L84)*
 
-Returns pH change of treatment
+Returns pH change of treatment. If water is going to be used in sparge, method returns 0
 
 **Returns:** *[PhValue](_units_.phvalue.md)*
 
@@ -240,7 +240,7 @@ ___
 
 *Inherited from [AbstractWaterTreatment](_water_treatment_.abstractwatertreatment.md).[getResidualAlkalinity](_water_treatment_.abstractwatertreatment.md#getresidualalkalinity)*
 
-*Defined in [water-treatment.ts:72](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-treatment.ts#L72)*
+*Defined in [water-treatment.ts:72](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-treatment.ts#L72)*
 
 Returns residual alkalinity
 
@@ -256,7 +256,7 @@ ___
 
 *Inherited from [AbstractWaterTreatment](_water_treatment_.abstractwatertreatment.md).[getStartingAlkalinity](_water_treatment_.abstractwatertreatment.md#protected-getstartingalkalinity)*
 
-*Defined in [water-treatment.ts:113](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-treatment.ts#L113)*
+*Defined in [water-treatment.ts:117](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-treatment.ts#L117)*
 
 Returns starting alkalinity
 
@@ -272,7 +272,7 @@ ___
 
 *Inherited from [AbstractWaterTreatment](_water_treatment_.abstractwatertreatment.md).[getStartingCalcium](_water_treatment_.abstractwatertreatment.md#protected-getstartingcalcium)*
 
-*Defined in [water-treatment.ts:95](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-treatment.ts#L95)*
+*Defined in [water-treatment.ts:99](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-treatment.ts#L99)*
 
 Returns starting calcium
 
@@ -288,7 +288,7 @@ ___
 
 *Inherited from [AbstractWaterTreatment](_water_treatment_.abstractwatertreatment.md).[getStartingMagnesium](_water_treatment_.abstractwatertreatment.md#protected-getstartingmagnesium)*
 
-*Defined in [water-treatment.ts:104](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-treatment.ts#L104)*
+*Defined in [water-treatment.ts:108](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-treatment.ts#L108)*
 
 Returns starting magnesium
 
@@ -306,7 +306,7 @@ ___
 
 *Inherited from [AbstractWaterTreatment](_water_treatment_.abstractwatertreatment.md).[init](_water_treatment_.abstractwatertreatment.md#init)*
 
-*Defined in [water-treatment.ts:40](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-treatment.ts#L40)*
+*Defined in [water-treatment.ts:40](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-treatment.ts#L40)*
 
 Init method
 

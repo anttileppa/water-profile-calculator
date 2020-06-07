@@ -25,7 +25,7 @@ Interface that describes salt ion concentrations
 
 • **bicarbonate**? : *[BicarbonateValue](../classes/_units_.bicarbonatevalue.md)*
 
-*Defined in [ions.ts:12](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/ions.ts#L12)*
+*Defined in [ions.ts:12](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/ions.ts#L12)*
 
 ___
 
@@ -33,7 +33,7 @@ ___
 
 • **calcium**? : *[CalciumValue](../classes/_units_.calciumvalue.md)*
 
-*Defined in [ions.ts:7](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/ions.ts#L7)*
+*Defined in [ions.ts:7](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/ions.ts#L7)*
 
 ___
 
@@ -41,7 +41,7 @@ ___
 
 • **chloride**? : *[ChlorideValue](../classes/_units_.chloridevalue.md)*
 
-*Defined in [ions.ts:11](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/ions.ts#L11)*
+*Defined in [ions.ts:11](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/ions.ts#L11)*
 
 ___
 
@@ -49,7 +49,7 @@ ___
 
 • **magnesium**? : *[MagnesiumValue](../classes/_units_.magnesiumvalue.md)*
 
-*Defined in [ions.ts:9](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/ions.ts#L9)*
+*Defined in [ions.ts:9](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/ions.ts#L9)*
 
 ___
 
@@ -57,7 +57,7 @@ ___
 
 • **sodium**? : *[SodiumValue](../classes/_units_.sodiumvalue.md)*
 
-*Defined in [ions.ts:10](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/ions.ts#L10)*
+*Defined in [ions.ts:10](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/ions.ts#L10)*
 
 ___
 
@@ -65,4 +65,4 @@ ___
 
 • **sulfate**? : *[SulfateValue](../classes/_units_.sulfatevalue.md)*
 
-*Defined in [ions.ts:8](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/ions.ts#L8)*
+*Defined in [ions.ts:8](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/ions.ts#L8)*

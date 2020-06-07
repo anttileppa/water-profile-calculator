@@ -15,25 +15,18 @@ Water profile calculator
 * [acidMalt](_water_calculator_.watercalculator.md#private-acidmalt)
 * [alkalinity](_water_calculator_.watercalculator.md#private-alkalinity)
 * [assumedMgContributionToTestedGh](_water_calculator_.watercalculator.md#private-assumedmgcontributiontotestedgh)
-* [bakingSoda](_water_calculator_.watercalculator.md#private-bakingsoda)
 * [beerColor](_water_calculator_.watercalculator.md#private-beercolor)
-* [calciumChloride](_water_calculator_.watercalculator.md#private-calciumchloride)
-* [chalkDissolved](_water_calculator_.watercalculator.md#private-chalkdissolved)
-* [chalkUndissolved](_water_calculator_.watercalculator.md#private-chalkundissolved)
-* [epsom](_water_calculator_.watercalculator.md#private-epsom)
+* [bitterness](_water_calculator_.watercalculator.md#private-bitterness)
 * [gh](_water_calculator_.watercalculator.md#private-gh)
 * [gristWeight](_water_calculator_.watercalculator.md#private-gristweight)
-* [gypsum](_water_calculator_.watercalculator.md#private-gypsum)
 * [kh](_water_calculator_.watercalculator.md#private-kh)
 * [lacticAcid](_water_calculator_.watercalculator.md#private-lacticacid)
-* [magnesiumChloride](_water_calculator_.watercalculator.md#private-magnesiumchloride)
 * [maltRoastedPercent](_water_calculator_.watercalculator.md#private-maltroastedpercent)
 * [phosphoricAcid](_water_calculator_.watercalculator.md#private-phosphoricacid)
 * [residualAlkalinity](_water_calculator_.watercalculator.md#private-residualalkalinity)
-* [spargeWater](_water_calculator_.watercalculator.md#private-spargewater)
-* [strikeWater](_water_calculator_.watercalculator.md#private-strikewater)
-* [tableSalt](_water_calculator_.watercalculator.md#private-tablesalt)
+* [usage](_water_calculator_.watercalculator.md#private-usage)
 * [waterTreatment](_water_calculator_.watercalculator.md#private-watertreatment)
+* [waterVolume](_water_calculator_.watercalculator.md#private-watervolume)
 
 ### Methods
 
@@ -47,6 +40,7 @@ Water profile calculator
 * [getBakingSoda](_water_calculator_.watercalculator.md#getbakingsoda)
 * [getBeerColor](_water_calculator_.watercalculator.md#getbeercolor)
 * [getBicarbonate](_water_calculator_.watercalculator.md#getbicarbonate)
+* [getBitterness](_water_calculator_.watercalculator.md#getbitterness)
 * [getCalcium](_water_calculator_.watercalculator.md#getcalcium)
 * [getCalciumChloride](_water_calculator_.watercalculator.md#getcalciumchloride)
 * [getChalkDissolved](_water_calculator_.watercalculator.md#getchalkdissolved)
@@ -57,9 +51,8 @@ Water profile calculator
 * [getGH](_water_calculator_.watercalculator.md#getgh)
 * [getGristWeight](_water_calculator_.watercalculator.md#getgristweight)
 * [getGypsum](_water_calculator_.watercalculator.md#getgypsum)
+* [getInitialWaterProfile](_water_calculator_.watercalculator.md#getinitialwaterprofile)
 * [getIonBalance](_water_calculator_.watercalculator.md#getionbalance)
-* [getIonSaltChanges](_water_calculator_.watercalculator.md#getionsaltchanges)
-* [getIonsAfterSalts](_water_calculator_.watercalculator.md#getionsaftersalts)
 * [getKH](_water_calculator_.watercalculator.md#getkh)
 * [getLacticAcid](_water_calculator_.watercalculator.md#getlacticacid)
 * [getMagnesium](_water_calculator_.watercalculator.md#getmagnesium)
@@ -75,18 +68,25 @@ Water profile calculator
 * [getPhChangeFromBaseWater](_water_calculator_.watercalculator.md#getphchangefrombasewater)
 * [getPhChangeFromSalts](_water_calculator_.watercalculator.md#getphchangefromsalts)
 * [getPhosphoricAcid](_water_calculator_.watercalculator.md#getphosphoricacid)
+* [getRecommendedIonConcentrations](_water_calculator_.watercalculator.md#getrecommendedionconcentrations)
+* [getRecommendedIonLevels](_water_calculator_.watercalculator.md#getrecommendedionlevels)
 * [getRequiredLacticAcidForPhChange](_water_calculator_.watercalculator.md#getrequiredlacticacidforphchange)
 * [getRequiredPhosporicAcidForPhChange](_water_calculator_.watercalculator.md#getrequiredphosporicacidforphchange)
 * [getResidualAlkalinity](_water_calculator_.watercalculator.md#getresidualalkalinity)
+* [getResultWaterProfile](_water_calculator_.watercalculator.md#getresultwaterprofile)
+* [getSalts](_water_calculator_.watercalculator.md#getsalts)
 * [getSodium](_water_calculator_.watercalculator.md#getsodium)
-* [getSpargeWater](_water_calculator_.watercalculator.md#getspargewater)
-* [getStrikeWater](_water_calculator_.watercalculator.md#getstrikewater)
 * [getSulfate](_water_calculator_.watercalculator.md#getsulfate)
 * [getTableSalt](_water_calculator_.watercalculator.md#gettablesalt)
-* [getTotalWater](_water_calculator_.watercalculator.md#gettotalwater)
-* [getWaterProfile](_water_calculator_.watercalculator.md#getwaterprofile)
+* [getTotalResidualAlkalinityFromSalts](_water_calculator_.watercalculator.md#gettotalresidualalkalinityfromsalts)
+* [getUsage](_water_calculator_.watercalculator.md#getusage)
+* [getWaterProfileChanges](_water_calculator_.watercalculator.md#getwaterprofilechanges)
+* [getWaterProfileDifference](_water_calculator_.watercalculator.md#getwaterprofiledifference)
+* [getWaterProfileTotalError](_water_calculator_.watercalculator.md#getwaterprofiletotalerror)
 * [getWaterTreatment](_water_calculator_.watercalculator.md#getwatertreatment)
 * [getWaterTreatmentPhChange](_water_calculator_.watercalculator.md#getwatertreatmentphchange)
+* [getWaterVolume](_water_calculator_.watercalculator.md#getwatervolume)
+* [isAlkalineMineral](_water_calculator_.watercalculator.md#isalkalinemineral)
 * [optimizeSalts](_water_calculator_.watercalculator.md#optimizesalts)
 * [setAcidMalt](_water_calculator_.watercalculator.md#setacidmalt)
 * [setAlkalinity](_water_calculator_.watercalculator.md#setalkalinity)
@@ -94,6 +94,7 @@ Water profile calculator
 * [setBakingSoda](_water_calculator_.watercalculator.md#setbakingsoda)
 * [setBeerColor](_water_calculator_.watercalculator.md#setbeercolor)
 * [setBicarbonate](_water_calculator_.watercalculator.md#setbicarbonate)
+* [setBitterness](_water_calculator_.watercalculator.md#setbitterness)
 * [setCalcium](_water_calculator_.watercalculator.md#setcalcium)
 * [setCalciumChloride](_water_calculator_.watercalculator.md#setcalciumchloride)
 * [setChalkDissolved](_water_calculator_.watercalculator.md#setchalkdissolved)
@@ -103,6 +104,7 @@ Water profile calculator
 * [setGH](_water_calculator_.watercalculator.md#setgh)
 * [setGristWeight](_water_calculator_.watercalculator.md#setgristweight)
 * [setGypsum](_water_calculator_.watercalculator.md#setgypsum)
+* [setInitialWaterProfile](_water_calculator_.watercalculator.md#setinitialwaterprofile)
 * [setKH](_water_calculator_.watercalculator.md#setkh)
 * [setLacticAcid](_water_calculator_.watercalculator.md#setlacticacid)
 * [setMagnesium](_water_calculator_.watercalculator.md#setmagnesium)
@@ -110,17 +112,19 @@ Water profile calculator
 * [setMaltRoastedPercent](_water_calculator_.watercalculator.md#setmaltroastedpercent)
 * [setPhosphoricAcid](_water_calculator_.watercalculator.md#setphosphoricacid)
 * [setResidualAlkalinity](_water_calculator_.watercalculator.md#setresidualalkalinity)
+* [setSaltConcentrations](_water_calculator_.watercalculator.md#setsaltconcentrations)
+* [setSalts](_water_calculator_.watercalculator.md#setsalts)
 * [setSodium](_water_calculator_.watercalculator.md#setsodium)
-* [setSpargeWater](_water_calculator_.watercalculator.md#setspargewater)
-* [setStrikeWater](_water_calculator_.watercalculator.md#setstrikewater)
 * [setSulfate](_water_calculator_.watercalculator.md#setsulfate)
 * [setTableSalt](_water_calculator_.watercalculator.md#settablesalt)
-* [setWaterProfile](_water_calculator_.watercalculator.md#setwaterprofile)
+* [setUsage](_water_calculator_.watercalculator.md#setusage)
 * [setWaterTreatment](_water_calculator_.watercalculator.md#setwatertreatment)
+* [setWaterVolume](_water_calculator_.watercalculator.md#setwatervolume)
 
 ### Object literals
 
-* [waterProfile](_water_calculator_.watercalculator.md#private-waterprofile)
+* [initialWaterProfile](_water_calculator_.watercalculator.md#private-initialwaterprofile)
+* [salts](_water_calculator_.watercalculator.md#private-salts)
 
 ## Properties
 
@@ -128,7 +132,7 @@ Water profile calculator
 
 • **acidMalt**: *[MassValue](_units_.massvalue.md) | null* = null
 
-*Defined in [water-calculator.ts:36](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-calculator.ts#L36)*
+*Defined in [water-calculator.ts:32](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-calculator.ts#L32)*
 
 ___
 
@@ -136,7 +140,7 @@ ___
 
 • **alkalinity**: *[AlkalinityValue](_units_.alkalinityvalue.md) | null* = null
 
-*Defined in [water-calculator.ts:19](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-calculator.ts#L19)*
+*Defined in [water-calculator.ts:25](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-calculator.ts#L25)*
 
 ___
 
@@ -144,15 +148,7 @@ ___
 
 • **assumedMgContributionToTestedGh**: *number* = consts.ASSUMED_MG_CONTRIBUTION_TO_TESTED_GH
 
-*Defined in [water-calculator.ts:14](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-calculator.ts#L14)*
-
-___
-
-### `Private` bakingSoda
-
-• **bakingSoda**: *[MassValue](_units_.massvalue.md) | null* = null
-
-*Defined in [water-calculator.ts:30](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-calculator.ts#L30)*
+*Defined in [water-calculator.ts:20](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-calculator.ts#L20)*
 
 ___
 
@@ -160,39 +156,15 @@ ___
 
 • **beerColor**: *[BeerColorValue](_units_.beercolorvalue.md) | null* = null
 
-*Defined in [water-calculator.ts:23](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-calculator.ts#L23)*
+*Defined in [water-calculator.ts:28](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-calculator.ts#L28)*
 
 ___
 
-### `Private` calciumChloride
+### `Private` bitterness
 
-• **calciumChloride**: *[MassValue](_units_.massvalue.md) | null* = null
+• **bitterness**: *[BitternessValue](_units_.bitternessvalue.md) | null* = null
 
-*Defined in [water-calculator.ts:28](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-calculator.ts#L28)*
-
-___
-
-### `Private` chalkDissolved
-
-• **chalkDissolved**: *[MassValue](_units_.massvalue.md) | null* = null
-
-*Defined in [water-calculator.ts:32](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-calculator.ts#L32)*
-
-___
-
-### `Private` chalkUndissolved
-
-• **chalkUndissolved**: *[MassValue](_units_.massvalue.md) | null* = null
-
-*Defined in [water-calculator.ts:31](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-calculator.ts#L31)*
-
-___
-
-### `Private` epsom
-
-• **epsom**: *[MassValue](_units_.massvalue.md) | null* = null
-
-*Defined in [water-calculator.ts:26](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-calculator.ts#L26)*
+*Defined in [water-calculator.ts:29](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-calculator.ts#L29)*
 
 ___
 
@@ -200,7 +172,7 @@ ___
 
 • **gh**: *[WaterHardnessValue](_units_.waterhardnessvalue.md) | null* = null
 
-*Defined in [water-calculator.ts:16](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-calculator.ts#L16)*
+*Defined in [water-calculator.ts:22](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-calculator.ts#L22)*
 
 ___
 
@@ -208,15 +180,7 @@ ___
 
 • **gristWeight**: *[MassValue](_units_.massvalue.md)* = new MassValue("kg", 0)
 
-*Defined in [water-calculator.ts:22](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-calculator.ts#L22)*
-
-___
-
-### `Private` gypsum
-
-• **gypsum**: *[MassValue](_units_.massvalue.md) | null* = null
-
-*Defined in [water-calculator.ts:25](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-calculator.ts#L25)*
+*Defined in [water-calculator.ts:27](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-calculator.ts#L27)*
 
 ___
 
@@ -224,7 +188,7 @@ ___
 
 • **kh**: *[WaterHardnessValue](_units_.waterhardnessvalue.md) | null* = null
 
-*Defined in [water-calculator.ts:17](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-calculator.ts#L17)*
+*Defined in [water-calculator.ts:23](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-calculator.ts#L23)*
 
 ___
 
@@ -232,15 +196,7 @@ ___
 
 • **lacticAcid**: *[VolumeValue](_units_.volumevalue.md) | null* = null
 
-*Defined in [water-calculator.ts:34](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-calculator.ts#L34)*
-
-___
-
-### `Private` magnesiumChloride
-
-• **magnesiumChloride**: *[MassValue](_units_.massvalue.md) | null* = null
-
-*Defined in [water-calculator.ts:29](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-calculator.ts#L29)*
+*Defined in [water-calculator.ts:30](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-calculator.ts#L30)*
 
 ___
 
@@ -248,7 +204,7 @@ ___
 
 • **maltRoastedPercent**: *[PercentValue](_units_.percentvalue.md) | null* = null
 
-*Defined in [water-calculator.ts:15](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-calculator.ts#L15)*
+*Defined in [water-calculator.ts:21](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-calculator.ts#L21)*
 
 ___
 
@@ -256,7 +212,7 @@ ___
 
 • **phosphoricAcid**: *[VolumeValue](_units_.volumevalue.md) | null* = null
 
-*Defined in [water-calculator.ts:35](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-calculator.ts#L35)*
+*Defined in [water-calculator.ts:31](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-calculator.ts#L31)*
 
 ___
 
@@ -264,31 +220,15 @@ ___
 
 • **residualAlkalinity**: *[AlkalinityValue](_units_.alkalinityvalue.md) | null* = null
 
-*Defined in [water-calculator.ts:18](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-calculator.ts#L18)*
+*Defined in [water-calculator.ts:24](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-calculator.ts#L24)*
 
 ___
 
-### `Private` spargeWater
+### `Private` usage
 
-• **spargeWater**: *[VolumeValue](_units_.volumevalue.md)* = new VolumeValue("l", 0)
+• **usage**: *[WaterUsage](../modules/_water_calculator_.md#waterusage)* = "strike"
 
-*Defined in [water-calculator.ts:21](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-calculator.ts#L21)*
-
-___
-
-### `Private` strikeWater
-
-• **strikeWater**: *[VolumeValue](_units_.volumevalue.md)* = new VolumeValue("l", 0)
-
-*Defined in [water-calculator.ts:20](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-calculator.ts#L20)*
-
-___
-
-### `Private` tableSalt
-
-• **tableSalt**: *[MassValue](_units_.massvalue.md) | null* = null
-
-*Defined in [water-calculator.ts:27](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-calculator.ts#L27)*
+*Defined in [water-calculator.ts:19](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-calculator.ts#L19)*
 
 ___
 
@@ -296,7 +236,15 @@ ___
 
 • **waterTreatment**: *[WaterTreatment](../interfaces/_water_treatment_.watertreatment.md) | null* = null
 
-*Defined in [water-calculator.ts:37](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-calculator.ts#L37)*
+*Defined in [water-calculator.ts:33](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-calculator.ts#L33)*
+
+___
+
+### `Private` waterVolume
+
+• **waterVolume**: *[VolumeValue](_units_.volumevalue.md)* = new VolumeValue("l", 0)
+
+*Defined in [water-calculator.ts:26](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-calculator.ts#L26)*
 
 ## Methods
 
@@ -304,7 +252,7 @@ ___
 
 ▸ **addSaltIonChanges**(`result`: [WaterProfile](../interfaces/_water_profile_.waterprofile.md), `waterVolume`: [VolumeValue](_units_.volumevalue.md), `salt`: [MassValue](_units_.massvalue.md) | undefined, `saltIons`: [SaltIons](../interfaces/_ions_.saltions.md)): *void*
 
-*Defined in [water-calculator.ts:984](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-calculator.ts#L984)*
+*Defined in [water-calculator.ts:1175](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-calculator.ts#L1175)*
 
 Adds ion changes by given salt
 
@@ -325,7 +273,7 @@ ___
 
 ▸ **convertMassToStrength**(`value`: [MassValue](_units_.massvalue.md) | null, `fromStrength`: number, `toStrength`: number): *[MassValue](_units_.massvalue.md)‹›*
 
-*Defined in [water-calculator.ts:956](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-calculator.ts#L956)*
+*Defined in [water-calculator.ts:1147](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-calculator.ts#L1147)*
 
 Converts mass value from given from strength to given to strength
 
@@ -349,7 +297,7 @@ ___
 
 ▸ **convertVolumeToStrength**(`value`: [VolumeValue](_units_.volumevalue.md) | null, `fromStrength`: number, `toStrength`: number): *[VolumeValue](_units_.volumevalue.md)‹›*
 
-*Defined in [water-calculator.ts:938](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-calculator.ts#L938)*
+*Defined in [water-calculator.ts:1129](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-calculator.ts#L1129)*
 
 Converts volume value from given from strength to given to strength
 
@@ -373,7 +321,7 @@ ___
 
 ▸ **estimateCalciumAndMagnesiumFromGh**(): *void*
 
-*Defined in [water-calculator.ts:967](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-calculator.ts#L967)*
+*Defined in [water-calculator.ts:1158](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-calculator.ts#L1158)*
 
 Estimates amount of calcium and magnesium from GH
 
@@ -385,7 +333,7 @@ ___
 
 ▸ **getAcidMalt**(`strength?`: number | [PercentValue](_units_.percentvalue.md)): *[MassValue](_units_.massvalue.md)*
 
-*Defined in [water-calculator.ts:631](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-calculator.ts#L631)*
+*Defined in [water-calculator.ts:798](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-calculator.ts#L798)*
 
 Returns acid malt
 
@@ -405,7 +353,7 @@ ___
 
 ▸ **getAlkalinity**(): *[AlkalinityValue](_units_.alkalinityvalue.md) | null*
 
-*Defined in [water-calculator.ts:322](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-calculator.ts#L322)*
+*Defined in [water-calculator.ts:462](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-calculator.ts#L462)*
 
 Returns alkalinity either from given alkalinity value or
 value derived from given bicarbonate value
@@ -420,7 +368,7 @@ ___
 
 ▸ **getAssumedMgContributionToTestedGh**(): *number*
 
-*Defined in [water-calculator.ts:126](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-calculator.ts#L126)*
+*Defined in [water-calculator.ts:152](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-calculator.ts#L152)*
 
 Returns assumed MG contribution to tested gH
 
@@ -434,13 +382,13 @@ ___
 
 ###  getBakingSoda
 
-▸ **getBakingSoda**(): *[MassValue](_units_.massvalue.md)*
+▸ **getBakingSoda**(): *[MassValue](_units_.massvalue.md) | null*
 
-*Defined in [water-calculator.ts:496](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-calculator.ts#L496)*
+*Defined in [water-calculator.ts:663](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-calculator.ts#L663)*
 
 Returns bakingsoda
 
-**Returns:** *[MassValue](_units_.massvalue.md)*
+**Returns:** *[MassValue](_units_.massvalue.md) | null*
 
 bakingsoda or null if not set
 
@@ -450,7 +398,7 @@ ___
 
 ▸ **getBeerColor**(): *[BeerColorValue](_units_.beercolorvalue.md) | null*
 
-*Defined in [water-calculator.ts:402](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-calculator.ts#L402)*
+*Defined in [water-calculator.ts:524](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-calculator.ts#L524)*
 
 Returns beer color
 
@@ -464,7 +412,7 @@ ___
 
 ▸ **getBicarbonate**(): *[BicarbonateValue](_units_.bicarbonatevalue.md) | null*
 
-*Defined in [water-calculator.ts:294](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-calculator.ts#L294)*
+*Defined in [water-calculator.ts:434](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-calculator.ts#L434)*
 
 Returns bicarbonate
 
@@ -474,11 +422,25 @@ bicarbonate or null if not set
 
 ___
 
+###  getBitterness
+
+▸ **getBitterness**(): *[BitternessValue](_units_.bitternessvalue.md) | null*
+
+*Defined in [water-calculator.ts:542](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-calculator.ts#L542)*
+
+Returns bitterness
+
+**Returns:** *[BitternessValue](_units_.bitternessvalue.md) | null*
+
+bitterness or null if not set
+
+___
+
 ###  getCalcium
 
 ▸ **getCalcium**(): *[CalciumValue](_units_.calciumvalue.md) | null*
 
-*Defined in [water-calculator.ts:204](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-calculator.ts#L204)*
+*Defined in [water-calculator.ts:344](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-calculator.ts#L344)*
 
 Returns calcium
 
@@ -490,13 +452,13 @@ ___
 
 ###  getCalciumChloride
 
-▸ **getCalciumChloride**(): *[MassValue](_units_.massvalue.md)*
+▸ **getCalciumChloride**(): *[MassValue](_units_.massvalue.md) | null*
 
-*Defined in [water-calculator.ts:532](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-calculator.ts#L532)*
+*Defined in [water-calculator.ts:699](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-calculator.ts#L699)*
 
 Returns calciumchloride
 
-**Returns:** *[MassValue](_units_.massvalue.md)*
+**Returns:** *[MassValue](_units_.massvalue.md) | null*
 
 calciumchloride or null if not set
 
@@ -504,13 +466,13 @@ ___
 
 ###  getChalkDissolved
 
-▸ **getChalkDissolved**(): *[MassValue](_units_.massvalue.md)*
+▸ **getChalkDissolved**(): *[MassValue](_units_.massvalue.md) | null*
 
-*Defined in [water-calculator.ts:568](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-calculator.ts#L568)*
+*Defined in [water-calculator.ts:735](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-calculator.ts#L735)*
 
 Returns dissolved chalk
 
-**Returns:** *[MassValue](_units_.massvalue.md)*
+**Returns:** *[MassValue](_units_.massvalue.md) | null*
 
 dissolved chalk or null if not set
 
@@ -518,13 +480,13 @@ ___
 
 ###  getChalkUndissolved
 
-▸ **getChalkUndissolved**(): *[MassValue](_units_.massvalue.md)*
+▸ **getChalkUndissolved**(): *[MassValue](_units_.massvalue.md) | null*
 
-*Defined in [water-calculator.ts:550](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-calculator.ts#L550)*
+*Defined in [water-calculator.ts:717](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-calculator.ts#L717)*
 
 Returns undissolved chalk
 
-**Returns:** *[MassValue](_units_.massvalue.md)*
+**Returns:** *[MassValue](_units_.massvalue.md) | null*
 
 undissolved chalk or null if not set
 
@@ -534,7 +496,7 @@ ___
 
 ▸ **getChloride**(): *[ChlorideValue](_units_.chloridevalue.md) | null*
 
-*Defined in [water-calculator.ts:276](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-calculator.ts#L276)*
+*Defined in [water-calculator.ts:416](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-calculator.ts#L416)*
 
 Returns chloride
 
@@ -546,13 +508,13 @@ ___
 
 ###  getEpsom
 
-▸ **getEpsom**(): *[MassValue](_units_.massvalue.md)*
+▸ **getEpsom**(): *[MassValue](_units_.massvalue.md) | null*
 
-*Defined in [water-calculator.ts:460](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-calculator.ts#L460)*
+*Defined in [water-calculator.ts:627](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-calculator.ts#L627)*
 
 Returns epsom
 
-**Returns:** *[MassValue](_units_.massvalue.md)*
+**Returns:** *[MassValue](_units_.massvalue.md) | null*
 
 epsom or null if not set
 
@@ -562,7 +524,7 @@ ___
 
 ▸ **getEstimatedDistilledWaterMashPh**(): *[PhValue](_units_.phvalue.md) | null*
 
-*Defined in [water-calculator.ts:725](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-calculator.ts#L725)*
+*Defined in [water-calculator.ts:891](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-calculator.ts#L891)*
 
 Estimates distilled water mash pH at 25 C / 77 F using beer color and roasted percent
 
@@ -576,7 +538,7 @@ ___
 
 ▸ **getGH**(): *[WaterHardnessValue](_units_.waterhardnessvalue.md) | null*
 
-*Defined in [water-calculator.ts:52](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-calculator.ts#L52)*
+*Defined in [water-calculator.ts:78](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-calculator.ts#L78)*
 
 Returns GH
 
@@ -590,7 +552,7 @@ ___
 
 ▸ **getGristWeight**(): *[MassValue](_units_.massvalue.md)*
 
-*Defined in [water-calculator.ts:384](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-calculator.ts#L384)*
+*Defined in [water-calculator.ts:506](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-calculator.ts#L506)*
 
 Returns grist weight
 
@@ -602,15 +564,29 @@ ___
 
 ###  getGypsum
 
-▸ **getGypsum**(): *[MassValue](_units_.massvalue.md)*
+▸ **getGypsum**(): *[MassValue](_units_.massvalue.md) | null*
 
-*Defined in [water-calculator.ts:442](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-calculator.ts#L442)*
+*Defined in [water-calculator.ts:609](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-calculator.ts#L609)*
 
 Returns gypsum
 
-**Returns:** *[MassValue](_units_.massvalue.md)*
+**Returns:** *[MassValue](_units_.massvalue.md) | null*
 
 gypsum or null if not set
+
+___
+
+###  getInitialWaterProfile
+
+▸ **getInitialWaterProfile**(): *[WaterProfile](../interfaces/_water_profile_.waterprofile.md)*
+
+*Defined in [water-calculator.ts:202](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-calculator.ts#L202)*
+
+Returns the water profile
+
+**Returns:** *[WaterProfile](../interfaces/_water_profile_.waterprofile.md)*
+
+water profile
 
 ___
 
@@ -618,7 +594,7 @@ ___
 
 ▸ **getIonBalance**(): *number*
 
-*Defined in [water-calculator.ts:704](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-calculator.ts#L704)*
+*Defined in [water-calculator.ts:870](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-calculator.ts#L870)*
 
 Returns ion balance.
 
@@ -631,51 +607,11 @@ ion balance
 
 ___
 
-###  getIonSaltChanges
-
-▸ **getIonSaltChanges**(`waterVolume`: [VolumeValue](_units_.volumevalue.md)): *[WaterProfile](../interfaces/_water_profile_.waterprofile.md)*
-
-*Defined in [water-calculator.ts:672](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-calculator.ts#L672)*
-
-Returns water ion mass concentration changes caused by added salts
-
-**Parameters:**
-
-Name | Type | Description |
------- | ------ | ------ |
-`waterVolume` | [VolumeValue](_units_.volumevalue.md) | volume of water the changes are observed |
-
-**Returns:** *[WaterProfile](../interfaces/_water_profile_.waterprofile.md)*
-
-water ion mass concentration changes caused by added salts
-
-___
-
-###  getIonsAfterSalts
-
-▸ **getIonsAfterSalts**(`waterVolume`: [VolumeValue](_units_.volumevalue.md)): *[WaterProfile](../interfaces/_water_profile_.waterprofile.md)*
-
-*Defined in [water-calculator.ts:653](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-calculator.ts#L653)*
-
-Returns water ion mass concentrations after added salts
-
-**Parameters:**
-
-Name | Type | Description |
------- | ------ | ------ |
-`waterVolume` | [VolumeValue](_units_.volumevalue.md) | volume of water the ions are beign observed |
-
-**Returns:** *[WaterProfile](../interfaces/_water_profile_.waterprofile.md)*
-
-water ion mass concentrations after added salts
-
-___
-
 ###  getKH
 
 ▸ **getKH**(): *[WaterHardnessValue](_units_.waterhardnessvalue.md)*
 
-*Defined in [water-calculator.ts:71](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-calculator.ts#L71)*
+*Defined in [water-calculator.ts:97](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-calculator.ts#L97)*
 
 Returns KH
 
@@ -689,7 +625,7 @@ ___
 
 ▸ **getLacticAcid**(`strength?`: number | [PercentValue](_units_.percentvalue.md)): *[VolumeValue](_units_.volumevalue.md)*
 
-*Defined in [water-calculator.ts:587](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-calculator.ts#L587)*
+*Defined in [water-calculator.ts:754](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-calculator.ts#L754)*
 
 Returns lactic acid
 
@@ -709,7 +645,7 @@ ___
 
 ▸ **getMagnesium**(): *[MagnesiumValue](_units_.magnesiumvalue.md) | null*
 
-*Defined in [water-calculator.ts:222](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-calculator.ts#L222)*
+*Defined in [water-calculator.ts:362](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-calculator.ts#L362)*
 
 Returns magnesium
 
@@ -721,13 +657,13 @@ ___
 
 ###  getMagnesiumChloride
 
-▸ **getMagnesiumChloride**(): *[MassValue](_units_.massvalue.md)*
+▸ **getMagnesiumChloride**(): *[MassValue](_units_.massvalue.md) | null*
 
-*Defined in [water-calculator.ts:514](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-calculator.ts#L514)*
+*Defined in [water-calculator.ts:681](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-calculator.ts#L681)*
 
 Returns magnesiumchloride
 
-**Returns:** *[MassValue](_units_.massvalue.md)*
+**Returns:** *[MassValue](_units_.massvalue.md) | null*
 
 magnesiumchloride or null if not set
 
@@ -737,7 +673,7 @@ ___
 
 ▸ **getMaltRoastedPercent**(): *[PercentValue](_units_.percentvalue.md)‹›*
 
-*Defined in [water-calculator.ts:149](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-calculator.ts#L149)*
+*Defined in [water-calculator.ts:175](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-calculator.ts#L175)*
 
 Returns malt roasted percent
 
@@ -755,7 +691,7 @@ ___
 
 ▸ **getMashPhChangeFromAcidAdditions**(): *[PhValue](_units_.phvalue.md)*
 
-*Defined in [water-calculator.ts:745](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-calculator.ts#L745)*
+*Defined in [water-calculator.ts:911](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-calculator.ts#L911)*
 
 Calculates mash pH change from acid additions
 
@@ -769,7 +705,7 @@ ___
 
 ▸ **getMashPhChangeFromAcidMalt**(): *number*
 
-*Defined in [water-calculator.ts:853](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-calculator.ts#L853)*
+*Defined in [water-calculator.ts:1044](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-calculator.ts#L1044)*
 
 Calculates mash pH change from acid malt
 
@@ -783,7 +719,7 @@ ___
 
 ▸ **getMashPhChangeFromLacticAcid**(): *number*
 
-*Defined in [water-calculator.ts:898](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-calculator.ts#L898)*
+*Defined in [water-calculator.ts:1089](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-calculator.ts#L1089)*
 
 Calculates mash pH change from lacic acid
 
@@ -797,7 +733,7 @@ ___
 
 ▸ **getMashPhChangeFromLacticAcidWeight**(`totalLacticAcidWeight`: [MassValue](_units_.massvalue.md)): *number*
 
-*Defined in [water-calculator.ts:909](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-calculator.ts#L909)*
+*Defined in [water-calculator.ts:1100](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-calculator.ts#L1100)*
 
 Calculates mash pH change from weight of 100% lacic acid
 
@@ -817,7 +753,7 @@ ___
 
 ▸ **getMashPhChangeFromPhosporicAcid**(): *number*
 
-*Defined in [water-calculator.ts:919](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-calculator.ts#L919)*
+*Defined in [water-calculator.ts:1110](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-calculator.ts#L1110)*
 
 Calculates mash pH change from phosporic acid
 
@@ -831,9 +767,9 @@ ___
 
 ▸ **getMashThickness**(): *[DensityValue](_units_.densityvalue.md)‹›*
 
-*Defined in [water-calculator.ts:420](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-calculator.ts#L420)*
+*Defined in [water-calculator.ts:560](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-calculator.ts#L560)*
 
-Returns mash thickness
+Returns mash thickness. Method should be used only when calculating strike water
 
 **Returns:** *[DensityValue](_units_.densityvalue.md)‹›*
 
@@ -845,7 +781,7 @@ ___
 
 ▸ **getOverallPhChange**(): *[PhValue](_units_.phvalue.md) | null*
 
-*Defined in [water-calculator.ts:831](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-calculator.ts#L831)*
+*Defined in [water-calculator.ts:1013](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-calculator.ts#L1013)*
 
 Returns pH change after water treatment and salt and acid additions
 
@@ -859,9 +795,9 @@ ___
 
 ▸ **getPhChangeFromBaseWater**(): *[PhValue](_units_.phvalue.md) | null*
 
-*Defined in [water-calculator.ts:813](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-calculator.ts#L813)*
+*Defined in [water-calculator.ts:992](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-calculator.ts#L992)*
 
-Returns pH change from base water
+Returns pH change from base water. Method should be used only for strike water.
 
 **Returns:** *[PhValue](_units_.phvalue.md) | null*
 
@@ -873,9 +809,9 @@ ___
 
 ▸ **getPhChangeFromSalts**(): *[PhValue](_units_.phvalue.md) | null*
 
-*Defined in [water-calculator.ts:754](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-calculator.ts#L754)*
+*Defined in [water-calculator.ts:920](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-calculator.ts#L920)*
 
-Calculates mash pH change from salt additions
+Calculates mash pH change from salt additions. Method returns always zero change when using sparge water
 
 **Returns:** *[PhValue](_units_.phvalue.md) | null*
 
@@ -887,7 +823,7 @@ ___
 
 ▸ **getPhosphoricAcid**(`strength?`: number | [PercentValue](_units_.percentvalue.md)): *[VolumeValue](_units_.volumevalue.md)*
 
-*Defined in [water-calculator.ts:609](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-calculator.ts#L609)*
+*Defined in [water-calculator.ts:776](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-calculator.ts#L776)*
 
 Returns phosphoric acid
 
@@ -903,11 +839,45 @@ phosphoric acid or null if not set
 
 ___
 
+###  getRecommendedIonConcentrations
+
+▸ **getRecommendedIonConcentrations**(): *[RecommendedIonConcentrations](../interfaces/_ions_.recommendedionconcentrations.md)*
+
+*Defined in [water-calculator.ts:289](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-calculator.ts#L289)*
+
+Returns recommended ion concentrations for water in calculator
+
+**Returns:** *[RecommendedIonConcentrations](../interfaces/_ions_.recommendedionconcentrations.md)*
+
+recommended ion concentrations for water in calculator
+
+___
+
+###  getRecommendedIonLevels
+
+▸ **getRecommendedIonLevels**(`waterProfile`: [WaterProfile](../interfaces/_water_profile_.waterprofile.md)): *[RecommendedIonLevels](../interfaces/_ions_.recommendedionlevels.md)*
+
+*Defined in [water-calculator.ts:260](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-calculator.ts#L260)*
+
+Returns whether given profile is in recommended levels water in calculator
+
+**Parameters:**
+
+Name | Type |
+------ | ------ |
+`waterProfile` | [WaterProfile](../interfaces/_water_profile_.waterprofile.md) |
+
+**Returns:** *[RecommendedIonLevels](../interfaces/_ions_.recommendedionlevels.md)*
+
+whether given profile is in recommended levels water in calculator
+
+___
+
 ###  getRequiredLacticAcidForPhChange
 
 ▸ **getRequiredLacticAcidForPhChange**(`phDelta`: [PhValue](_units_.phvalue.md)): *[VolumeValue](_units_.volumevalue.md)*
 
-*Defined in [water-calculator.ts:867](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-calculator.ts#L867)*
+*Defined in [water-calculator.ts:1058](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-calculator.ts#L1058)*
 
 Calculates required amount of lactic acid to lower pH by given amount.
 
@@ -929,7 +899,7 @@ ___
 
 ▸ **getRequiredPhosporicAcidForPhChange**(`phDelta`: [PhValue](_units_.phvalue.md)): *[VolumeValue](_units_.volumevalue.md)*
 
-*Defined in [water-calculator.ts:884](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-calculator.ts#L884)*
+*Defined in [water-calculator.ts:1075](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-calculator.ts#L1075)*
 
 Calculates required amount of phosphoric acid to lower pH by given amount.
 
@@ -951,7 +921,7 @@ ___
 
 ▸ **getResidualAlkalinity**(): *[AlkalinityValue](_units_.alkalinityvalue.md) | null*
 
-*Defined in [water-calculator.ts:93](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-calculator.ts#L93)*
+*Defined in [water-calculator.ts:119](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-calculator.ts#L119)*
 
 Returns residual alkalinity
 
@@ -961,11 +931,39 @@ residual alkalinity or null if not set
 
 ___
 
+###  getResultWaterProfile
+
+▸ **getResultWaterProfile**(): *[WaterProfile](../interfaces/_water_profile_.waterprofile.md)*
+
+*Defined in [water-calculator.ts:819](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-calculator.ts#L819)*
+
+Returns water ion mass concentrations after added salts
+
+**Returns:** *[WaterProfile](../interfaces/_water_profile_.waterprofile.md)*
+
+water ion mass concentrations after added salts
+
+___
+
+###  getSalts
+
+▸ **getSalts**(): *[Salts](../interfaces/_salts_.salts.md)*
+
+*Defined in [water-calculator.ts:600](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-calculator.ts#L600)*
+
+Returns salts
+
+**Returns:** *[Salts](../interfaces/_salts_.salts.md)*
+
+salts
+
+___
+
 ###  getSodium
 
 ▸ **getSodium**(): *[SodiumValue](_units_.sodiumvalue.md) | null*
 
-*Defined in [water-calculator.ts:240](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-calculator.ts#L240)*
+*Defined in [water-calculator.ts:380](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-calculator.ts#L380)*
 
 Returns sodium
 
@@ -975,39 +973,11 @@ sodium or null if not set
 
 ___
 
-###  getSpargeWater
-
-▸ **getSpargeWater**(): *[VolumeValue](_units_.volumevalue.md)*
-
-*Defined in [water-calculator.ts:366](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-calculator.ts#L366)*
-
-Returns sparge water
-
-**Returns:** *[VolumeValue](_units_.volumevalue.md)*
-
-sparge water or null if not set
-
-___
-
-###  getStrikeWater
-
-▸ **getStrikeWater**(): *[VolumeValue](_units_.volumevalue.md)*
-
-*Defined in [water-calculator.ts:348](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-calculator.ts#L348)*
-
-Returns strike water
-
-**Returns:** *[VolumeValue](_units_.volumevalue.md)*
-
-strike water or null if not set
-
-___
-
 ###  getSulfate
 
 ▸ **getSulfate**(): *[SulfateValue](_units_.sulfatevalue.md) | null*
 
-*Defined in [water-calculator.ts:258](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-calculator.ts#L258)*
+*Defined in [water-calculator.ts:398](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-calculator.ts#L398)*
 
 Returns sulfate
 
@@ -1019,43 +989,100 @@ ___
 
 ###  getTableSalt
 
-▸ **getTableSalt**(): *[MassValue](_units_.massvalue.md)*
+▸ **getTableSalt**(): *[MassValue](_units_.massvalue.md) | null*
 
-*Defined in [water-calculator.ts:478](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-calculator.ts#L478)*
+*Defined in [water-calculator.ts:645](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-calculator.ts#L645)*
 
 Returns tablesalt
 
-**Returns:** *[MassValue](_units_.massvalue.md)*
+**Returns:** *[MassValue](_units_.massvalue.md) | null*
 
 tablesalt or null if not set
 
 ___
 
-###  getTotalWater
+###  getTotalResidualAlkalinityFromSalts
 
-▸ **getTotalWater**(): *[VolumeValue](_units_.volumevalue.md)‹›*
+▸ **getTotalResidualAlkalinityFromSalts**(): *[AlkalinityValue](_units_.alkalinityvalue.md)*
 
-*Defined in [water-calculator.ts:431](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-calculator.ts#L431)*
+*Defined in [water-calculator.ts:931](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-calculator.ts#L931)*
 
-Returns total water
+Returns total residual alkalinity from salts. Method returns always zero when using sparge water
 
-**Returns:** *[VolumeValue](_units_.volumevalue.md)‹›*
+**Returns:** *[AlkalinityValue](_units_.alkalinityvalue.md)*
 
-total water
+total residual alkalinity from salts
 
 ___
 
-###  getWaterProfile
+###  getUsage
 
-▸ **getWaterProfile**(): *[WaterProfile](../interfaces/_water_profile_.waterprofile.md)*
+▸ **getUsage**(): *[WaterUsage](../modules/_water_calculator_.md#waterusage)*
 
-*Defined in [water-calculator.ts:176](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-calculator.ts#L176)*
+*Defined in [water-calculator.ts:69](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-calculator.ts#L69)*
 
-Returns the water profile
+Returns water usage
+
+**Returns:** *[WaterUsage](../modules/_water_calculator_.md#waterusage)*
+
+water usage
+
+___
+
+###  getWaterProfileChanges
+
+▸ **getWaterProfileChanges**(): *[WaterProfile](../interfaces/_water_profile_.waterprofile.md)*
+
+*Defined in [water-calculator.ts:837](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-calculator.ts#L837)*
+
+Returns water ion mass concentration changes caused by added salts
 
 **Returns:** *[WaterProfile](../interfaces/_water_profile_.waterprofile.md)*
 
-water profile
+water ion mass concentration changes caused by added salts
+
+___
+
+###  getWaterProfileDifference
+
+▸ **getWaterProfileDifference**(`waterProfile1`: [WaterProfile](../interfaces/_water_profile_.waterprofile.md), `waterProfile2`: [WaterProfile](../interfaces/_water_profile_.waterprofile.md)): *[WaterProfile](../interfaces/_water_profile_.waterprofile.md)*
+
+*Defined in [water-calculator.ts:225](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-calculator.ts#L225)*
+
+Calculates difference between two water profiles
+
+**Parameters:**
+
+Name | Type | Description |
+------ | ------ | ------ |
+`waterProfile1` | [WaterProfile](../interfaces/_water_profile_.waterprofile.md) | water profile |
+`waterProfile2` | [WaterProfile](../interfaces/_water_profile_.waterprofile.md) | water profile that is compared agains waterProfile1 |
+
+**Returns:** *[WaterProfile](../interfaces/_water_profile_.waterprofile.md)*
+
+difference between water profiles
+
+___
+
+###  getWaterProfileTotalError
+
+▸ **getWaterProfileTotalError**(`targetWaterProfile`: [WaterProfile](../interfaces/_water_profile_.waterprofile.md)): *number*
+
+*Defined in [water-calculator.ts:250](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-calculator.ts#L250)*
+
+Calculates water total error in mg/l between given water profile and current resulting water profile.
+
+Method can be used for comparing different profiles but the value it self does not mean really anything
+
+**Parameters:**
+
+Name | Type | Description |
+------ | ------ | ------ |
+`targetWaterProfile` | [WaterProfile](../interfaces/_water_profile_.waterprofile.md) | target water profile |
+
+**Returns:** *number*
+
+water total error in mg/l between given water profile and current resulting water profile.
 
 ___
 
@@ -1063,7 +1090,7 @@ ___
 
 ▸ **getWaterTreatment**(): *[WaterTreatment](../interfaces/_water_treatment_.watertreatment.md) | null*
 
-*Defined in [water-calculator.ts:791](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-calculator.ts#L791)*
+*Defined in [water-calculator.ts:970](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-calculator.ts#L970)*
 
 Returns used water treatment method instance
 
@@ -1077,7 +1104,7 @@ ___
 
 ▸ **getWaterTreatmentPhChange**(): *[PhValue](_units_.phvalue.md) | null*
 
-*Defined in [water-calculator.ts:800](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-calculator.ts#L800)*
+*Defined in [water-calculator.ts:979](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-calculator.ts#L979)*
 
 Returns pH change after water treatment and salt additions
 
@@ -1087,11 +1114,45 @@ pH change after water treatment and salt additions
 
 ___
 
+###  getWaterVolume
+
+▸ **getWaterVolume**(): *[VolumeValue](_units_.volumevalue.md)*
+
+*Defined in [water-calculator.ts:488](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-calculator.ts#L488)*
+
+Returns water volume
+
+**Returns:** *[VolumeValue](_units_.volumevalue.md)*
+
+water volume or null if not set
+
+___
+
+###  isAlkalineMineral
+
+▸ **isAlkalineMineral**(`salt`: [Salt](../modules/_salts_.md#salt)): *boolean*
+
+*Defined in [water-calculator.ts:1035](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-calculator.ts#L1035)*
+
+Returns whether salt is an alkaline mineral
+
+**Parameters:**
+
+Name | Type | Description |
+------ | ------ | ------ |
+`salt` | [Salt](../modules/_salts_.md#salt) | salt |
+
+**Returns:** *boolean*
+
+whether salt is an alkaline mineral
+
+___
+
 ###  optimizeSalts
 
-▸ **optimizeSalts**(`targetWaterProfile`: [WaterProfile](../interfaces/_water_profile_.waterprofile.md), `targetResidualAlkalinity`: [AlkalinityValue](_units_.alkalinityvalue.md), `salts`: [Salt](../modules/_salts_.md#salt)[]): *[Output](../interfaces/_salt_optimizer_.output.md)*
+▸ **optimizeSalts**(`targetWaterProfile`: [WaterProfile](../interfaces/_water_profile_.waterprofile.md), `salts`: [Salt](../modules/_salts_.md#salt)[]): *[SaltConcentrations](../interfaces/_salts_.saltconcentrations.md)*
 
-*Defined in [water-calculator.ts:188](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-calculator.ts#L188)*
+*Defined in [water-calculator.ts:213](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-calculator.ts#L213)*
 
 Calculates salts to change water profile as close as possible to target water profile
 
@@ -1100,10 +1161,9 @@ Calculates salts to change water profile as close as possible to target water pr
 Name | Type | Description |
 ------ | ------ | ------ |
 `targetWaterProfile` | [WaterProfile](../interfaces/_water_profile_.waterprofile.md) | target water profile |
-`targetResidualAlkalinity` | [AlkalinityValue](_units_.alkalinityvalue.md) | target residual alkalinity |
 `salts` | [Salt](../modules/_salts_.md#salt)[] | used salts |
 
-**Returns:** *[Output](../interfaces/_salt_optimizer_.output.md)*
+**Returns:** *[SaltConcentrations](../interfaces/_salts_.saltconcentrations.md)*
 
 optimize result
 
@@ -1113,7 +1173,7 @@ ___
 
 ▸ **setAcidMalt**(`value`: [MassValue](_units_.massvalue.md) | null, `strength?`: number | [PercentValue](_units_.percentvalue.md)): *void*
 
-*Defined in [water-calculator.ts:642](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-calculator.ts#L642)*
+*Defined in [water-calculator.ts:809](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-calculator.ts#L809)*
 
 Sets acid malt
 
@@ -1132,7 +1192,7 @@ ___
 
 ▸ **setAlkalinity**(`value`: [AlkalinityValue](_units_.alkalinityvalue.md) | null): *void*
 
-*Defined in [water-calculator.ts:339](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-calculator.ts#L339)*
+*Defined in [water-calculator.ts:479](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-calculator.ts#L479)*
 
 Sets alkalinity
 
@@ -1150,7 +1210,7 @@ ___
 
 ▸ **setAssumedMgContributionToTestedGh**(`assumedMgContributionToTestedGh`: number): *void*
 
-*Defined in [water-calculator.ts:135](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-calculator.ts#L135)*
+*Defined in [water-calculator.ts:161](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-calculator.ts#L161)*
 
 Sets the assumed MG contribution to tested gH
 
@@ -1166,9 +1226,9 @@ ___
 
 ###  setBakingSoda
 
-▸ **setBakingSoda**(`value`: [MassValue](_units_.massvalue.md)): *void*
+▸ **setBakingSoda**(`value`: [MassValue](_units_.massvalue.md) | null): *void*
 
-*Defined in [water-calculator.ts:505](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-calculator.ts#L505)*
+*Defined in [water-calculator.ts:672](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-calculator.ts#L672)*
 
 Sets bakingsoda
 
@@ -1176,7 +1236,7 @@ Sets bakingsoda
 
 Name | Type | Description |
 ------ | ------ | ------ |
-`value` | [MassValue](_units_.massvalue.md) | bakingsoda value  |
+`value` | [MassValue](_units_.massvalue.md) &#124; null | bakingsoda value  |
 
 **Returns:** *void*
 
@@ -1186,7 +1246,7 @@ ___
 
 ▸ **setBeerColor**(`value`: [BeerColorValue](_units_.beercolorvalue.md) | null): *void*
 
-*Defined in [water-calculator.ts:411](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-calculator.ts#L411)*
+*Defined in [water-calculator.ts:533](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-calculator.ts#L533)*
 
 Sets beer color
 
@@ -1204,7 +1264,7 @@ ___
 
 ▸ **setBicarbonate**(`value`: [BicarbonateValue](_units_.bicarbonatevalue.md) | null): *void*
 
-*Defined in [water-calculator.ts:312](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-calculator.ts#L312)*
+*Defined in [water-calculator.ts:452](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-calculator.ts#L452)*
 
 Sets bicarbonate
 
@@ -1218,11 +1278,29 @@ Name | Type | Description |
 
 ___
 
+###  setBitterness
+
+▸ **setBitterness**(`value`: [BitternessValue](_units_.bitternessvalue.md) | null): *void*
+
+*Defined in [water-calculator.ts:551](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-calculator.ts#L551)*
+
+Sets bitterness
+
+**Parameters:**
+
+Name | Type | Description |
+------ | ------ | ------ |
+`value` | [BitternessValue](_units_.bitternessvalue.md) &#124; null | bitterness value  |
+
+**Returns:** *void*
+
+___
+
 ###  setCalcium
 
 ▸ **setCalcium**(`value`: [CalciumValue](_units_.calciumvalue.md) | null): *void*
 
-*Defined in [water-calculator.ts:213](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-calculator.ts#L213)*
+*Defined in [water-calculator.ts:353](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-calculator.ts#L353)*
 
 Sets calcium
 
@@ -1238,9 +1316,9 @@ ___
 
 ###  setCalciumChloride
 
-▸ **setCalciumChloride**(`value`: [MassValue](_units_.massvalue.md)): *void*
+▸ **setCalciumChloride**(`value`: [MassValue](_units_.massvalue.md) | null): *void*
 
-*Defined in [water-calculator.ts:541](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-calculator.ts#L541)*
+*Defined in [water-calculator.ts:708](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-calculator.ts#L708)*
 
 Sets calciumchloride
 
@@ -1248,7 +1326,7 @@ Sets calciumchloride
 
 Name | Type | Description |
 ------ | ------ | ------ |
-`value` | [MassValue](_units_.massvalue.md) | calciumchloride value  |
+`value` | [MassValue](_units_.massvalue.md) &#124; null | calciumchloride value  |
 
 **Returns:** *void*
 
@@ -1256,9 +1334,9 @@ ___
 
 ###  setChalkDissolved
 
-▸ **setChalkDissolved**(`value`: [MassValue](_units_.massvalue.md)): *void*
+▸ **setChalkDissolved**(`value`: [MassValue](_units_.massvalue.md) | null): *void*
 
-*Defined in [water-calculator.ts:577](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-calculator.ts#L577)*
+*Defined in [water-calculator.ts:744](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-calculator.ts#L744)*
 
 Sets dissolved chalk
 
@@ -1266,7 +1344,7 @@ Sets dissolved chalk
 
 Name | Type | Description |
 ------ | ------ | ------ |
-`value` | [MassValue](_units_.massvalue.md) | dissolved chalk value  |
+`value` | [MassValue](_units_.massvalue.md) &#124; null | dissolved chalk value  |
 
 **Returns:** *void*
 
@@ -1274,9 +1352,9 @@ ___
 
 ###  setChalkUndissolved
 
-▸ **setChalkUndissolved**(`value`: [MassValue](_units_.massvalue.md)): *void*
+▸ **setChalkUndissolved**(`value`: [MassValue](_units_.massvalue.md) | null): *void*
 
-*Defined in [water-calculator.ts:559](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-calculator.ts#L559)*
+*Defined in [water-calculator.ts:726](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-calculator.ts#L726)*
 
 Sets undissolved chalk
 
@@ -1284,7 +1362,7 @@ Sets undissolved chalk
 
 Name | Type | Description |
 ------ | ------ | ------ |
-`value` | [MassValue](_units_.massvalue.md) | undissolved chalk value  |
+`value` | [MassValue](_units_.massvalue.md) &#124; null | undissolved chalk value  |
 
 **Returns:** *void*
 
@@ -1294,7 +1372,7 @@ ___
 
 ▸ **setChloride**(`value`: [ChlorideValue](_units_.chloridevalue.md) | null): *void*
 
-*Defined in [water-calculator.ts:285](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-calculator.ts#L285)*
+*Defined in [water-calculator.ts:425](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-calculator.ts#L425)*
 
 Sets chloride
 
@@ -1310,9 +1388,9 @@ ___
 
 ###  setEpsom
 
-▸ **setEpsom**(`value`: [MassValue](_units_.massvalue.md)): *void*
+▸ **setEpsom**(`value`: [MassValue](_units_.massvalue.md) | null): *void*
 
-*Defined in [water-calculator.ts:469](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-calculator.ts#L469)*
+*Defined in [water-calculator.ts:636](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-calculator.ts#L636)*
 
 Sets epsom
 
@@ -1320,7 +1398,7 @@ Sets epsom
 
 Name | Type | Description |
 ------ | ------ | ------ |
-`value` | [MassValue](_units_.massvalue.md) | epsom value  |
+`value` | [MassValue](_units_.massvalue.md) &#124; null | epsom value  |
 
 **Returns:** *void*
 
@@ -1330,7 +1408,7 @@ ___
 
 ▸ **setGH**(`value`: [WaterHardnessValue](_units_.waterhardnessvalue.md) | null): *void*
 
-*Defined in [water-calculator.ts:61](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-calculator.ts#L61)*
+*Defined in [water-calculator.ts:87](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-calculator.ts#L87)*
 
 Sets GH
 
@@ -1348,7 +1426,7 @@ ___
 
 ▸ **setGristWeight**(`value`: [MassValue](_units_.massvalue.md)): *void*
 
-*Defined in [water-calculator.ts:393](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-calculator.ts#L393)*
+*Defined in [water-calculator.ts:515](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-calculator.ts#L515)*
 
 Sets grist weight
 
@@ -1364,9 +1442,9 @@ ___
 
 ###  setGypsum
 
-▸ **setGypsum**(`value`: [MassValue](_units_.massvalue.md)): *void*
+▸ **setGypsum**(`value`: [MassValue](_units_.massvalue.md) | null): *void*
 
-*Defined in [water-calculator.ts:451](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-calculator.ts#L451)*
+*Defined in [water-calculator.ts:618](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-calculator.ts#L618)*
 
 Sets gypsum
 
@@ -1374,7 +1452,25 @@ Sets gypsum
 
 Name | Type | Description |
 ------ | ------ | ------ |
-`value` | [MassValue](_units_.massvalue.md) | gypsum value  |
+`value` | [MassValue](_units_.massvalue.md) &#124; null | gypsum value  |
+
+**Returns:** *void*
+
+___
+
+###  setInitialWaterProfile
+
+▸ **setInitialWaterProfile**(`waterProfile`: [WaterProfile](../interfaces/_water_profile_.waterprofile.md)): *void*
+
+*Defined in [water-calculator.ts:193](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-calculator.ts#L193)*
+
+Sets the water profile
+
+**Parameters:**
+
+Name | Type | Description |
+------ | ------ | ------ |
+`waterProfile` | [WaterProfile](../interfaces/_water_profile_.waterprofile.md) | water profile  |
 
 **Returns:** *void*
 
@@ -1384,7 +1480,7 @@ ___
 
 ▸ **setKH**(`value`: [WaterHardnessValue](_units_.waterhardnessvalue.md) | null): *void*
 
-*Defined in [water-calculator.ts:80](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-calculator.ts#L80)*
+*Defined in [water-calculator.ts:106](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-calculator.ts#L106)*
 
 Sets KH
 
@@ -1402,7 +1498,7 @@ ___
 
 ▸ **setLacticAcid**(`value`: [VolumeValue](_units_.volumevalue.md) | null, `strength?`: number | [PercentValue](_units_.percentvalue.md)): *void*
 
-*Defined in [water-calculator.ts:598](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-calculator.ts#L598)*
+*Defined in [water-calculator.ts:765](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-calculator.ts#L765)*
 
 Sets lactic acid
 
@@ -1421,7 +1517,7 @@ ___
 
 ▸ **setMagnesium**(`value`: [MagnesiumValue](_units_.magnesiumvalue.md) | null): *void*
 
-*Defined in [water-calculator.ts:231](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-calculator.ts#L231)*
+*Defined in [water-calculator.ts:371](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-calculator.ts#L371)*
 
 Sets magnesium
 
@@ -1437,9 +1533,9 @@ ___
 
 ###  setMagnesiumChloride
 
-▸ **setMagnesiumChloride**(`value`: [MassValue](_units_.massvalue.md)): *void*
+▸ **setMagnesiumChloride**(`value`: [MassValue](_units_.massvalue.md) | null): *void*
 
-*Defined in [water-calculator.ts:523](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-calculator.ts#L523)*
+*Defined in [water-calculator.ts:690](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-calculator.ts#L690)*
 
 Sets magnesiumchloride
 
@@ -1447,7 +1543,7 @@ Sets magnesiumchloride
 
 Name | Type | Description |
 ------ | ------ | ------ |
-`value` | [MassValue](_units_.massvalue.md) | magnesiumchloride value  |
+`value` | [MassValue](_units_.massvalue.md) &#124; null | magnesiumchloride value  |
 
 **Returns:** *void*
 
@@ -1457,7 +1553,7 @@ ___
 
 ▸ **setMaltRoastedPercent**(`maltRoastedPercent`: [PercentValue](_units_.percentvalue.md) | null): *void*
 
-*Defined in [water-calculator.ts:158](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-calculator.ts#L158)*
+*Defined in [water-calculator.ts:184](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-calculator.ts#L184)*
 
 Sets malt roasted percent
 
@@ -1477,7 +1573,7 @@ ___
 
 ▸ **setPhosphoricAcid**(`value`: [VolumeValue](_units_.volumevalue.md) | null, `strength?`: number | [PercentValue](_units_.percentvalue.md)): *void*
 
-*Defined in [water-calculator.ts:620](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-calculator.ts#L620)*
+*Defined in [water-calculator.ts:787](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-calculator.ts#L787)*
 
 Sets phosphoric acid
 
@@ -1496,7 +1592,7 @@ ___
 
 ▸ **setResidualAlkalinity**(`value`: [AlkalinityValue](_units_.alkalinityvalue.md) | null): *void*
 
-*Defined in [water-calculator.ts:115](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-calculator.ts#L115)*
+*Defined in [water-calculator.ts:141](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-calculator.ts#L141)*
 
 Sets residual alkalinity
 
@@ -1510,11 +1606,47 @@ Name | Type | Description |
 
 ___
 
+###  setSaltConcentrations
+
+▸ **setSaltConcentrations**(`saltConcentrations`: [SaltConcentrations](../interfaces/_salts_.saltconcentrations.md)): *void*
+
+*Defined in [water-calculator.ts:575](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-calculator.ts#L575)*
+
+Sets salts from salt concentrations
+
+**Parameters:**
+
+Name | Type | Description |
+------ | ------ | ------ |
+`saltConcentrations` | [SaltConcentrations](../interfaces/_salts_.saltconcentrations.md) | salt concentrations  |
+
+**Returns:** *void*
+
+___
+
+###  setSalts
+
+▸ **setSalts**(`salts`: [Salts](../interfaces/_salts_.salts.md)): *void*
+
+*Defined in [water-calculator.ts:591](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-calculator.ts#L591)*
+
+Sets salts
+
+**Parameters:**
+
+Name | Type | Description |
+------ | ------ | ------ |
+`salts` | [Salts](../interfaces/_salts_.salts.md) |   |
+
+**Returns:** *void*
+
+___
+
 ###  setSodium
 
 ▸ **setSodium**(`value`: [SodiumValue](_units_.sodiumvalue.md) | null): *void*
 
-*Defined in [water-calculator.ts:249](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-calculator.ts#L249)*
+*Defined in [water-calculator.ts:389](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-calculator.ts#L389)*
 
 Sets sodium
 
@@ -1528,47 +1660,11 @@ Name | Type | Description |
 
 ___
 
-###  setSpargeWater
-
-▸ **setSpargeWater**(`value`: [VolumeValue](_units_.volumevalue.md)): *void*
-
-*Defined in [water-calculator.ts:375](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-calculator.ts#L375)*
-
-Sets sparge water
-
-**Parameters:**
-
-Name | Type | Description |
------- | ------ | ------ |
-`value` | [VolumeValue](_units_.volumevalue.md) | sparge water value  |
-
-**Returns:** *void*
-
-___
-
-###  setStrikeWater
-
-▸ **setStrikeWater**(`value`: [VolumeValue](_units_.volumevalue.md)): *void*
-
-*Defined in [water-calculator.ts:357](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-calculator.ts#L357)*
-
-Sets strike water
-
-**Parameters:**
-
-Name | Type | Description |
------- | ------ | ------ |
-`value` | [VolumeValue](_units_.volumevalue.md) | strike water value  |
-
-**Returns:** *void*
-
-___
-
 ###  setSulfate
 
 ▸ **setSulfate**(`value`: [SulfateValue](_units_.sulfatevalue.md) | null): *void*
 
-*Defined in [water-calculator.ts:267](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-calculator.ts#L267)*
+*Defined in [water-calculator.ts:407](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-calculator.ts#L407)*
 
 Sets sulfate
 
@@ -1584,9 +1680,9 @@ ___
 
 ###  setTableSalt
 
-▸ **setTableSalt**(`value`: [MassValue](_units_.massvalue.md)): *void*
+▸ **setTableSalt**(`value`: [MassValue](_units_.massvalue.md) | null): *void*
 
-*Defined in [water-calculator.ts:487](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-calculator.ts#L487)*
+*Defined in [water-calculator.ts:654](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-calculator.ts#L654)*
 
 Sets tablesalt
 
@@ -1594,25 +1690,25 @@ Sets tablesalt
 
 Name | Type | Description |
 ------ | ------ | ------ |
-`value` | [MassValue](_units_.massvalue.md) | tablesalt value  |
+`value` | [MassValue](_units_.massvalue.md) &#124; null | tablesalt value  |
 
 **Returns:** *void*
 
 ___
 
-###  setWaterProfile
+###  setUsage
 
-▸ **setWaterProfile**(`waterProfile`: [WaterProfile](../interfaces/_water_profile_.waterprofile.md)): *void*
+▸ **setUsage**(`usage`: [WaterUsage](../modules/_water_calculator_.md#waterusage)): *void*
 
-*Defined in [water-calculator.ts:167](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-calculator.ts#L167)*
+*Defined in [water-calculator.ts:60](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-calculator.ts#L60)*
 
-Sets the water profile
+Sets water usage
 
 **Parameters:**
 
 Name | Type | Description |
 ------ | ------ | ------ |
-`waterProfile` | [WaterProfile](../interfaces/_water_profile_.waterprofile.md) | water profile  |
+`usage` | [WaterUsage](../modules/_water_calculator_.md#waterusage) | usage  |
 
 **Returns:** *void*
 
@@ -1622,7 +1718,7 @@ ___
 
 ▸ **setWaterTreatment**(`waterTreatment`: [WaterTreatment](../interfaces/_water_treatment_.watertreatment.md) | null): *void*
 
-*Defined in [water-calculator.ts:779](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-calculator.ts#L779)*
+*Defined in [water-calculator.ts:958](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-calculator.ts#L958)*
 
 Sets used water treatment method
 
@@ -1634,46 +1730,120 @@ Name | Type | Description |
 
 **Returns:** *void*
 
+___
+
+###  setWaterVolume
+
+▸ **setWaterVolume**(`value`: [VolumeValue](_units_.volumevalue.md)): *void*
+
+*Defined in [water-calculator.ts:497](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-calculator.ts#L497)*
+
+Sets water volume
+
+**Parameters:**
+
+Name | Type | Description |
+------ | ------ | ------ |
+`value` | [VolumeValue](_units_.volumevalue.md) | water value  |
+
+**Returns:** *void*
+
 ## Object literals
 
-### `Private` waterProfile
+### `Private` initialWaterProfile
 
-### ▪ **waterProfile**: *object*
+### ▪ **initialWaterProfile**: *object*
 
-*Defined in [water-calculator.ts:38](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-calculator.ts#L38)*
+*Defined in [water-calculator.ts:35](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-calculator.ts#L35)*
 
 ###  bicarbonate
 
 • **bicarbonate**: *null* = null
 
-*Defined in [water-calculator.ts:44](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-calculator.ts#L44)*
+*Defined in [water-calculator.ts:41](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-calculator.ts#L41)*
 
 ###  calcium
 
 • **calcium**: *null* = null
 
-*Defined in [water-calculator.ts:39](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-calculator.ts#L39)*
+*Defined in [water-calculator.ts:36](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-calculator.ts#L36)*
 
 ###  chloride
 
 • **chloride**: *null* = null
 
-*Defined in [water-calculator.ts:43](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-calculator.ts#L43)*
+*Defined in [water-calculator.ts:40](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-calculator.ts#L40)*
 
 ###  magnesium
 
 • **magnesium**: *null* = null
 
-*Defined in [water-calculator.ts:40](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-calculator.ts#L40)*
+*Defined in [water-calculator.ts:37](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-calculator.ts#L37)*
 
 ###  sodium
 
 • **sodium**: *null* = null
 
-*Defined in [water-calculator.ts:41](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-calculator.ts#L41)*
+*Defined in [water-calculator.ts:38](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-calculator.ts#L38)*
 
 ###  sulfate
 
 • **sulfate**: *null* = null
 
-*Defined in [water-calculator.ts:42](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-calculator.ts#L42)*
+*Defined in [water-calculator.ts:39](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-calculator.ts#L39)*
+
+___
+
+### `Private` salts
+
+### ▪ **salts**: *object*
+
+*Defined in [water-calculator.ts:44](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-calculator.ts#L44)*
+
+###  bakingSoda
+
+• **bakingSoda**: *null* = null
+
+*Defined in [water-calculator.ts:45](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-calculator.ts#L45)*
+
+###  calciumChloride
+
+• **calciumChloride**: *null* = null
+
+*Defined in [water-calculator.ts:46](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-calculator.ts#L46)*
+
+###  chalkDissolved
+
+• **chalkDissolved**: *null* = null
+
+*Defined in [water-calculator.ts:47](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-calculator.ts#L47)*
+
+###  chalkUndissolved
+
+• **chalkUndissolved**: *null* = null
+
+*Defined in [water-calculator.ts:48](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-calculator.ts#L48)*
+
+###  epsom
+
+• **epsom**: *null* = null
+
+*Defined in [water-calculator.ts:49](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-calculator.ts#L49)*
+
+###  gypsum
+
+• **gypsum**: *null* = null
+
+*Defined in [water-calculator.ts:50](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-calculator.ts#L50)*
+
+###  magnesiumChloride
+
+• **magnesiumChloride**: *null* = null
+
+*Defined in [water-calculator.ts:51](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-calculator.ts#L51)*
+
+###  tableSalt
+
+• **tableSalt**: *null* = null
+
+*Defined in [water-calculator.ts:52](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-calculator.ts#L52)*

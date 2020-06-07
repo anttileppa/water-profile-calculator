@@ -1,44 +1,44 @@
-[water-profile-calculator](../README.md) › [Globals](../globals.md) › ["units"](../modules/_units_.md) › [BeerColorValue](_units_.beercolorvalue.md)
+[water-profile-calculator](../README.md) › [Globals](../globals.md) › ["units"](../modules/_units_.md) › [BitternessValue](_units_.bitternessvalue.md)
 
-# Class: BeerColorValue
+# Class: BitternessValue
 
-Beer color value
+Bitterness value
 
 ## Hierarchy
 
-  ↳ [AbstractRatioBasedValue](_units_.abstractratiobasedvalue.md)‹[BeerColorUnit](../modules/_units_.md#beercolorunit)›
+  ↳ [AbstractRatioBasedValue](_units_.abstractratiobasedvalue.md)‹[BitternessUnit](../modules/_units_.md#bitternessunit)›
 
-  ↳ **BeerColorValue**
+  ↳ **BitternessValue**
 
 ## Implements
 
-* [Value](../interfaces/_units_.value.md)‹[BeerColorUnit](../modules/_units_.md#beercolorunit)›
+* [Value](../interfaces/_units_.value.md)‹[BitternessUnit](../modules/_units_.md#bitternessunit)›
 
 ## Index
 
 ### Constructors
 
-* [constructor](_units_.beercolorvalue.md#constructor)
+* [constructor](_units_.bitternessvalue.md#constructor)
 
 ### Methods
 
-* [add](_units_.beercolorvalue.md#add)
-* [addValue](_units_.beercolorvalue.md#addvalue)
-* [fromBaseUnit](_units_.beercolorvalue.md#protected-frombaseunit)
-* [getBaseUnit](_units_.beercolorvalue.md#protected-getbaseunit)
-* [getConvertRatio](_units_.beercolorvalue.md#protected-getconvertratio)
-* [getValue](_units_.beercolorvalue.md#getvalue)
-* [roundTo](_units_.beercolorvalue.md#protected-roundto)
-* [setValue](_units_.beercolorvalue.md#setvalue)
-* [sub](_units_.beercolorvalue.md#sub)
-* [subValue](_units_.beercolorvalue.md#subvalue)
-* [toBaseUnit](_units_.beercolorvalue.md#protected-tobaseunit)
+* [add](_units_.bitternessvalue.md#add)
+* [addValue](_units_.bitternessvalue.md#addvalue)
+* [fromBaseUnit](_units_.bitternessvalue.md#protected-frombaseunit)
+* [getBaseUnit](_units_.bitternessvalue.md#protected-getbaseunit)
+* [getConvertRatio](_units_.bitternessvalue.md#protected-getconvertratio)
+* [getValue](_units_.bitternessvalue.md#getvalue)
+* [roundTo](_units_.bitternessvalue.md#protected-roundto)
+* [setValue](_units_.bitternessvalue.md#setvalue)
+* [sub](_units_.bitternessvalue.md#sub)
+* [subValue](_units_.bitternessvalue.md#subvalue)
+* [toBaseUnit](_units_.bitternessvalue.md#protected-tobaseunit)
 
 ## Constructors
 
 ###  constructor
 
-\+ **new BeerColorValue**(`unit`: [BeerColorUnit](../modules/_units_.md#beercolorunit), `value`: number | null): *[BeerColorValue](_units_.beercolorvalue.md)*
+\+ **new BitternessValue**(`unit`: [BitternessUnit](../modules/_units_.md#bitternessunit), `value`: number | null): *[BitternessValue](_units_.bitternessvalue.md)*
 
 *Inherited from [AbstactValue](_units_.abstactvalue.md).[constructor](_units_.abstactvalue.md#constructor)*
 
@@ -50,16 +50,16 @@ Constructor
 
 Name | Type | Description |
 ------ | ------ | ------ |
-`unit` | [BeerColorUnit](../modules/_units_.md#beercolorunit) | value unit |
+`unit` | [BitternessUnit](../modules/_units_.md#bitternessunit) | value unit |
 `value` | number &#124; null | value in given unit  |
 
-**Returns:** *[BeerColorValue](_units_.beercolorvalue.md)*
+**Returns:** *[BitternessValue](_units_.bitternessvalue.md)*
 
 ## Methods
 
 ###  add
 
-▸ **add**(`unit`: [BeerColorUnit](../modules/_units_.md#beercolorunit), `value`: number | null): *void*
+▸ **add**(`unit`: [BitternessUnit](../modules/_units_.md#bitternessunit), `value`: number | null): *void*
 
 *Inherited from [AbstactValue](_units_.abstactvalue.md).[add](_units_.abstactvalue.md#add)*
 
@@ -71,7 +71,7 @@ Adds given value to existing value
 
 Name | Type | Description |
 ------ | ------ | ------ |
-`unit` | [BeerColorUnit](../modules/_units_.md#beercolorunit) | value unit |
+`unit` | [BitternessUnit](../modules/_units_.md#bitternessunit) | value unit |
 `value` | number &#124; null | numeric value in given unit  |
 
 **Returns:** *void*
@@ -80,7 +80,7 @@ ___
 
 ###  addValue
 
-▸ **addValue**(`value`: [AbstactValue](_units_.abstactvalue.md)‹[BeerColorUnit](../modules/_units_.md#beercolorunit)›): *this*
+▸ **addValue**(`value`: [AbstactValue](_units_.abstactvalue.md)‹[BitternessUnit](../modules/_units_.md#bitternessunit)›): *this*
 
 *Inherited from [AbstactValue](_units_.abstactvalue.md).[addValue](_units_.abstactvalue.md#addvalue)*
 
@@ -92,7 +92,7 @@ Adds given value to existing value
 
 Name | Type | Description |
 ------ | ------ | ------ |
-`value` | [AbstactValue](_units_.abstactvalue.md)‹[BeerColorUnit](../modules/_units_.md#beercolorunit)› | value  |
+`value` | [AbstactValue](_units_.abstactvalue.md)‹[BitternessUnit](../modules/_units_.md#bitternessunit)› | value  |
 
 **Returns:** *this*
 
@@ -100,7 +100,7 @@ ___
 
 ### `Protected` fromBaseUnit
 
-▸ **fromBaseUnit**(`unit`: [BeerColorUnit](../modules/_units_.md#beercolorunit), `value`: number): *number*
+▸ **fromBaseUnit**(`unit`: [BitternessUnit](../modules/_units_.md#bitternessunit), `value`: number): *number*
 
 *Inherited from [AbstractRatioBasedValue](_units_.abstractratiobasedvalue.md).[fromBaseUnit](_units_.abstractratiobasedvalue.md#protected-frombaseunit)*
 
@@ -116,7 +116,7 @@ Base unit is an unit the value is stored internally
 
 Name | Type | Description |
 ------ | ------ | ------ |
-`unit` | [BeerColorUnit](../modules/_units_.md#beercolorunit) | value unit |
+`unit` | [BitternessUnit](../modules/_units_.md#bitternessunit) | value unit |
 `value` | number | numeric value in given unit |
 
 **Returns:** *number*
@@ -127,15 +127,15 @@ ___
 
 ### `Protected` getBaseUnit
 
-▸ **getBaseUnit**(): *[BeerColorUnit](../modules/_units_.md#beercolorunit)*
+▸ **getBaseUnit**(): *[BitternessUnit](../modules/_units_.md#bitternessunit)*
 
 *Overrides [AbstactValue](_units_.abstactvalue.md).[getBaseUnit](_units_.abstactvalue.md#protected-abstract-getbaseunit)*
 
-*Defined in [units.ts:322](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/units.ts#L322)*
+*Defined in [units.ts:351](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/units.ts#L351)*
 
 Returns value's base unit
 
-**Returns:** *[BeerColorUnit](../modules/_units_.md#beercolorunit)*
+**Returns:** *[BitternessUnit](../modules/_units_.md#bitternessunit)*
 
 value's base unit
 
@@ -143,11 +143,11 @@ ___
 
 ### `Protected` getConvertRatio
 
-▸ **getConvertRatio**(`unit`: [BeerColorUnit](../modules/_units_.md#beercolorunit)): *number*
+▸ **getConvertRatio**(`unit`: [BitternessUnit](../modules/_units_.md#bitternessunit)): *number*
 
 *Overrides [AbstractRatioBasedValue](_units_.abstractratiobasedvalue.md).[getConvertRatio](_units_.abstractratiobasedvalue.md#protected-abstract-getconvertratio)*
 
-*Defined in [units.ts:331](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/units.ts#L331)*
+*Defined in [units.ts:360](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/units.ts#L360)*
 
 Returns convert ratio into base unit
 
@@ -155,7 +155,7 @@ Returns convert ratio into base unit
 
 Name | Type | Description |
 ------ | ------ | ------ |
-`unit` | [BeerColorUnit](../modules/_units_.md#beercolorunit) | from unit  |
+`unit` | [BitternessUnit](../modules/_units_.md#bitternessunit) | from unit  |
 
 **Returns:** *number*
 
@@ -163,7 +163,7 @@ ___
 
 ###  getValue
 
-▸ **getValue**(`unit`: [BeerColorUnit](../modules/_units_.md#beercolorunit), `roundTo?`: number): *number | null*
+▸ **getValue**(`unit`: [BitternessUnit](../modules/_units_.md#bitternessunit), `roundTo?`: number): *number | null*
 
 *Inherited from [AbstactValue](_units_.abstactvalue.md).[getValue](_units_.abstactvalue.md#getvalue)*
 
@@ -175,7 +175,7 @@ Returns a value
 
 Name | Type | Description |
 ------ | ------ | ------ |
-`unit` | [BeerColorUnit](../modules/_units_.md#beercolorunit) | value unit |
+`unit` | [BitternessUnit](../modules/_units_.md#bitternessunit) | value unit |
 `roundTo?` | number | rounds to given digits. Returns exact value if not specified |
 
 **Returns:** *number | null*
@@ -209,7 +209,7 @@ ___
 
 ###  setValue
 
-▸ **setValue**(`unit`: [BeerColorUnit](../modules/_units_.md#beercolorunit), `value`: number | null): *void*
+▸ **setValue**(`unit`: [BitternessUnit](../modules/_units_.md#bitternessunit), `value`: number | null): *void*
 
 *Inherited from [AbstactValue](_units_.abstactvalue.md).[setValue](_units_.abstactvalue.md#setvalue)*
 
@@ -221,7 +221,7 @@ Sets a value
 
 Name | Type | Description |
 ------ | ------ | ------ |
-`unit` | [BeerColorUnit](../modules/_units_.md#beercolorunit) | value unit |
+`unit` | [BitternessUnit](../modules/_units_.md#bitternessunit) | value unit |
 `value` | number &#124; null | numeric value in given unit  |
 
 **Returns:** *void*
@@ -230,7 +230,7 @@ ___
 
 ###  sub
 
-▸ **sub**(`unit`: [BeerColorUnit](../modules/_units_.md#beercolorunit), `value`: number | null): *void*
+▸ **sub**(`unit`: [BitternessUnit](../modules/_units_.md#bitternessunit), `value`: number | null): *void*
 
 *Inherited from [AbstactValue](_units_.abstactvalue.md).[sub](_units_.abstactvalue.md#sub)*
 
@@ -242,7 +242,7 @@ Substracts given value from existing value
 
 Name | Type | Description |
 ------ | ------ | ------ |
-`unit` | [BeerColorUnit](../modules/_units_.md#beercolorunit) | value unit |
+`unit` | [BitternessUnit](../modules/_units_.md#bitternessunit) | value unit |
 `value` | number &#124; null | numeric value in given unit  |
 
 **Returns:** *void*
@@ -251,7 +251,7 @@ ___
 
 ###  subValue
 
-▸ **subValue**(`value`: [AbstactValue](_units_.abstactvalue.md)‹[BeerColorUnit](../modules/_units_.md#beercolorunit)›): *this*
+▸ **subValue**(`value`: [AbstactValue](_units_.abstactvalue.md)‹[BitternessUnit](../modules/_units_.md#bitternessunit)›): *this*
 
 *Inherited from [AbstactValue](_units_.abstactvalue.md).[subValue](_units_.abstactvalue.md#subvalue)*
 
@@ -263,7 +263,7 @@ Substracts given value from existing value
 
 Name | Type | Description |
 ------ | ------ | ------ |
-`value` | [AbstactValue](_units_.abstactvalue.md)‹[BeerColorUnit](../modules/_units_.md#beercolorunit)› | value  |
+`value` | [AbstactValue](_units_.abstactvalue.md)‹[BitternessUnit](../modules/_units_.md#bitternessunit)› | value  |
 
 **Returns:** *this*
 
@@ -271,7 +271,7 @@ ___
 
 ### `Protected` toBaseUnit
 
-▸ **toBaseUnit**(`unit`: [BeerColorUnit](../modules/_units_.md#beercolorunit), `value`: number): *number*
+▸ **toBaseUnit**(`unit`: [BitternessUnit](../modules/_units_.md#bitternessunit), `value`: number): *number*
 
 *Inherited from [AbstractRatioBasedValue](_units_.abstractratiobasedvalue.md).[toBaseUnit](_units_.abstractratiobasedvalue.md#protected-tobaseunit)*
 
@@ -287,7 +287,7 @@ Base unit is an unit the value is stored internally
 
 Name | Type | Description |
 ------ | ------ | ------ |
-`unit` | [BeerColorUnit](../modules/_units_.md#beercolorunit) | value unit |
+`unit` | [BitternessUnit](../modules/_units_.md#bitternessunit) | value unit |
 `value` | number | numeric value in given unit |
 
 **Returns:** *number*

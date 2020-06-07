@@ -47,7 +47,7 @@ Abstract base class for all values
 
 \+ **new AbstactValue**(`unit`: U, `value`: number | null): *[AbstactValue](_units_.abstactvalue.md)*
 
-*Defined in [units.ts:48](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/units.ts#L48)*
+*Defined in [units.ts:49](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/units.ts#L49)*
 
 Constructor
 
@@ -66,7 +66,7 @@ Name | Type | Description |
 
 • **value**: *number | null* = null
 
-*Defined in [units.ts:48](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/units.ts#L48)*
+*Defined in [units.ts:49](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/units.ts#L49)*
 
 ## Methods
 
@@ -74,7 +74,7 @@ Name | Type | Description |
 
 ▸ **add**(`unit`: U, `value`: number | null): *void*
 
-*Defined in [units.ts:115](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/units.ts#L115)*
+*Defined in [units.ts:116](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/units.ts#L116)*
 
 Adds given value to existing value
 
@@ -93,7 +93,7 @@ ___
 
 ▸ **addValue**(`value`: [AbstactValue](_units_.abstactvalue.md)‹U›): *this*
 
-*Defined in [units.ts:134](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/units.ts#L134)*
+*Defined in [units.ts:135](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/units.ts#L135)*
 
 Adds given value to existing value
 
@@ -111,7 +111,7 @@ ___
 
 ▸ **fromBaseUnit**(`unit`: U, `value`: number): *number*
 
-*Defined in [units.ts:177](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/units.ts#L177)*
+*Defined in [units.ts:178](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/units.ts#L178)*
 
 Converts value from type's base unit into given unit
 
@@ -134,7 +134,7 @@ ___
 
 ▸ **getBaseUnit**(): *U*
 
-*Defined in [units.ts:87](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/units.ts#L87)*
+*Defined in [units.ts:88](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/units.ts#L88)*
 
 Returns value's base unit
 
@@ -148,7 +148,7 @@ ___
 
 ▸ **getValue**(`unit`: U, `roundTo?`: number): *number | null*
 
-*Defined in [units.ts:77](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/units.ts#L77)*
+*Defined in [units.ts:78](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/units.ts#L78)*
 
 Returns a value
 
@@ -169,7 +169,7 @@ ___
 
 ▸ **roundTo**(`value`: number | null, `digits?`: number): *number*
 
-*Defined in [units.ts:96](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/units.ts#L96)*
+*Defined in [units.ts:97](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/units.ts#L97)*
 
 Rounds value to given digits. Returns exact value if digits not specified
 
@@ -190,7 +190,7 @@ ___
 
 ▸ **setValue**(`unit`: U, `value`: number | null): *void*
 
-*Defined in [units.ts:66](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/units.ts#L66)*
+*Defined in [units.ts:67](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/units.ts#L67)*
 
 Sets a value
 
@@ -209,7 +209,7 @@ ___
 
 ▸ **sub**(`unit`: U, `value`: number | null): *void*
 
-*Defined in [units.ts:125](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/units.ts#L125)*
+*Defined in [units.ts:126](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/units.ts#L126)*
 
 Substracts given value from existing value
 
@@ -228,7 +228,7 @@ ___
 
 ▸ **subValue**(`value`: [AbstactValue](_units_.abstactvalue.md)‹U›): *this*
 
-*Defined in [units.ts:148](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/units.ts#L148)*
+*Defined in [units.ts:149](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/units.ts#L149)*
 
 Substracts given value from existing value
 
@@ -246,7 +246,7 @@ ___
 
 ▸ **toBaseUnit**(`unit`: U, `value`: number): *number*
 
-*Defined in [units.ts:166](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/units.ts#L166)*
+*Defined in [units.ts:167](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/units.ts#L167)*
 
 Converts value to type's base unit
 

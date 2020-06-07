@@ -27,7 +27,7 @@ Interface for salt ion map
 
 • **bakingSoda**: *[SaltIons](_ions_.saltions.md)*
 
-*Defined in [ions.ts:24](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/ions.ts#L24)*
+*Defined in [ions.ts:24](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/ions.ts#L24)*
 
 ___
 
@@ -35,7 +35,7 @@ ___
 
 • **calciumChloride**: *[SaltIons](_ions_.saltions.md)*
 
-*Defined in [ions.ts:22](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/ions.ts#L22)*
+*Defined in [ions.ts:22](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/ions.ts#L22)*
 
 ___
 
@@ -43,7 +43,7 @@ ___
 
 • **chalkDissolved**: *[SaltIons](_ions_.saltions.md)*
 
-*Defined in [ions.ts:26](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/ions.ts#L26)*
+*Defined in [ions.ts:26](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/ions.ts#L26)*
 
 ___
 
@@ -51,7 +51,7 @@ ___
 
 • **chalkUndissolved**: *[SaltIons](_ions_.saltions.md)*
 
-*Defined in [ions.ts:25](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/ions.ts#L25)*
+*Defined in [ions.ts:25](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/ions.ts#L25)*
 
 ___
 
@@ -59,7 +59,7 @@ ___
 
 • **epsom**: *[SaltIons](_ions_.saltions.md)*
 
-*Defined in [ions.ts:20](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/ions.ts#L20)*
+*Defined in [ions.ts:20](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/ions.ts#L20)*
 
 ___
 
@@ -67,7 +67,7 @@ ___
 
 • **gypsum**: *[SaltIons](_ions_.saltions.md)*
 
-*Defined in [ions.ts:19](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/ions.ts#L19)*
+*Defined in [ions.ts:19](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/ions.ts#L19)*
 
 ___
 
@@ -75,7 +75,7 @@ ___
 
 • **magnesiumChloride**: *[SaltIons](_ions_.saltions.md)*
 
-*Defined in [ions.ts:23](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/ions.ts#L23)*
+*Defined in [ions.ts:23](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/ions.ts#L23)*
 
 ___
 
@@ -83,4 +83,4 @@ ___
 
 • **tableSalt**: *[SaltIons](_ions_.saltions.md)*
 
-*Defined in [ions.ts:21](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/ions.ts#L21)*
+*Defined in [ions.ts:21](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/ions.ts#L21)*

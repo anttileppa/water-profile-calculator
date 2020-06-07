@@ -27,7 +27,7 @@ Interface describing a water treatment method
 
 ▸ **getPhChange**(): *[PhValue](../classes/_units_.phvalue.md)*
 
-*Defined in [water-treatment.ts:24](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-treatment.ts#L24)*
+*Defined in [water-treatment.ts:24](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-treatment.ts#L24)*
 
 Returns pH change of treatment
 
@@ -41,7 +41,7 @@ ___
 
 ▸ **init**(`waterCalculator`: [WaterCalculator](../classes/_water_calculator_.watercalculator.md)): *void*
 
-*Defined in [water-treatment.ts:17](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/water-treatment.ts#L17)*
+*Defined in [water-treatment.ts:17](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/water-treatment.ts#L17)*
 
 Init method
 

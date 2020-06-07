@@ -11,6 +11,7 @@
 * [AlkalinityValue](../classes/_units_.alkalinityvalue.md)
 * [BeerColorValue](../classes/_units_.beercolorvalue.md)
 * [BicarbonateValue](../classes/_units_.bicarbonatevalue.md)
+* [BitternessValue](../classes/_units_.bitternessvalue.md)
 * [CalciumValue](../classes/_units_.calciumvalue.md)
 * [ChlorideValue](../classes/_units_.chloridevalue.md)
 * [DensityValue](../classes/_units_.densityvalue.md)
@@ -33,6 +34,7 @@
 ### Type aliases
 
 * [BeerColorUnit](_units_.md#beercolorunit)
+* [BitternessUnit](_units_.md#bitternessunit)
 * [DensityUnit](_units_.md#densityunit)
 * [MassConcentrationUnit](_units_.md#massconcentrationunit)
 * [MassFractionUnit](_units_.md#massfractionunit)
@@ -49,7 +51,15 @@
 
 Ƭ **BeerColorUnit**: *"SRM" | "EBC"*
 
-*Defined in [units.ts:7](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/units.ts#L7)*
+*Defined in [units.ts:7](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/units.ts#L7)*
+
+___
+
+###  BitternessUnit
+
+Ƭ **BitternessUnit**: *"IBU"*
+
+*Defined in [units.ts:8](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/units.ts#L8)*
 
 ___
 
@@ -57,7 +67,7 @@ ___
 
 Ƭ **DensityUnit**: *"l/kg" | "qt/lb"*
 
-*Defined in [units.ts:4](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/units.ts#L4)*
+*Defined in [units.ts:4](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/units.ts#L4)*
 
 ___
 
@@ -65,7 +75,7 @@ ___
 
 Ƭ **MassConcentrationUnit**: *"mg/l" | "kg/l" | "mEq/l" | "dH" | "g/l" | "g/gal"*
 
-*Defined in [units.ts:5](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/units.ts#L5)*
+*Defined in [units.ts:5](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/units.ts#L5)*
 
 ___
 
@@ -73,7 +83,7 @@ ___
 
 Ƭ **MassFractionUnit**: *"g/g" | "mg/kg"*
 
-*Defined in [units.ts:6](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/units.ts#L6)*
+*Defined in [units.ts:6](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/units.ts#L6)*
 
 ___
 
@@ -81,7 +91,7 @@ ___
 
 Ƭ **MassUnit**: *"mg" | "g" | "kg" | "lb"*
 
-*Defined in [units.ts:3](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/units.ts#L3)*
+*Defined in [units.ts:3](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/units.ts#L3)*
 
 ___
 
@@ -89,7 +99,7 @@ ___
 
 Ƭ **PercentUnit**: *"%"*
 
-*Defined in [units.ts:9](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/units.ts#L9)*
+*Defined in [units.ts:10](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/units.ts#L10)*
 
 ___
 
@@ -97,7 +107,7 @@ ___
 
 Ƭ **PhUnit**: *"pH"*
 
-*Defined in [units.ts:8](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/units.ts#L8)*
+*Defined in [units.ts:9](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/units.ts#L9)*
 
 ___
 
@@ -105,7 +115,7 @@ ___
 
 Ƭ **TimeUnit**: *"d" | "h" | "min" | "s"*
 
-*Defined in [units.ts:10](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/units.ts#L10)*
+*Defined in [units.ts:11](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/units.ts#L11)*
 
 ___
 
@@ -113,7 +123,7 @@ ___
 
 Ƭ **VolumeUnit**: *"μl" | "ml" | "l" | "gal" | "qt"*
 
-*Defined in [units.ts:2](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/units.ts#L2)*
+*Defined in [units.ts:2](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/units.ts#L2)*
 
 ___
 
@@ -121,4 +131,4 @@ ___
 
 Ƭ **WaterHardnessUnit**: *"dH" | "ppmCaCO3"*
 
-*Defined in [units.ts:1](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/units.ts#L1)*
+*Defined in [units.ts:1](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/units.ts#L1)*

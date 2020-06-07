@@ -6,6 +6,7 @@
 
 ### Interfaces
 
+* [SaltConcentrations](../interfaces/_salts_.saltconcentrations.md)
 * [Salts](../interfaces/_salts_.salts.md)
 
 ### Type aliases
@@ -22,7 +23,7 @@
 
 Ƭ **Salt**: *"gypsum" | "epsom" | "tableSalt" | "bakingSoda" | "calciumChloride" | "magnesiumChloride" | "chalkUndissolved" | "chalkDissolved"*
 
-*Defined in [salts.ts:20](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/salts.ts#L20)*
+*Defined in [salts.ts:34](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/salts.ts#L34)*
 
 Type for salt names
 
@@ -32,6 +33,6 @@ Type for salt names
 
 • **saltList**: *[Salt](_salts_.md#salt)[]* = ["gypsum" , "epsom" , "tableSalt" , "bakingSoda", "calciumChloride", "magnesiumChloride", "chalkUndissolved", "chalkDissolved"]
 
-*Defined in [salts.ts:25](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/salts.ts#L25)*
+*Defined in [salts.ts:39](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/salts.ts#L39)*
 
 List of salts

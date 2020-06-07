@@ -19,6 +19,7 @@ Interface for a value
 * [AlkalinityValue](../classes/_units_.alkalinityvalue.md)
 * [BeerColorValue](../classes/_units_.beercolorvalue.md)
 * [BicarbonateValue](../classes/_units_.bicarbonatevalue.md)
+* [BitternessValue](../classes/_units_.bitternessvalue.md)
 * [CalciumValue](../classes/_units_.calciumvalue.md)
 * [ChlorideValue](../classes/_units_.chloridevalue.md)
 * [DensityValue](../classes/_units_.densityvalue.md)
@@ -48,7 +49,7 @@ Interface for a value
 
 • **add**: *function*
 
-*Defined in [units.ts:39](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/units.ts#L39)*
+*Defined in [units.ts:40](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/units.ts#L40)*
 
 Adds given value to existing value
 
@@ -73,7 +74,7 @@ ___
 
 • **getValue**: *function*
 
-*Defined in [units.ts:31](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/units.ts#L31)*
+*Defined in [units.ts:32](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/units.ts#L32)*
 
 Returns a value
 
@@ -97,7 +98,7 @@ ___
 
 • **setValue**: *function*
 
-*Defined in [units.ts:23](https://github.com/anttileppa/water-profile-calculator/blob/997b88f/src/units.ts#L23)*
+*Defined in [units.ts:24](https://github.com/anttileppa/water-profile-calculator/blob/5b306f6/src/units.ts#L24)*
 
 Sets a value
 
